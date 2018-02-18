@@ -1,0 +1,23 @@
+img {
+    width: 100%;
+}
+div{
+    margin-left: 30%;
+    margin-top: 10%;
+    margin-right: 30%;
+    align-items: center;
+}
+form {
+    display: inline-block;
+    margin-left: 30%;
+}
+span{
+    float: left;
+}
+input{
+    float: right;
+}
+#Login{
+    margin-left: 40%;
+    float: none;
+}

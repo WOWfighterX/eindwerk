@@ -1,0 +1,50 @@
+.left{
+    float: left;
+    margin-left: 20%;
+    width: 20%;
+    margin-top:5%;
+}
+.right{
+    float: right;
+    margin-right: 20%;
+    width: 20%;
+    border:1px solid black;
+    height:500px;
+    margin-top:5%;
+}
+#perstoev{
+    display: block;
+}
+#EvalVer, #Rechten, #SchoolToev, #SchoolVerw, #Account {
+    display: none;
+}
+#+pers{
+    background-color: aqua;
+}
+#+eval, #+recht, #+school, #-school, #-account{
+    background-color: none;
+}
+.left p{
+    height: 50px;
+    border: 1px solid black;
+    margin: 0px 0px 0px 0px;
+    padding-top: 30px;
+    text-align:center; 
+    vertical-align: middle;
+}
+.divLinks{
+    float:left;
+    width:42%;
+    margin-left:5%;
+}
+.divRechts{
+    float:right;
+    width:20%;
+    margin-right:27%;
+}
+.divRechts input{
+    margin-top:13px;
+}
+button{
+    margin-left:40%;
+}
