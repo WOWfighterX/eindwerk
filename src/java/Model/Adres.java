@@ -11,4 +11,14 @@ package Model;
  */
 public class Adres {
     
+    private String straat;
+    private String stad;
+    private int postcode;
+    
+    public Adres(String str, String st, int p){
+        straat = str;
+        stad = st;
+        postcode = p;
+    }
+    
 }

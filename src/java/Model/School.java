@@ -11,4 +11,14 @@ package Model;
  */
 public class School {
     
+    private int instellingsnr;
+    private String schoolnaam;
+    private Adres adres;
+    
+    public School(int nr, String naam, Adres a){
+        instellingsnr = nr;
+        schoolnaam = naam;
+        adres = a;
+    }
+    
 }

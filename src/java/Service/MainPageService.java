@@ -3,18 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model;
+package Service;
 
 /**
  *
  * @author aaron gevers
  */
-public class Functie {
-    
-    private String functie;
-    
-    public Functie(String f){
-        functie = f;
-    }
+public class MainPageService {
     
 }

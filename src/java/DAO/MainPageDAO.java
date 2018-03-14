@@ -31,17 +31,18 @@ public class MainPageDAO {
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost/gesprekken_db", "admin", "admin123");
 
         Statement st = con.createStatement();
-        String sql = ("select m.voornaam, m.familienaam, f.functienaam, m.geboorte from medewerker m, functie f, schoolfunctie sf where m.stamboeknr = sf.MedewerkerID and f.FunctieID = sf.FunctieID;");
+        String sql = ("select m.voornaam, m.familienaam, f.functienaam "
+                
+                + "where m.stamboeknr = sf.MedewerkerID "
+                + "and f.FunctieID = sf.FunctieID;");
         ResultSet rs = st.executeQuery(sql);
         
         while (rs.next()) {
             
-            String str = rs.getString("voornaam");
-            str +=" " + rs.getString("familienaam");
+            String str = rs.getString("Voornaam");
+            str +=" " + rs.getString("Familienaam");
             list.add(str);
-            str = rs.getString("functienaam");
-            list.add(str);
-            str = rs.getString("geboorte");
+            str = rs.getString("Functienaam");
             list.add(str);
         }
         con.close();
