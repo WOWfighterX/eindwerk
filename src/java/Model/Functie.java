@@ -16,5 +16,9 @@ public class Functie {
     public Functie(String f){
         functie = f;
     }
+
+    public String getFunctie() {
+        return functie;
+    }
     
 }

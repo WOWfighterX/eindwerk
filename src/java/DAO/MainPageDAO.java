@@ -19,10 +19,12 @@ import java.util.List;
  */
 public class MainPageDAO {
     
-    List list;
+    List medewerkers;
+    List meldingen;
     
     public MainPageDAO(){
-        list = new ArrayList();
+        medewerkers = new ArrayList();
+        meldingen = new ArrayList();
     }
     
     private void getMedewerkers() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException{
@@ -31,25 +33,68 @@ public class MainPageDAO {
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost/gesprekken_db", "admin", "admin123");
 
         Statement st = con.createStatement();
-        String sql = ("select m.voornaam, m.familienaam, f.functienaam "
-                
+        String sql = ("select m.stamboeknr, m.voornaam, m.familienaam, m.geboorte, m.email, a.straat, a.postcode, a.stad, f.functienaam "
+                + "from medewerker m, functie f, schoolfunctie sf, adres a "
                 + "where m.stamboeknr = sf.MedewerkerID "
-                + "and f.FunctieID = sf.FunctieID;");
+                + "and f.FunctieID = sf.FunctieID "
+                + "and a.AdresID = m.AdresID;");
         ResultSet rs = st.executeQuery(sql);
         
         while (rs.next()) {
             
-            String str = rs.getString("Voornaam");
+            String str = rs.getString("Stamboeknr");
+            str +=" " + rs.getString("Voornaam");
             str +=" " + rs.getString("Familienaam");
-            list.add(str);
-            str = rs.getString("Functienaam");
-            list.add(str);
+            str +=" " + rs.getString("Geboorte");
+            str +=" " + rs.getString("Email");
+            str +=" " + rs.getString("Straat");
+            str +=" " + rs.getString("Postcode");
+            str +=" " + rs.getString("Stad");
+            str += " " + rs.getString("Functienaam");
+            medewerkers.add(str);
         }
         con.close();
     }
     
-    public List getList() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException{
+    private void getMeldingen() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException{
+        
+        Class.forName("com.mysql.jdbc.Driver").newInstance();
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost/gesprekken_db", "admin", "admin123");
+
+        Statement st = con.createStatement();
+        String sql = ("select m.stamboeknr, m.voornaam, m.familienaam, m.geboorte, m.email, a.straat, a.postcode, a.stad, f.functienaam, me.datum, me.extra "
+                + "from medewerker m, functie f, schoolfunctie sf, adres a, melding me "
+                + "where m.stamboeknr = sf.MedewerkerID "
+                + "and f.FunctieID = sf.FunctieID "
+                + "and a.AdresID = m.AdresID "
+                + "and sf.SchoolfunctieID = me.SchoolfunctieID;");
+        ResultSet rs = st.executeQuery(sql);
+        
+        while (rs.next()) {
+            
+            String str = rs.getString("Stamboeknr");
+            str +=" " + rs.getString("Voornaam");
+            str +=" " + rs.getString("Familienaam");
+            str +=" " + rs.getString("Geboorte");
+            str +=" " + rs.getString("Email");
+            str +=" " + rs.getString("Straat");
+            str +=" " + rs.getString("Postcode");
+            str +=" " + rs.getString("Stad");
+            str += " " + rs.getString("Functienaam");
+            str += " " + rs.getString("Datum");
+            str += " " + rs.getString("extra");
+            meldingen.add(str);
+        }
+        con.close();
+    }
+    
+    public List getMedewerkerList() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException{
         getMedewerkers();
-        return list;
+        return medewerkers;
+    }
+    
+    public List getMeldingList() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException{
+        getMeldingen();
+        return meldingen;
     }
 }

@@ -5,6 +5,7 @@
  */
 package Model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -14,13 +15,13 @@ import java.util.Date;
 public class Gesprek {
     
     private School school;
-    private Date datum;
+    private SimpleDateFormat datum;
     private String status;
     private String type;
     private Persoon evaluator1;
     private Persoon evaluator2;
     
-    public Gesprek(School s, Date d, String st, String t, Persoon ev1, Persoon ev2){
+    public Gesprek(School s, SimpleDateFormat d, String st, String t, Persoon ev1, Persoon ev2){
         school = s;
         datum = d;
         status = st;

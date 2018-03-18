@@ -17,12 +17,34 @@ public class Melding {
     private String info;
     private Persoon medewerker;
     private Functie functie;
+    private String type;
     
-    public Melding(Date d, String i, Persoon m, Functie f){
+    public Melding(Date d, String i, Persoon m, Functie f, String t){
         datum = d;
         info = i;
         medewerker = m;
         functie = f;
+        type = t;
+    }
+
+    public Date getDatum() {
+        return datum;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public Persoon getMedewerker() {
+        return medewerker;
+    }
+
+    public Functie getFunctie() {
+        return functie;
+    }
+
+    public String getType() {
+        return type;
     }
     
 }

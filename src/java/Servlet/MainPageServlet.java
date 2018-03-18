@@ -5,6 +5,7 @@
  */
 package Servlet;
 
+import Service.MainPageService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -104,7 +105,7 @@ public class MainPageServlet extends HttpServlet {
         
         generated +=
         "<div class=\"right\">\n" +
-            GenerateRight() +
+            Generate() +
 "        </div>";
         
         
@@ -122,97 +123,9 @@ public class MainPageServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-    private String GenerateRight(){
-        String hulp = "";
-        int aantalM = 4; //aantal medewerkers, word later dynamisch
-        int aantalN = 3; //aantal notificaties, word later dynamisch
-        
-        String vorigeMedewerker = "";
-            
-        for(int k=0;k<aantalM+aantalN;k++){
-            //filter voor duplicates
-            String medewerker = (String) GetStrings().get(k*3);
-            
-            if(!medewerker.equals(vorigeMedewerker)){
-                if(k<aantalM){
-                    vorigeMedewerker = medewerker;
-                }else{
-                    //dit zorgt er gewoon voor dat ze verschillen
-                    vorigeMedewerker = "1";
-                    medewerker = "2";
-                }
-                
-                //href naar servlets
-                hulp += "<a href=\"/";
-            
-                //link word later aangepast aan de schooldomain
-                if(k<aantalM){
-                    hulp+="Evaluatie-war/Gesprekken";
-                }else{
-                    hulp+="Evaluatie-war/Melding";
-                }
-            
-                hulp += "?param=";
-            
-                for(int j=0;j<2;j++){
-                    hulp += GetStrings().get((k*3)+j)+".";
-                }
-            
-                hulp +="\">";
-            
-                //divs met de data en juiste klassen voor css
-                hulp += "<div class=\"";
-                if(k<aantalM){
-                    hulp+="werknemer";
-                }else{
-                    hulp+="notificatie";
-                }
-                hulp += "\">\n";
-        
-                for(int j=0;j<3;j++){
-                    hulp+="<span>"+ GetStrings().get((k*3)+j) +"</span>\n";
-                }
-                
-                hulp +="</div></a>\n";
-            }
-        }
-        
-        return hulp;
-    }
     
-    private List GetStrings(){
-        List strings = new ArrayList();
-        //dummy data
-        
-        strings.add("Jan Janssens");
-        strings.add("Leerkracht 4A");
-        strings.add("34 jaar");
-        
-        strings.add("Marie marieke");
-        strings.add("Leerkracht 2B");
-        strings.add("42 jaar");
-        
-        strings.add("Marie marieke");
-        strings.add("Leerkracht 5C");
-        strings.add("42 jaar");
-        
-        strings.add("Piet Pieters");
-        strings.add("Leerkracht 3A");
-        strings.add("29 jaar");
-        
-        strings.add("Jan Janssens");
-        strings.add("FunctioneeringsGesprek");
-        strings.add("2018-02-22");
-        
-        strings.add("Jan Janssens");
-        strings.add("Informeel Gesprek");
-        strings.add("2018-03-16");
-        
-        strings.add("Piet Pieters");
-        strings.add("EvaluatieGesprek");
-        strings.add("2018-03-03");
-        
-        return strings;
+    private String Generate(){
+        MainPageService service = new MainPageService();
+        return service.GetPage();
     }
 }
