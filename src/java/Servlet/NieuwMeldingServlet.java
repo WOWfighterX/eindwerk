@@ -64,7 +64,7 @@ public class NieuwMeldingServlet extends HttpServlet {
                 + "<span>Medewerker: </span>"
                 + "<input id=\"medewerkerLijst\" type=\"text\" list=\"medewerkerList\">\n<br>"
                 + "<datalist id=\"medewerkerList\">\n"
-                + generateMedewerkers()
+                + generateMedewerkers() + "<br>"
                 + "<span>Functie: </span>"
                 + generateFuncties() + "\n<br>"
                 + "<span>datum: </span>"
@@ -107,20 +107,19 @@ public class NieuwMeldingServlet extends HttpServlet {
         
         String functies = "";
         List functie = getFuncties();
+        functies += "<select>\n";
         for(int i=0;i<functie.size();i++){
             
             List hulp = (List) functie.get(i);
             List naam = getStrings();
             
-            functies += "<input id=\""+ naam.get(i) +"\" type=\"text\" list=\""+ naam.get(i) +"List\">\n<br>";
-            functies += "<datalist id=\""+ naam.get(i) +"List\">\n";
-            
             for(int j=0;j<hulp.size();j++){
                 
-                functies += "<option value=\""+ hulp.get(j) +"\">";
+                functies += "<option id=\""+ naam.get(i) +"\" value=\""+ hulp.get(j) +"\">"+hulp.get(j)+"</option>";
             }
-            functies += "</datalist>";
+            
         }
+        functies += "</select>";
         return functies;
     }
     
