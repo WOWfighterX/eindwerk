@@ -76,12 +76,9 @@ public class NotificatieDetailServlet extends HttpServlet {
         String extra = param;
         
         String generate = "<form method=\"post\" action=\"Hoofdpagina\">"
-                + "<span>Medewerker: </span>"
-                + "<input id=\"medewerkerLijst\" type=\"text\" list=\"medewerkerList\" value=\""+medewerker+"\">\n<br>"
-                + "<span>Functie: </span>"
-                + "<input id=\"medewerkerLijst\" type=\"text\" list=\"medewerkerList\" value=\""+functie+"\">\n<br>"
-                + "<span>datum: </span>"
-                + "<input type=\"date\" name=\"datum\" value=\""+datum+"\"><br>"
+                + "<span>Medewerker: "+medewerker+"</span>"
+                + "<span>Functie: "+functie+"</span>"
+                + "<span>datum: "+datum+"</span>"
                 + "<textarea rows=\"4\" cols=\"50\">"+extra+"</textarea><br>"
                 + "<input type=\"submit\" value=\"Veranderen\">"
                 + "</form>";
