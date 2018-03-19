@@ -5,7 +5,7 @@
  */
 package Service;
 
-import DAO.MainPageDAO;
+import DAO.MainDAO;
 import Model.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,10 +22,10 @@ public class MainPageService {
     
     private List medewerkers = new ArrayList();
     private List meldingen = new ArrayList();
-    private MainPageDAO dao;
+    private MainDAO dao;
     
     public MainPageService(){
-        dao = new MainPageDAO();
+        dao = new MainDAO();
     }
     
     public String GetPage(){
@@ -66,7 +66,7 @@ public class MainPageService {
                 
                 gen+="Evaluatie-war/Melding";
                 gen += "?param=";
-                gen += medewerker.getVoornaam()+" "+medewerker.getFamilienaam()+"."+functie.getFunctie()+"."+melding.getDatum();
+                gen += medewerker.getVoornaam()+" "+medewerker.getFamilienaam()+"."+functie.getFunctie()+"."+melding.getDatum()+"."+melding.getInfo();
             }
             
             gen +="\">";
@@ -167,14 +167,15 @@ public class MainPageService {
             Date datum = new Date(jaar, maand, dag);
             persoon = persoon.substring(hulp+1);
             
+            hulp = persoon.indexOf(' ');
+            String t = persoon.substring(0, hulp);
+            persoon = persoon.substring(hulp+1);
+            
             String extra = persoon;
             
             Functie f = new Functie(functie);
             Adres a = new Adres(straat, stad, postcode);
             Persoon medewerker = new Medewerker(nr, voornaam, familienaam, geboorte, email, a, f);
-            
-            String t = "placeholder";
-            
             Melding melding = new Melding(datum, extra, medewerker, f, t);
             
             meldingen.add(melding);

@@ -65,6 +65,8 @@ public class NieuwMeldingServlet extends HttpServlet {
                 + "<input id=\"medewerkerLijst\" type=\"text\" list=\"medewerkerList\">\n<br>"
                 + "<datalist id=\"medewerkerList\">\n"
                 + generateMedewerkers()
+                + "<span>Functie: </span>"
+                + generateFuncties() + "\n<br>"
                 + "<span>datum: </span>"
                 + "<input type=\"date\" name=\"datum\"><br>"
                 + "<textarea rows=\"4\" cols=\"50\"></textarea><br>"
@@ -101,6 +103,27 @@ public class NieuwMeldingServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
     
+    private String generateFuncties(){
+        
+        String functies = "";
+        List functie = getFuncties();
+        for(int i=0;i<functie.size();i++){
+            
+            List hulp = (List) functie.get(i);
+            List naam = getStrings();
+            
+            functies += "<input id=\""+ naam.get(i) +"\" type=\"text\" list=\""+ naam.get(i) +"List\">\n<br>";
+            functies += "<datalist id=\""+ naam.get(i) +"List\">\n";
+            
+            for(int j=0;j<hulp.size();j++){
+                
+                functies += "<option value=\""+ hulp.get(j) +"\">";
+            }
+            functies += "</datalist>";
+        }
+        return functies;
+    }
+    
     private String generateMedewerkers(){
         String hulp = "";
         List data = getStrings();
@@ -131,6 +154,24 @@ public class NieuwMeldingServlet extends HttpServlet {
         strings.add("Piet Pieters");
         
         return strings;
+    }
+    
+    private List getFuncties(){
+        List functies = new ArrayList();
+        List jan = new ArrayList();
+        List marie = new ArrayList();
+        List piet = new ArrayList();
+        
+        jan.add("leerkracht 2B");
+        marie.add("leerkracht 4A");
+        piet.add("leerkracht 3A");
+        piet.add("ICT coordinator");
+        
+        functies.add(jan);
+        functies.add(marie);
+        functies.add(piet);
+        
+        return functies;
     }
 
 }

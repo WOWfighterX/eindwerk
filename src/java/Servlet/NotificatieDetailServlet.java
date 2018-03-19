@@ -66,20 +66,23 @@ public class NotificatieDetailServlet extends HttpServlet {
         
         param = param.substring(hulp+1);
         hulp = param.indexOf(".");
-        String tekst = param.substring(0, hulp);
+        String functie = param.substring(0, hulp);
         
         param = param.substring(hulp+1);
         hulp = param.indexOf(".");
         String datum = param.substring(0, hulp);
         
+        param = param.substring(hulp+1);
+        String extra = param;
+        
         String generate = "<form method=\"post\" action=\"Hoofdpagina\">"
                 + "<span>Medewerker: </span>"
                 + "<input id=\"medewerkerLijst\" type=\"text\" list=\"medewerkerList\" value=\""+medewerker+"\">\n<br>"
-                + "<datalist id=\"medewerkerList\">\n"
-                + generateMedewerkers()
+                + "<span>Functie: </span>"
+                + "<input id=\"medewerkerLijst\" type=\"text\" list=\"medewerkerList\" value=\""+functie+"\">\n<br>"
                 + "<span>datum: </span>"
                 + "<input type=\"date\" name=\"datum\" value=\""+datum+"\"><br>"
-                + "<textarea rows=\"4\" cols=\"50\">"+tekst+"</textarea><br>"
+                + "<textarea rows=\"4\" cols=\"50\">"+extra+"</textarea><br>"
                 + "<input type=\"submit\" value=\"Veranderen\">"
                 + "</form>";
         

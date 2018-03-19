@@ -17,12 +17,12 @@ import java.util.List;
  *
  * @author aaron gevers
  */
-public class MainPageDAO {
+public class MainDAO {
     
     List medewerkers;
     List meldingen;
     
-    public MainPageDAO(){
+    public MainDAO(){
         medewerkers = new ArrayList();
         meldingen = new ArrayList();
     }
@@ -62,7 +62,7 @@ public class MainPageDAO {
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost/gesprekken_db", "admin", "admin123");
 
         Statement st = con.createStatement();
-        String sql = ("select m.stamboeknr, m.voornaam, m.familienaam, m.geboorte, m.email, a.straat, a.postcode, a.stad, f.functienaam, me.datum, me.extra "
+        String sql = ("select m.stamboeknr, m.voornaam, m.familienaam, m.geboorte, m.email, a.straat, a.postcode, a.stad, f.functienaam, me.datum, me.type, me.extra "
                 + "from medewerker m, functie f, schoolfunctie sf, adres a, melding me "
                 + "where m.stamboeknr = sf.MedewerkerID "
                 + "and f.FunctieID = sf.FunctieID "
@@ -82,7 +82,8 @@ public class MainPageDAO {
             str +=" " + rs.getString("Stad");
             str += " " + rs.getString("Functienaam");
             str += " " + rs.getString("Datum");
-            str += " " + rs.getString("extra");
+            str += " " + rs.getString("Type");
+            str += " " + rs.getString("Extra");
             meldingen.add(str);
         }
         con.close();
