@@ -64,6 +64,8 @@ public class AdminToolsServlet extends HttpServlet {
         String generate = "<div class=\"left\">"
                 + "<div id=\"+pers\" onclick=\"Menu(\'+pers\')\">"
                 + "<p>+ Personeel Toevoegen</p></div>"
+                + "<div id=\"+func\" onclick=\"Menu(\'+func\')\">"
+                + "<p>+ Functie Toevoegen</p></div>"
                 + "<div id=\"+eval\" onclick=\"Menu(\'+eval\')\">"
                 + "<p>+ Evaluator Veranderen</p></div>"
                 + "<div id=\"+recht\" onclick=\"Menu(\'+recht\')\">"
@@ -77,6 +79,7 @@ public class AdminToolsServlet extends HttpServlet {
                 + "</div>";
         
         generate += "<div class=\"right\">"
+                
                 + "<div id=\"PersToev\">"
                 + "<div class=\"divLinks\">"
                 + "<p>Stamboeknr: </p>"
@@ -99,6 +102,20 @@ public class AdminToolsServlet extends HttpServlet {
                 + "<input type=\"text\" name=\"wachtwoord\">"
                 + "</div>"
                 + "<button type=\"button\">Toevoegen</button>"
+                + "</div>"
+                
+                + "<div id=\"FuncToev\">"
+                + "<div class=\"divLinks\">"
+                + "<p>Medewerker: </p>"
+                + "<p>Functie: </p>"
+                + "</div>"
+                + "<div class=\"divRechts\">"
+                + "<input id=\"medewerkerLijst\" type=\"text\" name=\"example\" list=\"medewerkerList\">"
+                + "<datalist id=\"medewerkerList\">"
+                + generateMedewerkers()
+                + "<input type=\"text\" name=\"functie\">"
+                + "</div>"
+                + "<button type=\"button\">Veranderen</button>"
                 + "</div>"
                 
                 + "<div id=\"EvalVer\">"

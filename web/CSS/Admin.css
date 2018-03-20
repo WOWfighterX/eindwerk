@@ -15,13 +15,13 @@
 #perstoev{
     display: block;
 }
-#EvalVer, #Rechten, #SchoolToev, #SchoolVerw, #Account {
+#FuncToev, #EvalVer, #Rechten, #SchoolToev, #SchoolVerw, #Account {
     display: none;
 }
 #+pers{
     background-color: aqua;
 }
-#+eval, #+recht, #+school, #-school, #-account{
+#+func, #+eval, #+recht, #+school, #-school, #-account{
     background-color: none;
 }
 .left p{

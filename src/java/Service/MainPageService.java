@@ -113,19 +113,19 @@ public class MainPageService {
             String persoon = (String) list.get(i);
             int hulp;
             
-            hulp = persoon.indexOf(' ');
+            hulp = persoon.indexOf('.');
             int nr = Integer.parseInt(persoon.substring(0, hulp));
             persoon = persoon.substring(hulp+1);
             
-            hulp = persoon.indexOf(' ');
+            hulp = persoon.indexOf('.');
             String voornaam = persoon.substring(0, hulp);
             persoon = persoon.substring(hulp+1);
             
-            hulp = persoon.indexOf(' ');
+            hulp = persoon.indexOf('.');
             String familienaam = persoon.substring(0, hulp);
             persoon = persoon.substring(hulp+1);
             
-            hulp = persoon.indexOf(' ');
+            hulp = persoon.indexOf('.');
             String g = persoon.substring(0, hulp);
             int jaar = Integer.parseInt(g.substring(0,3));
             int maand = Integer.parseInt(g.substring(5,6));
@@ -133,33 +133,27 @@ public class MainPageService {
             Date geboorte = new Date(jaar, maand, dag);
             persoon = persoon.substring(hulp+1);
             
-            hulp = persoon.indexOf(' ');
+            hulp = persoon.indexOf('.');
             String email = persoon.substring(0, hulp);
             persoon = persoon.substring(hulp+1);
             
-            hulp = persoon.indexOf(' ');
+            hulp = persoon.indexOf('.');
             String straat = persoon.substring(0, hulp);
             persoon = persoon.substring(hulp+1);
-            hulp = persoon.indexOf(' ');
-            straat += " "+persoon.substring(0, hulp);
-            persoon = persoon.substring(hulp+1);
             
-            hulp = persoon.indexOf(' ');
+            hulp = persoon.indexOf('.');
             int postcode = Integer.parseInt(persoon.substring(0, hulp));
             persoon = persoon.substring(hulp+1);
             
-            hulp = persoon.indexOf(' ');
+            hulp = persoon.indexOf('.');
             String stad = persoon.substring(0, hulp);
             persoon = persoon.substring(hulp+1);
             
-            hulp = persoon.indexOf(' ');
+            hulp = persoon.indexOf('.');
             String functie = persoon.substring(0, hulp);
             persoon = persoon.substring(hulp+1);
-            hulp = persoon.indexOf(' ');
-            functie += " "+persoon.substring(0, hulp);
-            persoon = persoon.substring(hulp+1);
             
-            hulp = persoon.indexOf(' ');
+            hulp = persoon.indexOf('.');
             String d = persoon.substring(0, hulp);
             jaar = Integer.parseInt(g.substring(0,3));
             maand = Integer.parseInt(g.substring(5,6));
@@ -167,7 +161,7 @@ public class MainPageService {
             Date datum = new Date(jaar, maand, dag);
             persoon = persoon.substring(hulp+1);
             
-            hulp = persoon.indexOf(' ');
+            hulp = persoon.indexOf('.');
             String t = persoon.substring(0, hulp);
             persoon = persoon.substring(hulp+1);
             
@@ -192,19 +186,19 @@ public class MainPageService {
             String persoon = (String) list.get(i);
             int hulp;
             
-            hulp = persoon.indexOf(' ');
+            hulp = persoon.indexOf('.');
             int nr = Integer.parseInt(persoon.substring(0, hulp));
             persoon = persoon.substring(hulp+1);
             
-            hulp = persoon.indexOf(' ');
+            hulp = persoon.indexOf('.');
             String voornaam = persoon.substring(0, hulp);
             persoon = persoon.substring(hulp+1);
             
-            hulp = persoon.indexOf(' ');
+            hulp = persoon.indexOf('.');
             String familienaam = persoon.substring(0, hulp);
             persoon = persoon.substring(hulp+1);
             
-            hulp = persoon.indexOf(' ');
+            hulp = persoon.indexOf('.');
             String g = persoon.substring(0, hulp);
             int jaar = Integer.parseInt(g.substring(0,3));
             int maand = Integer.parseInt(g.substring(5,6));
@@ -212,22 +206,19 @@ public class MainPageService {
             Date geboorte = new Date(jaar, maand, dag);
             persoon = persoon.substring(hulp+1);
             
-            hulp = persoon.indexOf(' ');
+            hulp = persoon.indexOf('.');
             String email = persoon.substring(0, hulp);
             persoon = persoon.substring(hulp+1);
             
-            hulp = persoon.indexOf(' ');
+            hulp = persoon.indexOf('.');
             String straat = persoon.substring(0, hulp);
             persoon = persoon.substring(hulp+1);
-            hulp = persoon.indexOf(' ');
-            straat += " "+persoon.substring(0, hulp);
-            persoon = persoon.substring(hulp+1);
             
-            hulp = persoon.indexOf(' ');
+            hulp = persoon.indexOf('.');
             int postcode = Integer.parseInt(persoon.substring(0, hulp));
             persoon = persoon.substring(hulp+1);
             
-            hulp = persoon.indexOf(' ');
+            hulp = persoon.indexOf('.');
             String stad = persoon.substring(0, hulp);
             persoon = persoon.substring(hulp+1);
 

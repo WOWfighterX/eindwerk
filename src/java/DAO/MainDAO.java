@@ -43,14 +43,14 @@ public class MainDAO {
         while (rs.next()) {
             
             String str = rs.getString("Stamboeknr");
-            str +=" " + rs.getString("Voornaam");
-            str +=" " + rs.getString("Familienaam");
-            str +=" " + rs.getString("Geboorte");
-            str +=" " + rs.getString("Email");
-            str +=" " + rs.getString("Straat");
-            str +=" " + rs.getString("Postcode");
-            str +=" " + rs.getString("Stad");
-            str += " " + rs.getString("Functienaam");
+            str +="." + rs.getString("Voornaam");
+            str +="." + rs.getString("Familienaam");
+            str +="." + rs.getString("Geboorte");
+            str +="." + rs.getString("Email");
+            str +="." + rs.getString("Straat");
+            str +="." + rs.getString("Postcode");
+            str +="." + rs.getString("Stad");
+            str +="." + rs.getString("Functienaam");
             medewerkers.add(str);
         }
         con.close();
