@@ -5,8 +5,12 @@
  */
 package Servlet;
 
+import Model.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -35,10 +39,12 @@ public class GesprekDetailServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet GesprekDetailServlet</title>");            
+            out.println("<title>Servlet GesprekDetailServlet</title>");  
+            out.println("<script src=\"JS/GesprekDetail.js\" type=\"text/javascript\"></script>");
+            out.println("<link href=\"CSS/GesprekDetail.css\" rel=\"stylesheet\" type=\"text/css\"/>");          
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet GesprekDetailServlet at " + request.getContextPath() + "</h1>");
+            out.println(gen);
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,6 +63,29 @@ public class GesprekDetailServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String generate = "";
+        
+        String param = request.getParameter("param");
+        int hulp = param.indexOf(".");
+        String voornaam = param.substring(0, hulp);
+        String familienaam = param.substring(hulp+1);
+        
+        Gesprek gesprek = getGesprek(voornaam, familienaam);
+        
+        generate += "<p>Gesprekken van "+voornaam+" "+familienaam+"</p>"
+                + "<div class=\"links\">"
+                + "<div class=\"gesprek\">"
+                + "<span>"+gesprek.getType()+"</span><br>"
+                + "<span>"+gesprek.getStatus()+"</span><br>"
+                + "<span>"+gesprek.getDatum()+"</span><br>"
+                + "</div>"
+                + "</div>"
+                + "<div class=\"rechts\">"
+                + "<span>Evaluatoren: "+gesprek.getEvaluator1().getVoornaam()+" "+gesprek.getEvaluator1().getFamilianaam()+" en "+gesprek.getEvaluator2().getVoornaam()+" "+gesprek.getEvaluator2().getFamilianaam()+"</span><br>"
+                + "<span>"+gesprek.getType()+"</span><br>"
+                + "<span>Status: "+gesprek.getStatus()+"</span><br>"
+                + "<span>Later komt hier de link naar het word bestand.</span>"
+                + "</div>";
+        
         processRequest(request, response, generate);
     }
 
@@ -85,4 +114,56 @@ public class GesprekDetailServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    private Gesprek getGesprek(String vn, String fn){
+        List gesprekken = Gesprekken();
+        Gesprek hulp = null;
+        
+        for(int i=0;i<gesprekken.size();i++){
+            Gesprek gesprek = (Gesprek) gesprekken.get(i);
+            if(gesprek.getMedewerker().getVoornaam().equals(vn)){
+                if(gesprek.getMedewerker().getFamilienaam().equals(fn)){
+                    hulp = gesprek;
+                }
+            }
+        }
+        
+        return hulp;
+    }
+    
+    private List Gesprekken(){
+        Adres schooladres = new Adres("Kerkstraat 24", "Menen", 8930);
+        Adres jana = new Adres("Vredestraat 17", "Lauwe", 8930);
+        Adres mariea = new Adres("Kerkstraat 7", "Rekkem", 8930);
+        Adres pieta = new Adres("Stationstraat 38", "Menen", 8930);
+        Adres ev1a = new Adres("Ooststraat 625", "Menen", 8930);
+        Adres ev2a = new Adres("Kortrijkstraat 22", "Menen", 8930);
+        
+        Functie janf = new Functie("leerkracht 2B");
+        Functie marief = new Functie("leerkracht 4A");
+        Functie pietf = new Functie("leerkracht 3A");
+        Functie pietf2 = new Functie("ICT coordinator");
+        
+        Date datum = new Date(1992,11,26);
+        
+        School school = new School(125635,"Kleine Prins",schooladres);
+        Medewerker jan = new Medewerker(51236, "jan", "janssens", datum, "voorbeeld@hotmail.com", jana, janf);
+        Medewerker marie = new Medewerker(42365, "marie", "marieke", datum, "voorbeeld@hotmail.com", mariea, marief);
+        Medewerker piet = new Medewerker(45896, "piet", "pieters", datum, "voorbeeld@hotmail.com", pieta, pietf);
+        piet.AddFunctie(pietf2);
+        
+        Evaluator ev1 = new Evaluator(74125, "tom", "tomson", datum, "voorbeeld@hotmail.com", ev1a, pietf2);
+        Evaluator ev2 = new Evaluator(53241, "Paul", "paulson", datum, "voorbeeld@hotmail.com", ev2a, pietf2);
+        
+        Gesprek jangesprek = new Gesprek(jan, school, datum, "ondertekend", "functioneeringsgesprek", ev1, ev2);
+        Gesprek mariegesprek = new Gesprek(marie, school, datum, "ondertekend", "functioneeringsgesprek", ev1, ev2);
+        Gesprek pietgesprek = new Gesprek(piet, school, datum, "ondertekend", "functioneeringsgesprek", ev1, ev2);
+        
+        List gesprekken = new ArrayList();
+        gesprekken.add(jangesprek);
+        gesprekken.add(mariegesprek);
+        gesprekken.add(pietgesprek);
+        
+        return gesprekken;
+    }
+    
 }

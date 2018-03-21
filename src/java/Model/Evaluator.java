@@ -5,6 +5,7 @@
  */
 package Model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class Evaluator extends Persoon{
     private Date geboorte;
     private String email;
     private Adres adres;
-    private List functies;
+    private List functies = new ArrayList();
     
     public Evaluator(int nr, String vn, String fn, Date g, String e, Adres a, Functie f){
         stamboeknr = nr;
@@ -30,6 +31,34 @@ public class Evaluator extends Persoon{
         email = e;
         adres = a;
         functies.add(f);
+    }
+
+    public int getStamboeknr() {
+        return stamboeknr;
+    }
+
+    public String getVoornaam() {
+        return voornaam;
+    }
+
+    public String getFamilianaam() {
+        return familianaam;
+    }
+
+    public Date getGeboorte() {
+        return geboorte;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Adres getAdres() {
+        return adres;
+    }
+
+    public List getFuncties() {
+        return functies;
     }
     
     protected void AddFunctie(Functie f){

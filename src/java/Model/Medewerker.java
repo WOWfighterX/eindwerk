@@ -49,7 +49,7 @@ public class Medewerker extends Persoon{
         
     }
     
-    protected void AddFunctie(Functie f){
+    public void AddFunctie(Functie f){
         functies.add(f);
     }
 

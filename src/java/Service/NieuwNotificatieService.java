@@ -5,7 +5,7 @@
  */
 package Service;
 
-import DAO.MainDAO;
+import DAO.ReadDAO;
 import Model.Adres;
 import Model.Functie;
 import Model.Medewerker;
@@ -21,10 +21,10 @@ import java.util.List;
 public class NieuwNotificatieService {
     
     private List medewerkers = new ArrayList();
-    private MainDAO dao;
+    private ReadDAO dao;
     
     public NieuwNotificatieService(){
-        dao = new MainDAO();
+        dao = new ReadDAO();
     }
     
     

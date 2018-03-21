@@ -14,20 +14,50 @@ import java.util.Date;
  */
 public class Gesprek {
     
+    private Medewerker medewerker;
     private School school;
-    private SimpleDateFormat datum;
+    private Date datum;
     private String status;
     private String type;
-    private Persoon evaluator1;
-    private Persoon evaluator2;
+    private Evaluator evaluator1;
+    private Evaluator evaluator2;
     
-    public Gesprek(School s, SimpleDateFormat d, String st, String t, Persoon ev1, Persoon ev2){
+    public Gesprek(Medewerker m, School s, Date d, String st, String t, Evaluator ev1, Evaluator ev2){
+        medewerker = m;
         school = s;
         datum = d;
         status = st;
         type = t;
         evaluator1 = ev1;
         evaluator2 = ev2;
+    }
+
+    public Medewerker getMedewerker() {
+        return medewerker;
+    }
+
+    public School getSchool() {
+        return school;
+    }
+
+    public Date getDatum() {
+        return datum;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public Evaluator getEvaluator1() {
+        return evaluator1;
+    }
+
+    public Evaluator getEvaluator2() {
+        return evaluator2;
     }
     
 }
