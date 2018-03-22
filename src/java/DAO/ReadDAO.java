@@ -21,10 +21,47 @@ public class ReadDAO {
     
     List medewerkers;
     List meldingen;
+    List medewerker;
     
     public ReadDAO(){
         medewerkers = new ArrayList();
         meldingen = new ArrayList();
+    }
+    
+    private void GetMedewerker(String vn, String fm, String f) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException{
+        
+        medewerker = new ArrayList();
+        
+        Class.forName("com.mysql.jdbc.Driver").newInstance();
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost/gesprekken_db", "admin", "admin123");
+
+        Statement st = con.createStatement();
+        String sql = ("select m.stamboeknr, m.voornaam, m.familienaam, m.geboorte, m.email, a.straat, a.postcode, a.stad, f.functienaam, sf.SchoolfunctieID "
+                + "from medewerker m, functie f, schoolfunctie sf, adres a "
+                + "where m.stamboeknr = sf.MedewerkerID "
+                + "and f.FunctieID = sf.FunctieID "
+                + "and a.AdresID = m.AdresID"
+                + "and m.Voornaam = "+vn+""
+                + "and m.Familienaam = "+fm+""
+                + "and f.functianaam = "+f+";");
+        ResultSet rs = st.executeQuery(sql);
+        
+        while (rs.next()) {
+            
+            String str = rs.getString("Stamboeknr");
+            str +="|" + rs.getString("Voornaam");
+            str +="|" + rs.getString("Familienaam");
+            str +="|" + rs.getString("Geboorte");
+            str +="|" + rs.getString("Email");
+            str +="|" + rs.getString("Straat");
+            str +="|" + rs.getString("Postcode");
+            str +="|" + rs.getString("Stad");
+            str +="|" + rs.getString("Functienaam");
+            str +="|" + rs.getString("SchoolfunctieID");
+            medewerker.add(str);
+        }
+        con.close();
+        
     }
     
     private void getMedewerkers() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException{
@@ -97,5 +134,10 @@ public class ReadDAO {
     public List getMeldingList() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException{
         getMeldingen();
         return meldingen;
+    }
+
+    public List getMedewerker(String vn, String fm, String f) throws ClassNotFoundException, SQLException, IllegalAccessException, InstantiationException {
+        GetMedewerker(vn, fm, f);
+        return medewerker;
     }
 }

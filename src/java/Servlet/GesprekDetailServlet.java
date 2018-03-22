@@ -147,8 +147,8 @@ public class GesprekDetailServlet extends HttpServlet {
         
         School school = new School(125635,"Kleine Prins",schooladres);
         Medewerker jan = new Medewerker(51236, "jan", "janssens", datum, "voorbeeld@hotmail.com", jana, janf);
-        Medewerker marie = new Medewerker(42365, "marie", "marieke", datum, "voorbeeld@hotmail.com", mariea, marief);
-        Medewerker piet = new Medewerker(45896, "piet", "pieters", datum, "voorbeeld@hotmail.com", pieta, pietf);
+        Medewerker marie = new Medewerker(42365, "Marie", "Marieke", datum, "voorbeeld@hotmail.com", mariea, marief);
+        Medewerker piet = new Medewerker(45896, "Piet", "Pieters", datum, "voorbeeld@hotmail.com", pieta, pietf);
         piet.AddFunctie(pietf2);
         
         Evaluator ev1 = new Evaluator(74125, "tom", "tomson", datum, "voorbeeld@hotmail.com", ev1a, pietf2);
