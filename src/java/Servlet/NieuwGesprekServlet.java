@@ -71,6 +71,7 @@ public class NieuwGesprekServlet extends HttpServlet {
                 + "<input id=\"functieLijst\"  type=\"text\" list=\"FunctieList\">"
                 + "<datalist id=\"FunctieList\">"
                 + generateFuncties()
+                + "<br><span>Type: </span>"
                 + "<input type=\"text\" name=\"example\" list=\"TypeList\">"
                 + "<datalist id=\"TypeList\">"
                 + "    <option value=\"Functioneeringsgesprek\">"

@@ -24,8 +24,6 @@ public class ReadDAO {
     List medewerker;
     
     public ReadDAO(){
-        medewerkers = new ArrayList();
-        meldingen = new ArrayList();
     }
     
     private void GetMedewerker(String vn, String fm, String f) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException{
@@ -66,6 +64,8 @@ public class ReadDAO {
     
     private void getMedewerkers() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException{
         
+        medewerkers = new ArrayList();
+        
         Class.forName("com.mysql.jdbc.Driver").newInstance();
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost/gesprekken_db", "admin", "admin123");
 
@@ -94,6 +94,8 @@ public class ReadDAO {
     }
     
     private void getMeldingen() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException{
+        
+        meldingen = new ArrayList();
         
         Class.forName("com.mysql.jdbc.Driver").newInstance();
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost/gesprekken_db", "admin", "admin123");
