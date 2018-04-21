@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -62,18 +63,20 @@ public class NieuwMeldingServlet extends HttpServlet {
         
         String generate = "<form method=\"post\" action=\"Hoofdpagina\">"
                 + "<span>Medewerker: </span>"
-                + "<input id=\"medewerkerLijst\" type=\"text\" list=\"medewerkerList\">\n<br>"
+                + "<input id=\"medewerkerLijst\" type=\"text\" list=\"medewerkerList\" name=\"medewerker\">\n<br>"
                 + "<datalist id=\"medewerkerList\">\n"
                 + generateMedewerkers() + "<br>"
                 + "<span>Functie: </span>"
                 + generateFuncties() + "\n<br>"
                 + "<span>datum: </span>"
-                + "<input type=\"date\" name=\"datum\"><br>"
-                + "<textarea rows=\"4\" cols=\"50\"></textarea><br>"
+                + "<input type=\"date\" name=\"datum\" name=\"datum\"><br>"
+                + "<textarea rows=\"4\" cols=\"50\" name=\"extra\"></textarea><br>"
                 + "<input type=\"submit\" value=\"Opslaan\">"
                 + "</form>";
         
-        processRequest(request, response, generate);
+        request.setAttribute("gen", generate);
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/JSP/NieuweMelding.jsp");
+        dispatcher.forward(request, response); 
     }
 
     /**
