@@ -16,9 +16,26 @@
         %>
     </head>
     <body>
+        <form method=\"post\" action=\"Hoofdpagina\">
+            <span>Medewerker: </span>
+            <input id=\"medewerkerLijst\" type=\"text\" list=\"medewerkerList\" name=\"medewerker\"><br>
+            <%
+                System.out.println(request.getAttribute("medewerkers"));
+            %>
+            <span>Functie: </span>
+            <%
+                System.out.println(request.getAttribute("functies"));
+            %>
+            <span>datum: </span>
+            <input type=\"date\" name=\"datum\" name=\"datum\"><br>
+            <textarea rows=\"4\" cols=\"50\" name=\"extra\"></textarea><br>
+            <input type=\"submit\" value=\"Opslaan\">
+        </form>
         <%
-            Object ob = request.getAttribute("gen");
-            out.println(ob);
+            String medewerker = request.getParameter("medewerker");
+            String functie = request.getParameter("functie");
+            String datum = request.getParameter("datum");
+            String extra = request.getParameter("extra");
             request.setAttribute("medewerker", medewerker);
             request.setAttribute("functie", functie);
             request.setAttribute("datum", datum);

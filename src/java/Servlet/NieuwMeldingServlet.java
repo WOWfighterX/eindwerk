@@ -61,20 +61,11 @@ public class NieuwMeldingServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String generate = "<form method=\"post\" action=\"Hoofdpagina\">"
-                + "<span>Medewerker: </span>"
-                + "<input id=\"medewerkerLijst\" type=\"text\" list=\"medewerkerList\" name=\"medewerker\">\n<br>"
-                + "<datalist id=\"medewerkerList\">\n"
-                + generateMedewerkers() + "<br>"
-                + "<span>Functie: </span>"
-                + generateFuncties() + "\n<br>"
-                + "<span>datum: </span>"
-                + "<input type=\"date\" name=\"datum\" name=\"datum\"><br>"
-                + "<textarea rows=\"4\" cols=\"50\" name=\"extra\"></textarea><br>"
-                + "<input type=\"submit\" value=\"Opslaan\">"
-                + "</form>";
+        String medewerkers = generateMedewerkers();
+        String functies = generateFuncties();
         
-        request.setAttribute("gen", generate);
+        request.setAttribute("medewerkers", medewerkers);
+        request.setAttribute("functies", functies);
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/JSP/NieuweMelding.jsp");
         dispatcher.forward(request, response); 
     }
@@ -127,7 +118,7 @@ public class NieuwMeldingServlet extends HttpServlet {
     }
     
     private String generateMedewerkers(){
-        String hulp = "";
+        String hulp = "<datalist id=\"medewerkerList\">\n";
         List data = getStrings();
         
         int k = 1;
@@ -139,7 +130,7 @@ public class NieuwMeldingServlet extends HttpServlet {
             k++;
             
         }
-        hulp += "</datalist>";
+        hulp += "</datalist><br>";
         
         return hulp;
     }
