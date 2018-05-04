@@ -28,6 +28,10 @@
         <servlet-name>NotificatieDetailServlet</servlet-name>
         <servlet-class>Servlet.NotificatieDetailServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UploadFile</servlet-name>
+        <servlet-class>Servlet.UploadFile</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AdminToolsServlet</servlet-name>
         <url-pattern>/admin</url-pattern>
@@ -55,6 +59,10 @@
     <servlet-mapping>
         <servlet-name>NotificatieDetailServlet</servlet-name>
         <url-pattern>/Melding</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UploadFile</servlet-name>
+        <url-pattern>/UploadFile</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

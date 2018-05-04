@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -38,11 +39,9 @@ public class NieuwGesprekServlet extends HttpServlet {
             out.println("<html>");
             out.println("<head>");
             out.println("<title>Servlet NieuwGesprekServlet</title>");  
-            out.println("<link href=\"CSS/NieuwGesprek.css\" rel=\"stylesheet\" type=\"text/css\"/>");
-            out.println("<script src=\"JS/NieuwGesprek.js\" type=\"text/javascript\"></script>");          
             out.println("</head>");
             out.println("<body>");
-            out.println(gen);
+            out.println("derp");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,27 +60,13 @@ public class NieuwGesprekServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String generate = "<form method=\"post\" action=\"Hoofdpagina\">"
-                + "<span>Evaluator: ik</span><br>"
-                + "<span>Medewerker: </span>"
-                + "<input id=\"medewerkerLijst\" type=\"text\" list=\"medewerkerList\"><br>"
-                + "<datalist id=\"medewerkerList\">"
-                + generateMedewerkers()
-                + "<span>Functie: </span>"
-                + "<input id=\"functieLijst\"  type=\"text\" list=\"FunctieList\">"
-                + "<datalist id=\"FunctieList\">"
-                + generateFuncties()
-                + "<br><span>Type: </span>"
-                + "<input type=\"text\" name=\"example\" list=\"TypeList\">"
-                + "<datalist id=\"TypeList\">"
-                + "    <option value=\"Functioneeringsgesprek\">"
-                + "    <option value=\"Evaluatiegesprek\">"
-                + "    <option value=\"Informeel gesprek\">"
-                + "</datalist><br>"
-                + "<input type=\"submit\" value=\"Opslaan\">"
-                + "</form>";
+        String medewerkers = generateMedewerkers();
+        String functies = generateFuncties();
         
-        processRequest(request, response, generate);
+        request.setAttribute("medewerkers", medewerkers);
+        request.setAttribute("functies", functies);
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/JSP/NieuwGesprek.jsp");
+        dispatcher.forward(request, response); 
     }
 
     /**
@@ -109,7 +94,7 @@ public class NieuwGesprekServlet extends HttpServlet {
     }// </editor-fold>
     
     private String generateMedewerkers(){
-        String hulp = "";
+        String hulp = "<datalist id=\"medewerker\">";
         List data = getStrings();
         
         String vorige = "";
@@ -131,7 +116,7 @@ public class NieuwGesprekServlet extends HttpServlet {
     }
     
     private String generateFuncties(){
-        String hulp = "";
+        String hulp = "<datalist id=\"functie\">";
         List data = getStrings();
         
         String vorige = "";

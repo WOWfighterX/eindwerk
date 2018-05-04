@@ -1,9 +1,3 @@
-<%-- 
-    Document   : NieuweMelding
-    Created on : Apr 18, 2018, 11:21:15 AM
-    Author     : aaron gevers
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -18,18 +12,19 @@
     <body>
         <form method=\"post\" action=\"Hoofdpagina\">
             <span>Medewerker: </span>
-            <input id=\"medewerkerLijst\" type=\"text\" list=\"medewerkerList\" name=\"medewerker\"><br>
+            <input id=\"medewerkerLijst\" type=text list=medewerkerList name=medewerker><br>
             <%
-                System.out.println(request.getAttribute("medewerkers"));
+                out.println(request.getAttribute("medewerkers"));
             %>
             <span>Functie: </span>
             <%
-                System.out.println(request.getAttribute("functies"));
+                out.println(request.getAttribute("functies"));
             %>
+            <br>
             <span>datum: </span>
-            <input type=\"date\" name=\"datum\" name=\"datum\"><br>
-            <textarea rows=\"4\" cols=\"50\" name=\"extra\"></textarea><br>
-            <input type=\"submit\" value=\"Opslaan\">
+            <input type=date name=datum name=datum><br>
+            <textarea rows=4 cols=50 name=extra></textarea><br>
+            <input type="submit" value="Opslaan">
         </form>
         <%
             String medewerker = request.getParameter("medewerker");

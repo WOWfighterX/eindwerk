@@ -1,9 +1,3 @@
-<%-- 
-    Document   : HoofdPagina
-    Created on : Apr 17, 2018, 4:55:00 PM
-    Author     : aaron gevers
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
