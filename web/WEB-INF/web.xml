@@ -32,6 +32,38 @@
         <servlet-name>UploadFile</servlet-name>
         <servlet-class>Servlet.UploadFile</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PersToev</servlet-name>
+        <servlet-class>Servlet.PersToev</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FuncToev</servlet-name>
+        <servlet-class>Servlet.FuncToev</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Rechten</servlet-name>
+        <servlet-class>Servlet.Rechten</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SchoolToev</servlet-name>
+        <servlet-class>Servlet.SchoolToev</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SchoolVerw</servlet-name>
+        <servlet-class>Servlet.SchoolVerw</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Account</servlet-name>
+        <servlet-class>Servlet.Account</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>Servlet.LoginServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FuncVerw</servlet-name>
+        <servlet-class>Servlet.FuncVerw</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AdminToolsServlet</servlet-name>
         <url-pattern>/admin</url-pattern>
@@ -63,6 +95,38 @@
     <servlet-mapping>
         <servlet-name>UploadFile</servlet-name>
         <url-pattern>/UploadFile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PersToev</servlet-name>
+        <url-pattern>/PersToev</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FuncToev</servlet-name>
+        <url-pattern>/FuncToev</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Rechten</servlet-name>
+        <url-pattern>/Rechten</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SchoolToev</servlet-name>
+        <url-pattern>/SchoolToev</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SchoolVerw</servlet-name>
+        <url-pattern>/SchoolVerw</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Account</servlet-name>
+        <url-pattern>/Account</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/Login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FuncVerw</servlet-name>
+        <url-pattern>/FuncVerw</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

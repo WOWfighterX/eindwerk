@@ -5,10 +5,15 @@
  */
 package Servlet;
 
+import Model.Functie;
+import Model.Medewerker;
+import Model.Melding;
+import Service.NotificatieDetailService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -60,30 +65,22 @@ public class NotificatieDetailServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String param = request.getParameter("param");
-        int hulp = param.indexOf(".");
-        String medewerker = param.substring(0, hulp);
+        int MeldingID = Integer.parseInt(request.getParameter("param"));
         
-        param = param.substring(hulp+1);
-        hulp = param.indexOf(".");
-        String functie = param.substring(0, hulp);
+        Melding melding = getMelding(MeldingID);
         
-        param = param.substring(hulp+1);
-        hulp = param.indexOf(".");
-        String datum = param.substring(0, hulp);
-        
-        param = param.substring(hulp+1);
-        String extra = param;
         
         String generate = "<form method=\"post\" action=\"Hoofdpagina\">"
-                + "<span>Medewerker: "+medewerker+"</span><br><br>"
-                + "<span>Functie: "+functie+"</span><br><br>"
-                + "<span>datum: "+datum+"</span><br>"
-                + "<textarea rows=\"4\" cols=\"50\">"+extra+"</textarea><br>"
+                + "<span>Medewerker: "+melding.getMedewerker().getVoornaam()+" "+melding.getMedewerker().getFamilienaam()+"</span><br><br>"
+                + "<span>Functie: "+melding.getFunctie().getFunctie()+"</span><br><br>"
+                + "<span>datum: "+melding.getDatum()+"</span><br>"
+                + "<textarea rows=\"4\" cols=\"50\">"+melding.getInfo()+"</textarea><br>"
                 + "<input type=\"submit\" value=\"Veranderen\">"
                 + "</form>";
         
-        processRequest(request, response, generate);
+        request.setAttribute("gen", generate);
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/JSP/MeldingDetail.jsp");
+        dispatcher.forward(request, response); 
     }
 
     /**
@@ -111,35 +108,15 @@ public class NotificatieDetailServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private String generateMedewerkers(){
-        String hulp = "";
-        List data = getStrings();
+    private Melding getMelding(int MeldingID) {
         
-        int k = 1;
+        NotificatieDetailService service = new NotificatieDetailService();
+        Melding melding = service.getMelding(MeldingID);
+        return melding;
         
-        for(int i =0;i<(data.size());i++){
-            String medewerker = (String) data.get(i);
-            
-            hulp += "<option id=\"medewerker"+k+"\" value=\""+ medewerker +"\">\n";
-            k++;
-            
-        }
-        hulp += "</datalist>";
-        
-        return hulp;
     }
+
     
-    private List getStrings(){
-        List strings = new ArrayList();
-        
-        //dummy data
-        
-        strings.add("Jan Janssens");
-        
-        strings.add("Marie marieke");
-        
-        strings.add("Piet Pieters");
-        
-        return strings;
-    }
+
+    
 }

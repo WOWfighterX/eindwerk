@@ -20,5 +20,17 @@ public class School {
         schoolnaam = naam;
         adres = a;
     }
+
+    public int getInstellingsnr() {
+        return instellingsnr;
+    }
+
+    public String getSchoolnaam() {
+        return schoolnaam;
+    }
+
+    public Adres getAdres() {
+        return adres;
+    }
     
 }

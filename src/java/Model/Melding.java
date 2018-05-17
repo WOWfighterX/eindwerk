@@ -13,18 +13,20 @@ import java.util.Date;
  */
 public class Melding {
     
+    private int meldingID;
     private Date datum;
     private String info;
-    private Persoon medewerker;
+    private Medewerker medewerker;
     private Functie functie;
     private String type;
     
-    public Melding(Date d, String i, Persoon m, Functie f, String t){
+    public Melding(Date d, String i, Medewerker m, Functie f, String t, int id){
         datum = d;
         info = i;
         medewerker = m;
         functie = f;
         type = t;
+        meldingID = id;
     }
 
     public Date getDatum() {
@@ -35,7 +37,7 @@ public class Melding {
         return info;
     }
 
-    public Persoon getMedewerker() {
+    public Medewerker getMedewerker() {
         return medewerker;
     }
 
@@ -45,6 +47,10 @@ public class Melding {
 
     public String getType() {
         return type;
+    }
+
+    public int getMeldingID() {
+        return meldingID;
     }
     
 }

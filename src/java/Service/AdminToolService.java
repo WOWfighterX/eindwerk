@@ -5,10 +5,207 @@
  */
 package Service;
 
+import DAO.ReadDAO;
+import Model.Adres;
+import Model.Functie;
+import Model.Medewerker;
+import Model.School;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 /**
  *
  * @author aaron gevers
  */
 public class AdminToolService {
-    
+
+    private ReadDAO dao;
+    private List medewerkers;
+    private List evaluatoren;
+    private List scholen;
+
+    public AdminToolService() {
+        this.dao = new ReadDAO();
+        this.medewerkers = new ArrayList();
+        this.evaluatoren = new ArrayList();
+        this.scholen = new ArrayList();
+    }
+
+    public List getMedewerkers() {
+        genMedewerkers();
+        return medewerkers;
+    }
+
+    public List getEvaluatoren() {
+        genEvaluatoren();
+        return evaluatoren;
+    }
+
+    public List getScholen() {
+        genScholen();
+        return scholen;
+    }
+
+    private void genMedewerkers() {
+        List list = dao.getMedewerkerList();
+
+        for (int i = 0; i < list.size(); i++) {
+
+            String persoon = (String) list.get(i);
+            int hulp;
+
+            hulp = persoon.indexOf("|");
+            int nr = Integer.parseInt(persoon.substring(0, hulp));
+            persoon = persoon.substring(hulp + 1);
+
+            hulp = persoon.indexOf("|");
+            String voornaam = persoon.substring(0, hulp);
+            persoon = persoon.substring(hulp + 1);
+
+            hulp = persoon.indexOf("|");
+            String familienaam = persoon.substring(0, hulp);
+            persoon = persoon.substring(hulp + 1);
+
+            hulp = persoon.indexOf("|");
+            String g = persoon.substring(0, hulp);
+            int jaar = Integer.parseInt(g.substring(0, 3));
+            int maand = Integer.parseInt(g.substring(5, 6));
+            int dag = Integer.parseInt(g.substring(8, 9));
+            Date geboorte = new Date(jaar, maand, dag);
+            persoon = persoon.substring(hulp + 1);
+
+            hulp = persoon.indexOf("|");
+            String email = persoon.substring(0, hulp);
+            persoon = persoon.substring(hulp + 1);
+
+            hulp = persoon.indexOf("|");
+            String straat = persoon.substring(0, hulp);
+            persoon = persoon.substring(hulp + 1);
+
+            hulp = persoon.indexOf("|");
+            int postcode = Integer.parseInt(persoon.substring(0, hulp));
+            persoon = persoon.substring(hulp + 1);
+
+            hulp = persoon.indexOf("|");
+            String stad = persoon.substring(0, hulp);
+            persoon = persoon.substring(hulp + 1);
+
+            String functie = persoon;
+
+            Functie f = new Functie(functie);
+            Adres a = new Adres(straat, stad, postcode);
+            Medewerker medewerker = new Medewerker(nr, voornaam, familienaam, geboorte, email, a, f);
+
+            int nummer = 0;
+            for (int j = 0; j < medewerkers.size(); j++) {
+                Medewerker m = (Medewerker) medewerkers.get(j);
+                Boolean b = !m.IsAanwezig(medewerker, f);
+                if (b) {
+                    nummer++;
+                }
+            }
+
+            if (nummer == medewerkers.size()) {
+                medewerkers.add(medewerker);
+            }
+        }
+    }
+
+    private void genEvaluatoren() {
+        List list = dao.getEvaluatoren();
+
+        for (int i = 0; i < list.size(); i++) {
+
+            String persoon = (String) list.get(i);
+            int hulp;
+
+            hulp = persoon.indexOf("|");
+            int nr = Integer.parseInt(persoon.substring(0, hulp));
+            persoon = persoon.substring(hulp + 1);
+
+            hulp = persoon.indexOf("|");
+            String voornaam = persoon.substring(0, hulp);
+            persoon = persoon.substring(hulp + 1);
+
+            hulp = persoon.indexOf("|");
+            String familienaam = persoon.substring(0, hulp);
+            persoon = persoon.substring(hulp + 1);
+
+            hulp = persoon.indexOf("|");
+            String g = persoon.substring(0, hulp);
+            int jaar = Integer.parseInt(g.substring(0, 3));
+            int maand = Integer.parseInt(g.substring(5, 6));
+            int dag = Integer.parseInt(g.substring(8, 9));
+            Date geboorte = new Date(jaar, maand, dag);
+            persoon = persoon.substring(hulp + 1);
+
+            hulp = persoon.indexOf("|");
+            String email = persoon.substring(0, hulp);
+            persoon = persoon.substring(hulp + 1);
+
+            hulp = persoon.indexOf("|");
+            String straat = persoon.substring(0, hulp);
+            persoon = persoon.substring(hulp + 1);
+
+            hulp = persoon.indexOf("|");
+            int postcode = Integer.parseInt(persoon.substring(0, hulp));
+            persoon = persoon.substring(hulp + 1);
+
+            hulp = persoon.indexOf("|");
+            String stad = persoon.substring(0, hulp);
+            persoon = persoon.substring(hulp + 1);
+
+            String functie = persoon;
+
+            Functie f = new Functie(functie);
+            Adres a = new Adres(straat, stad, postcode);
+            Medewerker medewerker = new Medewerker(nr, voornaam, familienaam, geboorte, email, a, f);
+
+            int nummer = 0;
+            for (int j = 0; j < evaluatoren.size(); j++) {
+                Medewerker m = (Medewerker) evaluatoren.get(j);
+                Boolean b = !m.IsAanwezig(medewerker, f);
+                if (b) {
+                    nummer++;
+                }
+            }
+
+            if (nummer == evaluatoren.size()) {
+                evaluatoren.add(medewerker);
+            }
+        }
+    }
+
+    private void genScholen() {
+        List list = dao.getScholen();
+
+        for (int i = 0; i < list.size(); i++) {
+
+            String school = (String) list.get(i);
+            int hulp;
+
+            hulp = school.indexOf("|");
+            int nr = Integer.parseInt(school.substring(0, hulp));
+            school = school.substring(hulp + 1);
+
+            hulp = school.indexOf("|");
+            String naam = school.substring(0, hulp);
+            school = school.substring(hulp + 1);
+
+            hulp = school.indexOf("|");
+            String straat = school.substring(0, hulp);
+            school = school.substring(hulp + 1);
+
+            hulp = school.indexOf("|");
+            int postcode = Integer.parseInt(school.substring(0, hulp));
+            school = school.substring(hulp + 1);
+
+            String stad = school;
+
+            Adres adres = new Adres(straat, stad, postcode);
+            School s = new School(nr, naam, adres);
+            scholen.add(s);
+        }
+    }
 }
