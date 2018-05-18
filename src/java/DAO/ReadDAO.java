@@ -286,7 +286,7 @@ public class ReadDAO {
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost/gesprekken_db", "admin", "admin123");
 
         Statement st = con.createStatement();
-        String sql = ("select * from schoolfunctie;");
+        String sql = ("select schoolfunctieid from schoolfunctie;");
         ResultSet rs = st.executeQuery(sql);
         
         while (rs.next()) {

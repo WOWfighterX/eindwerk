@@ -6,6 +6,7 @@
 package DAO;
 
 import Model.*;
+import Service.MainPageService;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -27,10 +28,26 @@ public class WriteDAO {
     
     private void addMelding(Melding m) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException{
         
-        List meldingen = dao.getMeldingList();
-        int ID = meldingen.size() + 1;
+        MainPageService service = new MainPageService();
+        service.GenerateMeldingen();
+        List meldingen = service.getMeldingen();
+        int ID = 1;
+        for(int i=0;i<meldingen.size();i++){
+            Melding melding = (Melding) meldingen.get(i);
+            int hulp = melding.getMeldingID();
+            if(ID==hulp){
+                ID++;
+            }
+        }
+        
         List sf = dao.getSchoolFunctie();
-        int sfid = sf.size() + 1;
+        int sfid = 1;
+        for(int i=0;i<sf.size();i++){
+            int hulp = Integer.parseInt((String) sf.get(i));
+            if(sfid==hulp){
+                sfid++;
+            }
+        }
         
         Class.forName("com.mysql.jdbc.Driver").newInstance();
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost/gesprekken_db", "admin", "admin123");

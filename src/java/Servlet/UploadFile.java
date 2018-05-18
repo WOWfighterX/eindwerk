@@ -177,8 +177,6 @@ public class UploadFile extends HttpServlet {
             request.setAttribute("message", "Upload has been done successfully!");
         } catch (FileUploadException ex) {
             request.setAttribute("message", "There was an error: " + ex.getMessage());
-        } catch (Exception ex) {
-            request.setAttribute("message", "There was an error: " + ex.getMessage());
         }
         
         request.setAttribute("hulp", hulp);

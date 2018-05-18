@@ -94,7 +94,7 @@ public class MainPageService {
         return gen;
     }
 
-    private void GenerateMeldingen() {
+    public void GenerateMeldingen() {
 
         List list = dao.getMeldingList();
 
@@ -169,6 +169,14 @@ public class MainPageService {
             meldingen.add(melding);
         }
 
+    }
+
+    public List getMedewerkers() {
+        return medewerkers;
+    }
+
+    public List getMeldingen() {
+        return meldingen;
     }
 
     private void GenerateMedewerkers() {
