@@ -10,7 +10,7 @@
         %>
     </head>
     <body>
-        <form method=\"post\" action=\"Hoofdpagina\">
+        <form method=\"post\" action=\"MeldingToevoegen\">
             <span>Medewerker: </span>
             <input id=\"medewerkerLijst\" type=text list=medewerkerList name=medewerker><br>
             <%
@@ -22,19 +22,15 @@
             %>
             <br>
             <span>datum: </span>
+            <span>Type Gesprek: </span>
+            <select name="type">
+                <option>Functioneringsgesprek</option>
+                <option>Evalueringsgesprek</option>
+                <option>Informeel gesprek</option>
+            </select>
             <input type=date name=datum name=datum><br>
             <textarea rows=4 cols=50 name=extra></textarea><br>
             <input type="submit" value="Opslaan">
         </form>
-        <%
-            String medewerker = request.getParameter("medewerker");
-            String functie = request.getParameter("functie");
-            String datum = request.getParameter("datum");
-            String extra = request.getParameter("extra");
-            request.setAttribute("medewerker", medewerker);
-            request.setAttribute("functie", functie);
-            request.setAttribute("datum", datum);
-            request.setAttribute("extra", extra);
-        %>
     </body>
 </html>

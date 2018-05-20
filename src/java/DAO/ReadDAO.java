@@ -34,7 +34,7 @@ public class ReadDAO {
     public ReadDAO(){
     }
     
-    private void GetMedewerker(String vn, String fm, String f) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException{
+    private void GetMedewerker(int id) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException{
         
         medewerker = new ArrayList();
         
@@ -47,9 +47,7 @@ public class ReadDAO {
                 + "where m.stamboeknr = sf.MedewerkerID "
                 + "and f.FunctieID = sf.FunctieID "
                 + "and a.AdresID = m.AdresID"
-                + "and m.Voornaam = "+vn+""
-                + "and m.Familienaam = "+fm+""
-                + "and f.functianaam = "+f+";");
+                + "and m.MedewerkerID = "+id+";");
         ResultSet rs = st.executeQuery(sql);
         
         while (rs.next()) {
@@ -68,6 +66,33 @@ public class ReadDAO {
         }
         con.close();
         
+    }
+    
+    private int GetMedewerkerID(String vn, String fn) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException{
+        
+        medewerker = new ArrayList();
+        
+        Class.forName("com.mysql.jdbc.Driver").newInstance();
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost/gesprekken_db", "admin", "admin123");
+
+        Statement st = con.createStatement();
+        String sql = ("select m.stamboeknr "
+                + "from medewerker m, functie f, schoolfunctie sf, adres a "
+                + "where m.stamboeknr = sf.MedewerkerID "
+                + "and f.FunctieID = sf.FunctieID "
+                + "and a.AdresID = m.AdresID"
+                + "and m.Voornaam = "+vn+" "
+                + "and m.Familianaam = "+fn+";");
+        ResultSet rs = st.executeQuery(sql);
+        
+        int id = 0;
+        
+        while (rs.next()) {
+            
+            id = Integer.parseInt(rs.getString("Stamboeknr"));
+        }
+        con.close();
+        return id;
     }
     
     private void getMedewerkers() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException{
@@ -327,9 +352,9 @@ public class ReadDAO {
         return meldingen;
     }
 
-    public List getMedewerker(String vn, String fm, String f) {
+    public List getMedewerker(int id) {
         try {
-            GetMedewerker(vn, fm, f);
+            GetMedewerker(id);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ReadDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -431,4 +456,22 @@ public class ReadDAO {
         }
         return evaluatoren;
     }
+
+    public int getMedewerkerID(String vn, String fn) {
+        int id = 0;
+        try {
+            id = GetMedewerkerID(vn,fn);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ReadDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ReadDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(ReadDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(ReadDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return id;
+    }
+    
 }

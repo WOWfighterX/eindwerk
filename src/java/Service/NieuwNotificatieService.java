@@ -20,17 +20,51 @@ import java.util.List;
  */
 public class NieuwNotificatieService {
     
-    private List medewerkers = new ArrayList();
+    private List medewerkers;
     private ReadDAO dao;
     
     public NieuwNotificatieService(){
         dao = new ReadDAO();
+        GenerateMedewerkers();
     }
     
-    
-    
-    private void GenerateMedewerkers()throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException{
+    public String genMedewerkers(){
+        String hulp = "<datalist id=\"medewerkerList\">\n";
         
+        for(int i =0;i<(medewerkers.size());i++){
+            Medewerker medewerker =  (Medewerker) medewerkers.get(i);
+            
+            hulp += "<option value=\""+ medewerker.getVoornaam()+" "+ medewerker.getFamilienaam() +"\">\n";
+            
+        }
+        hulp += "</datalist><br>";
+        
+        return hulp;
+    }
+    
+    public String genFuncties(){
+        String hulp = "";
+        for(int i=0;i<medewerkers.size();i++){
+            
+            Medewerker m =  (Medewerker) medewerkers.get(i);
+            List functies = m.getFuncties();
+            hulp += "<select id=\""+ m.getVoornaam()+" "+m.getFamilienaam() +"\" name=\""+m.getVoornaam()+" "+m.getFamilienaam()+"\">\n";
+            
+            for(int j=0;j<functies.size();j++){
+                
+                Functie f = (Functie) functies.get(j);
+                hulp += "<option value=\""+ f.getFunctie() +"\">"+f.getFunctie()+"</option>";
+            }
+            
+            hulp += "</select>";
+            
+        }
+        return hulp;
+    }
+    
+    private void GenerateMedewerkers(){
+        
+        medewerkers = new ArrayList();
         List list = dao.getMedewerkerList();
         
         for(int i = 0; i < list.size(); i++){

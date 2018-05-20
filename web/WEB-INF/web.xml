@@ -64,6 +64,10 @@
         <servlet-name>FuncVerw</servlet-name>
         <servlet-class>Servlet.FuncVerw</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MeldingToevoegen</servlet-name>
+        <servlet-class>Servlet.MeldingToevoegen</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AdminToolsServlet</servlet-name>
         <url-pattern>/admin</url-pattern>
@@ -127,6 +131,10 @@
     <servlet-mapping>
         <servlet-name>FuncVerw</servlet-name>
         <url-pattern>/FuncVerw</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MeldingToevoegen</servlet-name>
+        <url-pattern>/MeldingToevoegen</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

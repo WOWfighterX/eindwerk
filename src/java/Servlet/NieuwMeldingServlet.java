@@ -5,6 +5,7 @@
  */
 package Servlet;
 
+import Service.NieuwNotificatieService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -98,73 +99,14 @@ public class NieuwMeldingServlet extends HttpServlet {
     }// </editor-fold>
     
     private String generateFuncties(){
-        
-        String functies = "";
-        List functie = getFuncties();
-        functies += "<select>\n";
-        for(int i=0;i<functie.size();i++){
-            
-            List hulp = (List) functie.get(i);
-            List naam = getStrings();
-            
-            for(int j=0;j<hulp.size();j++){
-                
-                functies += "<option id=\""+ naam.get(i) +"\" value=\""+ hulp.get(j) +"\">"+hulp.get(j)+"</option>";
-            }
-            
-        }
-        functies += "</select>";
-        return functies;
+        NieuwNotificatieService service = new NieuwNotificatieService();
+        return service.genFuncties();
     }
     
     private String generateMedewerkers(){
-        String hulp = "<datalist id=\"medewerkerList\">\n";
-        List data = getStrings();
-        
-        int k = 1;
-        
-        for(int i =0;i<(data.size());i++){
-            String medewerker = (String) data.get(i);
-            
-            hulp += "<option id=\"medewerker"+k+"\" value=\""+ medewerker +"\">\n";
-            k++;
-            
-        }
-        hulp += "</datalist><br>";
-        
-        return hulp;
+        NieuwNotificatieService service = new NieuwNotificatieService();
+        return service.genMedewerkers();
     }
     
-    private List getStrings(){
-        List strings = new ArrayList();
-        
-        //dummy data
-        
-        strings.add("Jan Janssens");
-        
-        strings.add("Marie marieke");
-        
-        strings.add("Piet Pieters");
-        
-        return strings;
-    }
-    
-    private List getFuncties(){
-        List functies = new ArrayList();
-        List jan = new ArrayList();
-        List marie = new ArrayList();
-        List piet = new ArrayList();
-        
-        jan.add("leerkracht 2B");
-        marie.add("leerkracht 4A");
-        piet.add("leerkracht 3A");
-        piet.add("ICT coordinator");
-        
-        functies.add(jan);
-        functies.add(marie);
-        functies.add(piet);
-        
-        return functies;
-    }
 
 }
