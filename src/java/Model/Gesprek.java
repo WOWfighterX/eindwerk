@@ -21,6 +21,7 @@ public class Gesprek {
     private String type;
     private Evaluator evaluator1;
     private Evaluator evaluator2;
+    private String filepath;
     
     public Gesprek(Medewerker m, School s, Date d, String st, String t, Evaluator ev1, Evaluator ev2){
         medewerker = m;
@@ -30,6 +31,20 @@ public class Gesprek {
         type = t;
         evaluator1 = ev1;
         evaluator2 = ev2;
+    }
+
+    public Gesprek(Medewerker medewerker, Date datum, String status, String type, Evaluator evaluator1, Evaluator evaluator2, String filepath) {
+        this.medewerker = medewerker;
+        this.datum = datum;
+        this.status = status;
+        this.type = type;
+        this.evaluator1 = evaluator1;
+        this.evaluator2 = evaluator2;
+        this.filepath = filepath;
+    }
+
+    public String getFilepath() {
+        return filepath;
     }
 
     public Medewerker getMedewerker() {

@@ -72,19 +72,19 @@ public class NieuwNotificatieService {
             String persoon = (String) list.get(i);
             int hulp;
             
-            hulp = persoon.indexOf(' ');
+            hulp = persoon.indexOf('|');
             int nr = Integer.parseInt(persoon.substring(0, hulp));
             persoon = persoon.substring(hulp+1);
             
-            hulp = persoon.indexOf(' ');
+            hulp = persoon.indexOf('|');
             String voornaam = persoon.substring(0, hulp);
             persoon = persoon.substring(hulp+1);
             
-            hulp = persoon.indexOf(' ');
+            hulp = persoon.indexOf('|');
             String familienaam = persoon.substring(0, hulp);
             persoon = persoon.substring(hulp+1);
             
-            hulp = persoon.indexOf(' ');
+            hulp = persoon.indexOf('|');
             String g = persoon.substring(0, hulp);
             int jaar = Integer.parseInt(g.substring(0,3));
             int maand = Integer.parseInt(g.substring(5,6));
@@ -92,42 +92,50 @@ public class NieuwNotificatieService {
             Date geboorte = new Date(jaar, maand, dag);
             persoon = persoon.substring(hulp+1);
             
-            hulp = persoon.indexOf(' ');
+            hulp = persoon.indexOf('|');
             String email = persoon.substring(0, hulp);
             persoon = persoon.substring(hulp+1);
             
-            hulp = persoon.indexOf(' ');
+            hulp = persoon.indexOf('|');
             String straat = persoon.substring(0, hulp);
             persoon = persoon.substring(hulp+1);
-            hulp = persoon.indexOf(' ');
+            hulp = persoon.indexOf('|');
             straat += " "+persoon.substring(0, hulp);
             persoon = persoon.substring(hulp+1);
             
-            hulp = persoon.indexOf(' ');
+            hulp = persoon.indexOf('|');
             int postcode = Integer.parseInt(persoon.substring(0, hulp));
             persoon = persoon.substring(hulp+1);
             
-            hulp = persoon.indexOf(' ');
+            hulp = persoon.indexOf('|');
             String stad = persoon.substring(0, hulp);
             persoon = persoon.substring(hulp+1);
 
-            String functie = persoon;
-            
-            Functie f = new Functie(functie);
-            Adres a = new Adres(straat, stad, postcode);
-            Medewerker medewerker = new Medewerker(nr, voornaam, familienaam, geboorte, email, a, f);
-            
-            int nummer = 0;
-            for(int j=0;j<medewerkers.size();j++){
-                Medewerker m = (Medewerker) medewerkers.get(j);
-                Boolean b = !m.IsAanwezig(medewerker, f);
-                if(b){
-                    nummer++;
+            hulp = persoon.indexOf("|");
+            String functie = persoon.substring(0, hulp);
+            persoon = persoon.substring(hulp + 1);
+
+            int actief = Integer.parseInt(persoon);
+
+            if (actief == 1) {
+
+                Functie f = new Functie(functie);
+                Adres a = new Adres(straat, stad, postcode);
+                Medewerker medewerker = new Medewerker(nr, voornaam, familienaam, geboorte, email, a, f);
+
+                //kijken of de medewerker al bestaat. al hij al bestaat word de functie toegevoegd aan zijn functielijst.
+                int nummer = 0;
+                for (int j = 0; j < medewerkers.size(); j++) {
+                    Medewerker m = (Medewerker) medewerkers.get(j);
+                    Boolean b = !m.IsAanwezig(medewerker, f);
+                    if (b) {
+                        nummer++;
+                    }
                 }
-            }
-            
-            if(nummer == medewerkers.size()){
-                medewerkers.add(medewerker);
+
+                if (nummer == medewerkers.size()) {
+                    medewerkers.add(medewerker);
+                }
             }
         }
         

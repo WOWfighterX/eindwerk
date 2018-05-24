@@ -49,7 +49,7 @@ public class MeldingToevoegen extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet MeldingToevoegen</title>");            
+            out.println("<title>Servlet MeldingToevoegen</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet MeldingToevoegen at " + request.getContextPath() + "</h1>");
@@ -84,28 +84,28 @@ public class MeldingToevoegen extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         ReadDAO dao = new ReadDAO();
         WriteDAO wdao = new WriteDAO();
         MainPageService service = new MainPageService();
-        
+
         String medewerkernaam = request.getParameter("medewerker");
-        
+
         int hulp = medewerkernaam.indexOf(" ");
-        String vn = medewerkernaam.substring(0,hulp);
-        String fn = medewerkernaam.substring(hulp+1);
-                
-        int id = dao.getMedewerkerID(vn,fn);
-        
+        String vn = medewerkernaam.substring(0, hulp);
+        String fn = medewerkernaam.substring(hulp + 1);
+
+        int id = dao.getMedewerkerID(vn, fn);
+
         Medewerker m = GenerateMedewerker(dao, id);
-        
+
         String functie = request.getParameter(medewerkernaam);
         String type = request.getParameter("type");
         String datum = request.getParameter("datum");
         String extra = request.getParameter("extra");
-        
+
         Functie f = new Functie(functie);
-        
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
         try {
@@ -113,29 +113,31 @@ public class MeldingToevoegen extends HttpServlet {
         } catch (ParseException ex) {
             Logger.getLogger(MeldingToevoegen.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         service.GenerateMeldingen();
         List meldingen = service.getMeldingen();
         int ID = 1;
-        for(int i=0;i<meldingen.size();i++){
+        for (int i = 0; i < meldingen.size(); i++) {
             Melding melding = (Melding) meldingen.get(i);
             hulp = melding.getMeldingID();
-            if(ID==hulp){
+            if (ID == hulp) {
                 ID++;
+                i = 0;
             }
         }
-        
+
         List sf = dao.getSchoolFunctie();
         int sfid = 1;
-        for(int i=0;i<sf.size();i++){
+        for (int i = 0; i < sf.size(); i++) {
             hulp = Integer.parseInt((String) sf.get(i));
-            if(sfid==hulp){
+            if (sfid == hulp) {
                 sfid++;
+                i = 0;
             }
         }
-        
+
         Melding me = new Melding(date, extra, m, f, type, ID);
-        
+
         try {
             wdao.addMelding(me, sfid);
         } catch (ClassNotFoundException ex) {
@@ -147,7 +149,7 @@ public class MeldingToevoegen extends HttpServlet {
         } catch (IllegalAccessException ex) {
             Logger.getLogger(MeldingToevoegen.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     /**
@@ -206,14 +208,26 @@ public class MeldingToevoegen extends HttpServlet {
             String stad = persoon.substring(0, hulp);
             persoon = persoon.substring(hulp + 1);
 
-            String functie = persoon;
+            hulp = persoon.indexOf("|");
+            String functie = persoon.substring(0, hulp);
+            persoon = persoon.substring(hulp + 1);
 
-            Functie f = new Functie(functie);
-            Adres a = new Adres(straat, stad, postcode);
-            medewerker = new Medewerker(nr, voornaam, familienaam, geboorte, email, a, f);
+            int actief = Integer.parseInt(persoon);
 
+            if (actief == 1) {
+                
+                Functie f = new Functie(functie);
+
+                if (i == 0) {
+
+                    Adres a = new Adres(straat, stad, postcode);
+                    medewerker = new Medewerker(nr, voornaam, familienaam, geboorte, email, a, f);
+                } else {
+                    medewerker.AddFunctie(f);
+                }
+            }
         }
-        
+
         return medewerker;
 
     }

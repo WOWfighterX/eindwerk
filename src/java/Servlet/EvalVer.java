@@ -5,8 +5,10 @@
  */
 package Servlet;
 
+import Service.AdminWriteService;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -72,7 +74,17 @@ public class EvalVer extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        String evaluatorid = request.getParameter("evaluator");
+        String medewerker = request.getParameter("medewerker");
+        int eid = Integer.parseInt(evaluatorid);
+        
+        AdminWriteService service = new AdminWriteService();
+        service.veranderEvaluator(eid, medewerker);
+        
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/admin");
+        dispatcher.forward(request, response);
+        
     }
 
     /**

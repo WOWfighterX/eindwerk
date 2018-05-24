@@ -5,12 +5,17 @@
  */
 package Servlet;
 
+import Model.Gebruiker;
+import Model.School;
+import Service.AdminWriteService;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -70,8 +75,23 @@ public class FuncToev extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        HttpSession session = request.getSession();
+        Gebruiker gebruiker = (Gebruiker) session.getAttribute("gebruiker");
+        School school = gebruiker.getSchool();
+        int sid = school.getInstellingsnr();
+        
+        String medewerker = request.getParameter("medewerker");
+        String functienaam = request.getParameter("functie");
+        
+        AdminWriteService service = new AdminWriteService();
+        service.addFunctie(medewerker, functienaam, sid);
+        
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/admin");
+        dispatcher.forward(request, response);
     }
+        
+    
 
     /**
      * Returns a short description of the servlet.

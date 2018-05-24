@@ -30,6 +30,7 @@ public class ReadDAO {
     private String melding;
     private List evaluatoren;
     private List schoolfunctie;
+    private List adres;
     
     public ReadDAO(){
     }
@@ -42,7 +43,7 @@ public class ReadDAO {
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost/gesprekken_db", "admin", "admin123");
 
         Statement st = con.createStatement();
-        String sql = ("select m.stamboeknr, m.voornaam, m.familienaam, m.geboorte, m.email, a.straat, a.postcode, a.stad, f.functienaam, sf.SchoolfunctieID "
+        String sql = ("select m.stamboeknr, m.voornaam, m.familienaam, m.geboorte, m.email, a.straat, a.postcode, a.stad, f.functienaam, sf.SchoolfunctieID, sf.actief "
                 + "from medewerker m, functie f, schoolfunctie sf, adres a "
                 + "where m.stamboeknr = sf.MedewerkerID "
                 + "and f.FunctieID = sf.FunctieID "
@@ -62,6 +63,7 @@ public class ReadDAO {
             str +="|" + rs.getString("Stad");
             str +="|" + rs.getString("Functienaam");
             str +="|" + rs.getString("SchoolfunctieID");
+            str +="|" + rs.getString("Actief");
             medewerker.add(str);
         }
         con.close();
@@ -95,6 +97,71 @@ public class ReadDAO {
         return id;
     }
     
+    private List GetAccountID() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException{
+        
+        medewerker = new ArrayList();
+        
+        Class.forName("com.mysql.jdbc.Driver").newInstance();
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost/gesprekken_db", "admin", "admin123");
+
+        Statement st = con.createStatement();
+        String sql = ("select * "
+                + " from account;");
+        ResultSet rs = st.executeQuery(sql);
+        
+        List hulp = new ArrayList();
+        
+        while (rs.next()) {
+            
+            int id = Integer.parseInt(rs.getString("AccountID"));
+            hulp.add(id);
+        }
+        con.close();
+        return hulp;
+    }
+    
+    private List GetFunctieID() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException{
+        
+        Class.forName("com.mysql.jdbc.Driver").newInstance();
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost/gesprekken_db", "admin", "admin123");
+
+        Statement st = con.createStatement();
+        String sql = ("select * "
+                + " from functie;");
+        ResultSet rs = st.executeQuery(sql);
+        
+        List hulp = new ArrayList();
+        
+        while (rs.next()) {
+            
+            int id = Integer.parseInt(rs.getString("FunctieID"));
+            hulp.add(id);
+        }
+        con.close();
+        return hulp;
+    }
+    
+    private List GetGesprekID() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException{
+        
+        Class.forName("com.mysql.jdbc.Driver").newInstance();
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost/gesprekken_db", "admin", "admin123");
+
+        Statement st = con.createStatement();
+        String sql = ("select * "
+                + " from gesprek;");
+        ResultSet rs = st.executeQuery(sql);
+        
+        List hulp = new ArrayList();
+        
+        while (rs.next()) {
+            
+            int id = Integer.parseInt(rs.getString("GesprekID"));
+            hulp.add(id);
+        }
+        con.close();
+        return hulp;
+    }
+    
     private void getMedewerkers() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException{
         
         medewerkers = new ArrayList();
@@ -103,11 +170,12 @@ public class ReadDAO {
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost/gesprekken_db", "admin", "admin123");
 
         Statement st = con.createStatement();
-        String sql = ("select m.stamboeknr, m.voornaam, m.familienaam, m.geboorte, m.email, a.straat, a.postcode, a.stad, f.functienaam "
+        String sql = ("select m.stamboeknr, m.voornaam, m.familienaam, m.geboorte, m.email, a.straat, a.postcode, a.stad, f.functienaam, sf.actief "
                 + "from medewerker m, functie f, schoolfunctie sf, adres a "
                 + "where m.stamboeknr = sf.MedewerkerID "
                 + "and f.FunctieID = sf.FunctieID "
-                + "and a.AdresID = m.AdresID;");
+                + "and a.AdresID = m.AdresID "
+                + "and sf.evaluator IS NULL;");
         ResultSet rs = st.executeQuery(sql);
         
         while (rs.next()) {
@@ -121,6 +189,7 @@ public class ReadDAO {
             str +="|" + rs.getString("Postcode");
             str +="|" + rs.getString("Stad");
             str +="|" + rs.getString("Functienaam");
+            str +="|" + rs.getString("Actief");
             medewerkers.add(str);
         }
         con.close();
@@ -134,7 +203,7 @@ public class ReadDAO {
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost/gesprekken_db", "admin", "admin123");
 
         Statement st = con.createStatement();
-        String sql = ("select m.stamboeknr, m.voornaam, m.familienaam, m.geboorte, m.email, a.straat, a.postcode, a.stad, f.functienaam "
+        String sql = ("select m.stamboeknr, m.voornaam, m.familienaam, m.geboorte, m.email, a.straat, a.postcode, a.stad, f.functienaam, sf.actief "
                 + "from medewerker m, functie f, schoolfunctie sf, adres a "
                 + "where m.stamboeknr = sf.MedewerkerID "
                 + "and f.FunctieID = sf.FunctieID "
@@ -153,6 +222,7 @@ public class ReadDAO {
             str +="|" + rs.getString("Postcode");
             str +="|" + rs.getString("Stad");
             str +="|" + rs.getString("Functienaam");
+            str +="|" + rs.getString("Actief");
             evaluatoren.add(str);
         }
         con.close();
@@ -189,6 +259,7 @@ public class ReadDAO {
             str += "|" + rs.getString("Type");
             str += "|" + rs.getString("Extra");
             str += "|" + rs.getString("MeldingID");
+
             meldingen.add(str);
         }
         con.close();
@@ -318,6 +389,53 @@ public class ReadDAO {
             
             String sf = rs.getString("SchoolFunctieID");
             schoolfunctie.add(sf);
+        }
+        con.close();
+    }
+    
+    private int GetSchoolFunctie(String mvn, String mfn, String functie) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException{
+        
+        Class.forName("com.mysql.jdbc.Driver").newInstance();
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost/gesprekken_db", "admin", "admin123");
+
+        Statement st = con.createStatement();
+        String sql = ("select sf.schoolfunctieid "
+                + "from schoolfunctie sf, medewerker m, functie f "
+                + "where m.stamboeknr = sf.MedewerkerID "
+                + "and f.FunctieID = sf.FunctieID "
+                + "m.Voornaam = "+ mvn +" "
+                + "m.Familienaam = "+mfn+" "
+                + "f.Functienaam = "+functie+";");
+        ResultSet rs = st.executeQuery(sql);
+        
+        int hulp = 0;
+        
+        while (rs.next()) {
+            
+            String sf = rs.getString("SchoolFunctieID");
+            hulp = Integer.parseInt(sf);
+        }
+        
+        con.close();
+        
+        return hulp;
+    }
+    
+    private void GetAdressen() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException{
+        
+        adres = new ArrayList();
+        
+        Class.forName("com.mysql.jdbc.Driver").newInstance();
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost/gesprekken_db", "admin", "admin123");
+
+        Statement st = con.createStatement();
+        String sql = ("select AdresID from Adres;");
+        ResultSet rs = st.executeQuery(sql);
+        
+        while (rs.next()) {
+            
+            String ad = rs.getString("AdresID");
+            adres.add(ad);
         }
         con.close();
     }
@@ -454,7 +572,9 @@ public class ReadDAO {
         } catch (IllegalAccessException ex) {
             Logger.getLogger(ReadDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return evaluatoren;
+        
+        
+        return schoolfunctie;
     }
 
     public int getMedewerkerID(String vn, String fn) {
@@ -472,6 +592,119 @@ public class ReadDAO {
         }
         
         return id;
+    }
+    
+    public int getAccountID(){
+        List hulp=new ArrayList();
+        
+        try {
+            hulp=GetAccountID();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ReadDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ReadDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(ReadDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(ReadDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        int accid = 1;
+        for(int i=0;i<hulp.size();i++){
+            int test =  (int) hulp.get(i);
+            if(accid==test){
+                accid++;
+                i=0;
+            }
+        }
+        
+        return accid;
+    }
+    
+    public int getFunctieID(){
+        List hulp=new ArrayList();
+        
+        try {
+            hulp=GetFunctieID();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ReadDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ReadDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(ReadDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(ReadDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        int fid = 1;
+        for(int i=0;i<hulp.size();i++){
+            int test =  (int) hulp.get(i);
+            if(fid==test){
+                fid++;
+                i=0;
+            }
+        }
+        
+        return fid;
+    }
+
+    public List getAdressen() {
+        try {
+            GetAdressen();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ReadDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ReadDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(ReadDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(ReadDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return adres;
+    }
+
+    public int getGesprekID() {
+        List hulp=new ArrayList();
+        
+        try {
+            hulp = GetGesprekID();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ReadDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ReadDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(ReadDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(ReadDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        int gid = 1;
+        for(int i=0;i<hulp.size();i++){
+            int test =  (int) hulp.get(i);
+            if(gid==test){
+                gid++;
+                i=0;
+            }
+        }
+        
+        return gid;
+    }
+
+    public int getSchoolFunctie(String mvn, String mfn, String functie) {
+        int hulp = 0;
+        try {
+            hulp = GetSchoolFunctie(mvn,mfn, functie);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ReadDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ReadDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(ReadDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(ReadDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return hulp;
     }
     
 }

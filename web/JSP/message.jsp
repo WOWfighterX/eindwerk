@@ -14,6 +14,7 @@
     <body>
         <%
                 out.println(request.getAttribute("message"));
+                out.println("|");
                 out.println(request.getAttribute("hulp"));
         %>
     </body>

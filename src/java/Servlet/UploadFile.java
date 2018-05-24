@@ -5,6 +5,7 @@
  */
 package Servlet;
 
+import Service.NieuwGesprekService;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -91,37 +92,15 @@ public class UploadFile extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String medewerker = (String) request.getSession().getAttribute("medewerker");
-        String functie =   (String) request.getSession().getAttribute("functie");
-        String type =  (String) request.getSession().getAttribute("type");
-        String datum =  (String) request.getSession().getAttribute("datum");
+        String medewerker = "";
+        String functie = "";
+        String type ="";
+        String datum = "";
+        String uploadPath = "";
+        
         
         Enumeration paramNames = request.getParameterNames();
-        String hulp = "";
         
-        while(paramNames.hasMoreElements()) {
-            String paramName = (String)paramNames.nextElement();
-            hulp += "<tr><td>" + paramName + "</td>\n<td>";
-            String[] paramValues = request.getParameterValues(paramName);
-
-            // Read single valued data
-            if (paramValues.length == 1) {
-                String paramValue = paramValues[0];
-                if (paramValue.length() == 0)
-                hulp += "<i>No Value</i>";
-                else
-                hulp += paramValue;
-            } else {
-                // Read multiple valued data
-                hulp += "<ul>";
-
-                for(int i = 0; i < paramValues.length; i++) {
-                    hulp += "<li>" + paramValues[i];
-                }
-                hulp += "</ul>";
-            }
-        }
-        hulp += "</tr>\n</table>\n</body></html>";
    
         try {
             
@@ -141,8 +120,31 @@ public class UploadFile extends HttpServlet {
             upload.setFileSizeMax(MAX_FILE_SIZE);
             upload.setSizeMax(MAX_REQUEST_SIZE);
             
-            //file locatie
-            String uploadPath = "d:\\Users\\aaron gevers\\Documents\\test" + "\\" + medewerker;
+            List formItems = upload.parseRequest(request);
+            Iterator iter = formItems.iterator();
+            
+            //de parameters ophalen
+            int i = 1;
+            while (iter.hasNext()) {
+                FileItem item = (FileItem) iter.next();
+                
+                if (item.isFormField()) {
+                    switch(i){
+                        case 1: medewerker = item.getString();
+                                break;
+                        case 2: functie = item.getString();
+                                break;
+                        case 3: type = item.getString();
+                                break;
+                        case 4: datum = item.getString();
+                                break;
+                    }
+                    i++;
+                }
+            }
+            
+             //file locatie
+            uploadPath = "d:\\Users\\aaron gevers\\Documents\\NetBeansProjects\\Evaluatie\\Evaluatie-war\\Files\\" + medewerker;
             
             //dir maken als het niet bestaat
             File uploadDir = new File(uploadPath);
@@ -156,11 +158,10 @@ public class UploadFile extends HttpServlet {
             if (!uploadDir.exists()) {
                 uploadDir.mkdir();
             }
-             
             
             //files doorlopen en opslaan
-            List formItems = upload.parseRequest(request);
-            Iterator iter = formItems.iterator();
+            
+            iter = formItems.iterator();
             
             while (iter.hasNext()) {
                 FileItem item = (FileItem) iter.next();
@@ -177,11 +178,18 @@ public class UploadFile extends HttpServlet {
             request.setAttribute("message", "Upload has been done successfully!");
         } catch (FileUploadException ex) {
             request.setAttribute("message", "There was an error: " + ex.getMessage());
+        } catch (Exception ex) {
+            Logger.getLogger(UploadFile.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        String hulp = medewerker + " " + functie + " " + type + " " + datum;
         
         request.setAttribute("hulp", hulp);
         
-        getServletContext().getRequestDispatcher("/JSP/message.jsp").forward(request, response);
+        NieuwGesprekService service = new NieuwGesprekService();
+        service.addGesprek(medewerker, functie, type, datum, uploadPath);
+        
+        getServletContext().getRequestDispatcher("/Hoofdpagina").forward(request, response);
     }
 
     /**

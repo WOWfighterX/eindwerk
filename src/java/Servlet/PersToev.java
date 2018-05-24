@@ -5,12 +5,22 @@
  */
 package Servlet;
 
+import Model.*;
+import Service.AdminWriteService;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -70,7 +80,39 @@ public class PersToev extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        HttpSession session = request.getSession();
+        Gebruiker gebruiker = (Gebruiker) session.getAttribute("gebruiker");
+        School school = gebruiker.getSchool();
+        int sid = school.getInstellingsnr();
+        
+        String stamnr = request.getParameter("stamboeknr");
+        String vn = request.getParameter("voornaam");
+        String fn = request.getParameter("familienaam");
+        String datum = request.getParameter("datum");
+        String functienaam = request.getParameter("functie");
+        String email = request.getParameter("email");
+        String ww = request.getParameter("wachtwoord");
+        String account = request.getParameter("account");
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        try {
+            date = sdf.parse(datum);
+        } catch (ParseException ex) {
+            Logger.getLogger(PersToev.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        Functie f = new Functie(functienaam);
+        
+        int nr = Integer.parseInt(stamnr);
+        Medewerker medewerker = new Medewerker(nr, vn, fn, date, email, f);
+        
+        AdminWriteService service = new AdminWriteService();
+        service.addMedewerker(medewerker, ww,account, sid);
+        
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/admin");
+        dispatcher.forward(request, response);
     }
 
     /**

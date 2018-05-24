@@ -20,5 +20,17 @@ public class Adres {
         stad = st;
         postcode = p;
     }
+
+    public String getStraat() {
+        return straat;
+    }
+
+    public String getStad() {
+        return stad;
+    }
+
+    public int getPostcode() {
+        return postcode;
+    }
     
 }

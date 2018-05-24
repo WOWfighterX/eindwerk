@@ -91,23 +91,31 @@ public class AdminToolService {
             String stad = persoon.substring(0, hulp);
             persoon = persoon.substring(hulp + 1);
 
-            String functie = persoon;
+            hulp = persoon.indexOf("|");
+            String functie = persoon.substring(0, hulp);
+            persoon = persoon.substring(hulp + 1);
 
-            Functie f = new Functie(functie);
-            Adres a = new Adres(straat, stad, postcode);
-            Medewerker medewerker = new Medewerker(nr, voornaam, familienaam, geboorte, email, a, f);
+            int actief = Integer.parseInt(persoon);
 
-            int nummer = 0;
-            for (int j = 0; j < medewerkers.size(); j++) {
-                Medewerker m = (Medewerker) medewerkers.get(j);
-                Boolean b = !m.IsAanwezig(medewerker, f);
-                if (b) {
-                    nummer++;
+            if (actief == 1) {
+
+                Functie f = new Functie(functie);
+                Adres a = new Adres(straat, stad, postcode);
+                Medewerker medewerker = new Medewerker(nr, voornaam, familienaam, geboorte, email, a, f);
+
+                //kijken of de medewerker al bestaat. al hij al bestaat word de functie toegevoegd aan zijn functielijst.
+                int nummer = 0;
+                for (int j = 0; j < medewerkers.size(); j++) {
+                    Medewerker m = (Medewerker) medewerkers.get(j);
+                    Boolean b = !m.IsAanwezig(medewerker, f);
+                    if (b) {
+                        nummer++;
+                    }
                 }
-            }
 
-            if (nummer == medewerkers.size()) {
-                medewerkers.add(medewerker);
+                if (nummer == medewerkers.size()) {
+                    medewerkers.add(medewerker);
+                }
             }
         }
     }
@@ -156,23 +164,31 @@ public class AdminToolService {
             String stad = persoon.substring(0, hulp);
             persoon = persoon.substring(hulp + 1);
 
-            String functie = persoon;
+            hulp = persoon.indexOf("|");
+            String functie = persoon.substring(0, hulp);
+            persoon = persoon.substring(hulp + 1);
 
-            Functie f = new Functie(functie);
-            Adres a = new Adres(straat, stad, postcode);
-            Medewerker medewerker = new Medewerker(nr, voornaam, familienaam, geboorte, email, a, f);
+            int actief = Integer.parseInt(persoon);
 
-            int nummer = 0;
-            for (int j = 0; j < evaluatoren.size(); j++) {
-                Medewerker m = (Medewerker) evaluatoren.get(j);
-                Boolean b = !m.IsAanwezig(medewerker, f);
-                if (b) {
-                    nummer++;
+            if (actief == 1) {
+
+                Functie f = new Functie(functie);
+                Adres a = new Adres(straat, stad, postcode);
+                Medewerker medewerker = new Medewerker(nr, voornaam, familienaam, geboorte, email, a, f);
+
+                //kijken of de medewerker al bestaat. al hij al bestaat word de functie toegevoegd aan zijn functielijst.
+                int nummer = 0;
+                for (int j = 0; j < evaluatoren.size(); j++) {
+                    Medewerker m = (Medewerker) evaluatoren.get(j);
+                    Boolean b = !m.IsAanwezig(medewerker, f);
+                    if (b) {
+                        nummer++;
+                    }
                 }
-            }
 
-            if (nummer == evaluatoren.size()) {
-                evaluatoren.add(medewerker);
+                if (nummer == evaluatoren.size()) {
+                    evaluatoren.add(medewerker);
+                }
             }
         }
     }

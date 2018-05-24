@@ -1,12 +1,13 @@
-function onInput() {
-    var val = document.getElementById("medewerkerLijst").value;
-    var opts = document.getElementById('medewerkerList').childNodes;
-    for (var i = 0; i < opts.length; i++) {
-      if (opts[i].value === val) {
-        makeVisible(opts[i].value);
-        break;
-      }
+function selectFunctie(String) {
+    
+    var array = document.getElementsByClassName("functies");
+    var lengthOfArray=array.length;
+
+    for(var i=0; i<lengthOfArray;i++){
+        array[i].style.display = 'none'
     }
+    makeVisible(String);
+      
   }
 
 function makeVisible(string){

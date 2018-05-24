@@ -29,6 +29,16 @@ public class Melding {
         meldingID = id;
     }
 
+    public String getStringDate(){
+        
+        int jaar = datum.getYear();
+        int maand = datum.getMonth();
+        int dag = datum.getDay();
+        String hulp = "" + jaar + maand + dag;
+        return hulp;
+        
+    }
+    
     public Date getDatum() {
         return datum;
     }

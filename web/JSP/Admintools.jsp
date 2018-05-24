@@ -43,67 +43,70 @@
         <div class="right">
 
             <div id="PersToev">
-                <form method=post action=PersToev enctype="multipart/form-data">
+                <form method=post action=PersToev>
                     <div class="divLinks">
                         <p>Stamboeknr: </p>
                         <p>Voornaam: </p>
                         <p>Familienaam: </p>
-                        <p>School: </p>
                         <p>Geboortedatum: </p>
                         <p>Functie: </p>
                         <p>Email: </p>
                         <p>Wachtwoord: </p>
+                        <p>Account: </p>
                     </div>
                     <div class="divRechts">
                         <input type="text" name="stamboeknr">
                         <input type="text" name="voornaam">
                         <input type="text" name="familienaam">
-                        <input type="text" name="school">
                         <input type="date" name="datum">
                         <input type="text" name="functie">
                         <input type="text" name="email">
                         <input type="text" name="wachtwoord">
+                        <br>
+                        <select name="account">
+                            <option value="false">Inactief</option>
+                            <option value="true">Actief</option>
+                        </select>
                     </div>
-                    <button type="button">Toevoegen</button>
+                    <button type="submit">Toevoegen</button>
                 </form>
             </div>
 
             <div id="FuncToev">
-                <form method=post action=FuncToev enctype="multipart/form-data">
+                <form method=post action=FuncToev>
                     <div class="divLinks">
                         <p>Medewerker: </p>
                         <p>Functie: </p>
                     </div>
                     <div class="divRechts">
-                        <input id="medewerkerLijst" type="text" name="example" list="medewerkerList">
+                        <input id="medewerkerLijst" type="text" name="medewerker" list="medewerkerList">
                         <%
                             out.println(request.getAttribute("medewerkers"));
                         %>
                         <input type="text" name="functie">
                     </div>
-                    <button type="button">Veranderen</button>
+                    <button type="submit">Veranderen</button>
                 </form>
             </div>
                         
             <div id="FuncVerw">
-                <form method=post action=FuncVerw enctype="multipart/form-data">
+                <form method=post action=FuncVerw>
                     <div class="divLinks">
                         <p>Medewerker: </p>
                         <p>Functie: </p>
                     </div>
                     <div class="divRechts">
-                        <input id="medewerkerLijst" oninput='onInput()' type="text" name="example" list="medewerkerList">
                         <%
-                            out.println(request.getAttribute("medewerkers"));
+                            out.println(request.getAttribute("inputmedewerkers"));
                             out.println(request.getAttribute("functies"));
                         %>
                     </div>
-                    <button type="button">Veranderen</button>
+                    <button type="submit">Veranderen</button>
                 </form>
             </div>
 
             <div id="EvalVer">
-                <form method=post action=EvalVer enctype="multipart/form-data">
+                <form method=post action=EvalVer>
                     <div class="divLinks">
                         <p>Huidige Evaluator: </p>
                         <p>Nieuwe Evaluator: </p>
@@ -113,38 +116,37 @@
                         <%
                             out.println(request.getAttribute("evaluatoren"));
                         %>
-                        <input id="medewerkerLijst" type="text" name="example" list="medewerkerList">
+                        <input id="medewerkerLijst" type="text" name="medewerker" list="medewerkerList">
                         <%
                             out.println(request.getAttribute("medewerkers"));
                         %>
                     </div>
-                    <button type="button">Veranderen</button>
+                    <button type="submit">Veranderen</button>
                 </form>
             </div>
 
             <div id="Rechten">
-                <form method=post action=Rechten enctype="multipart/form-data">
+                <form method=post action=Rechten>
                     <div class="divLinks">
                         <p>Werknemer: </p>
                         <p>Admin recht: </p>
                     </div>
                     <div class="divRechts">
-                        <input id="medewerkerLijst" type="text" name="example" list="medewerkerList">
+                        <input id="medewerkerLijst" type="text" name="medewerker" list="medewerkerList">
                         <%
                             out.println(request.getAttribute("medewerkers"));
                         %>
-                        <input id="Adminrecht" type="text" list="adminrechtList">
-                        <datalist id="adminrechtList">
-                            <option value="Admin">
-                            <option value="Geen Admin">
-                        </datalist>
+                        <select name="recht">
+                            <option value="Admin">Admin</option>
+                            <option value="Geen Admin">Geen Admin</option>
+                        </select>
                     </div>
-                    <button type="button">Veranderen</button>
+                    <button type="submit">Veranderen</button>
                 </form>
             </div>
 
             <div id="SchoolToev">
-                <form method=post action=SchoolToev enctype="multipart/form-data">
+                <form method=post action=SchoolToev>
                     <div class="divLinks">
                         <p>Instellingsnr: </p>
                         <p>Schoolnaam: </p>
@@ -159,12 +161,12 @@
                         <input type="text" name="postcode">
                         <input type="text" name="stad">
                     </div>
-                    <button type="button">Toevoegen</button>
+                    <button type="submit">Toevoegen</button>
                 </form>
             </div>
 
             <div id="SchoolVerw">
-                <form method=post action=SchoolVerw enctype="multipart/form-data">
+                <form method=post action=SchoolVerw>
                     <div class="divLinks">
                         <p>Schoolnaam: </p>
                     </div>
@@ -174,12 +176,12 @@
                             out.println(request.getAttribute("scholen"));
                         %>
                     </div>
-                    <button type="button">Verwijderen</button>
+                    <button type="submit">Verwijderen</button>
                 </form>
             </div>
 
             <div id="Account">
-                <form method=post action=Account enctype="multipart/form-data">
+                <form method=post action=Account>
                     <div class="divLinks">
                         <p>Werknemer: </p>
                         <p>Status: </p>
@@ -195,7 +197,7 @@
                             <option value="Inactief">
                         </datalist>
                     </div>
-                    <button type="button">Aanpassen</button>
+                    <button type="submit">Aanpassen</button>
                 </form>
             </div>
 

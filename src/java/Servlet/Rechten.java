@@ -5,8 +5,10 @@
  */
 package Servlet;
 
+import Service.AdminWriteService;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -70,7 +72,15 @@ public class Rechten extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        String medewerker = request.getParameter("medewerker");
+        String recht = request.getParameter("recht");
+        
+        AdminWriteService service = new AdminWriteService();
+        service.veranderRecht(medewerker, recht);
+        
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/admin");
+        dispatcher.forward(request, response);
     }
 
     /**

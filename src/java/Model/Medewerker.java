@@ -21,16 +21,31 @@ public class Medewerker extends Persoon{
     private Date geboorte;
     private String email;
     private Adres adres;
-    private List functies = new ArrayList();
+    private List functies = new ArrayList<Functie>();
     
-    public Medewerker(int nr, String vn, String fn, Date g, String e, Adres a, Functie f){
+    public Medewerker(int nr, String vn, String fn, Date d, String e, Adres a, Functie f){
         stamboeknr = nr;
         voornaam = vn;
         familienaam = fn;
-        geboorte = g;
+        geboorte = d;
         email = e;
         adres = a;
         functies.add(f);
+    }
+    
+    public Medewerker(int nr, String vn, String fn, Date d, String e, Functie f){
+        stamboeknr = nr;
+        voornaam = vn;
+        familienaam = fn;
+        geboorte = d;
+        email = e;
+        functies.add(f);
+    }
+    
+    public Medewerker(int nr, String vn, String fn){
+        stamboeknr = nr;
+        voornaam = vn;
+        familienaam = fn;
     }
     
     public boolean IsAanwezig(Medewerker m, Functie f) {
@@ -46,6 +61,16 @@ public class Medewerker extends Persoon{
         }
         
         return false;
+        
+    }
+    
+    public String getStringDate(){
+        
+        int jaar = geboorte.getYear();
+        int maand = geboorte.getMonth();
+        int dag = geboorte.getDay();
+        String hulp = "" + jaar + maand + dag;
+        return hulp;
         
     }
     
@@ -77,7 +102,7 @@ public class Medewerker extends Persoon{
         return adres;
     }
 
-    public List getFuncties() {
+    public List<Functie> getFuncties() {
         return functies;
     }
     

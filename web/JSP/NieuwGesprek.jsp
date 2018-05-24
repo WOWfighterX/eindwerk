@@ -35,12 +35,6 @@
             <span>Bijlagen: </span>
             <input type="file" name="bijlagen" multiple><br>
             <input type=submit value=Opslaan>
-            <%
-                session.setAttribute("medewerker", "medewerker");
-                session.setAttribute("functie", "functie");
-                session.setAttribute("datum", "datum");
-                session.setAttribute("type", "type");
-            %>
         </form>
     </body>
 </html>

@@ -5,8 +5,12 @@
  */
 package Servlet;
 
+import Model.Adres;
+import Model.School;
+import Service.AdminWriteService;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -70,7 +74,22 @@ public class SchoolToev extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        int nr = Integer.parseInt(request.getParameter("instellingsnr"));
+        String snaam = request.getParameter("schoolnaam");
+        String straat = request.getParameter("straat");
+        int postcode = Integer.parseInt(request.getParameter("postcode"));
+        String stad = request.getParameter("stad");
+        
+        Adres a = new Adres(straat, stad, nr);
+        School s = new School(nr, snaam, a);
+        
+        AdminWriteService service = new AdminWriteService();
+        service.addSchool(s);
+        
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/admin");
+        dispatcher.forward(request, response);
+        
     }
 
     /**
