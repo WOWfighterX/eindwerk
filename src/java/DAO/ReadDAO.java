@@ -109,8 +109,6 @@ public class ReadDAO {
 
     private int GetMedewerkerID(String vn, String fn) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
 
-        medewerker = new ArrayList();
-
         Class.forName("com.mysql.jdbc.Driver").newInstance();
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost/gesprekken_db", "admin", "admin123");
 

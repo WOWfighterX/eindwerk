@@ -29,17 +29,7 @@ public class AdminWriteService {
 
     public void addMedewerker(Medewerker medewerker, String ww, String account, int sid, Adres a) {
         
-        int hulp;
-        List sf = rdao.getSchoolFunctie();
-        int sfid = 1;
-        for(int i=0;i<sf.size();i++){
-            hulp = Integer.parseInt((String) sf.get(i));
-            if(sfid==hulp){
-                sfid++;
-                i=0;
-            }
-        }
-        
+        int sfid = rdao.getSchoolFunctieID();
         int accid = rdao.getAccountID();
         int fid = rdao.getFunctieID();
         int aid = rdao.getAdresID();
