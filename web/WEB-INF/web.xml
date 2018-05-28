@@ -2,71 +2,71 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
         <servlet-name>AdminToolsServlet</servlet-name>
-        <servlet-class>Servlet.AdminToolsServlet</servlet-class>
+        <servlet-class>Hoofdserlvets.AdminToolsServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>MainPageServlet</servlet-name>
-        <servlet-class>Servlet.MainPageServlet</servlet-class>
+        <servlet-class>Hoofdserlvets.MainPageServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>NieuwMeldingServlet</servlet-name>
-        <servlet-class>Servlet.NieuwMeldingServlet</servlet-class>
+        <servlet-class>Hoofdserlvets.NieuwMeldingServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>OptiesServlet</servlet-name>
-        <servlet-class>Servlet.OptiesServlet</servlet-class>
+        <servlet-class>Hoofdserlvets.OptiesServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>GesprekDetailServlet</servlet-name>
-        <servlet-class>Servlet.GesprekDetailServlet</servlet-class>
+        <servlet-class>Hoofdserlvets.GesprekDetailServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>NieuwGesprekServlet</servlet-name>
-        <servlet-class>Servlet.NieuwGesprekServlet</servlet-class>
+        <servlet-class>Hoofdserlvets.NieuwGesprekServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>NotificatieDetailServlet</servlet-name>
-        <servlet-class>Servlet.NotificatieDetailServlet</servlet-class>
+        <servlet-class>Hoofdserlvets.NotificatieDetailServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>UploadFile</servlet-name>
-        <servlet-class>Servlet.UploadFile</servlet-class>
+        <servlet-class>Servlets.UploadFile</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>PersToev</servlet-name>
-        <servlet-class>Servlet.PersToev</servlet-class>
+        <servlet-class>Servlets.PersToev</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>FuncToev</servlet-name>
-        <servlet-class>Servlet.FuncToev</servlet-class>
+        <servlet-class>Servlets.FuncToev</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>Rechten</servlet-name>
-        <servlet-class>Servlet.Rechten</servlet-class>
+        <servlet-class>Servlets.Rechten</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SchoolToev</servlet-name>
-        <servlet-class>Servlet.SchoolToev</servlet-class>
+        <servlet-class>Servlets.SchoolToev</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SchoolVerw</servlet-name>
-        <servlet-class>Servlet.SchoolVerw</servlet-class>
+        <servlet-class>Servlets.SchoolVerw</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>Account</servlet-name>
-        <servlet-class>Servlet.Account</servlet-class>
+        <servlet-class>Servlets.Account</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>Servlet.LoginServlet</servlet-class>
+        <servlet-class>Hoofdserlvets.LoginServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>FuncVerw</servlet-name>
-        <servlet-class>Servlet.FuncVerw</servlet-class>
+        <servlet-class>Servlets.FuncVerw</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>MeldingToevoegen</servlet-name>
-        <servlet-class>Servlet.MeldingToevoegen</servlet-class>
+        <servlet-class>Servlets.MeldingToevoegen</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>GesprekDetail</servlet-name>

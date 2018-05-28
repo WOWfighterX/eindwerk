@@ -3,22 +3,30 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlet;
+package Servlets;
 
-import Service.AdminWriteService;
+import Model.*;
+import Services.AdminWriteService;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author aaron gevers
  */
-public class SchoolVerw extends HttpServlet {
+public class PersToev extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +45,10 @@ public class SchoolVerw extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SchoolVerw</title>");            
+            out.println("<title>Servlet PersToev</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SchoolVerw at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet PersToev at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -73,14 +81,43 @@ public class SchoolVerw extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        int sid = Integer.parseInt(request.getParameter("school"));
+        HttpSession session = request.getSession();
+        Gebruiker gebruiker = (Gebruiker) session.getAttribute("gebruiker");
+        School school = gebruiker.getSchool();
+        int sid = school.getInstellingsnr();
+        
+        String stamnr = request.getParameter("stamboeknr");
+        String vn = request.getParameter("voornaam");
+        String fn = request.getParameter("familienaam");
+        String datum = request.getParameter("datum");
+        String functienaam = request.getParameter("functie");
+        String email = request.getParameter("email");
+        String ww = request.getParameter("wachtwoord");
+        String account = request.getParameter("account");
+        String stad = request.getParameter("stad");
+        int postcode = Integer.parseInt(request.getParameter("postcode"));
+        String straat = request.getParameter("straat");
+        
+        Adres a = new Adres(straat,stad,postcode);
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        try {
+            date = sdf.parse(datum);
+        } catch (ParseException ex) {
+            Logger.getLogger(PersToev.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        Functie f = new Functie(functienaam);
+        
+        int nr = Integer.parseInt(stamnr);
+        Medewerker medewerker = new Medewerker(nr, vn, fn, date, email, f);
         
         AdminWriteService service = new AdminWriteService();
-        service.addMedewerker(sid);
+        service.addMedewerker(medewerker, ww,account, sid, a);
         
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/admin");
         dispatcher.forward(request, response);
-        
     }
 
     /**

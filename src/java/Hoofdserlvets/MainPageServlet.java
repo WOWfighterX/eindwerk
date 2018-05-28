@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlet;
+package Hoofdserlvets;
 
-import Model.*;
-import Service.GesprekDetailService;
+import Services.MainPageService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -22,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author aaron gevers
  */
-public class GesprekDetailServlet extends HttpServlet {
+public class MainPageServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,9 +39,9 @@ public class GesprekDetailServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet GesprekDetailServlet</title>");  
-            out.println("<script src=\"JS/GesprekDetail.js\" type=\"text/javascript\"></script>");
-            out.println("<link href=\"CSS/GesprekDetail.css\" rel=\"stylesheet\" type=\"text/css\"/>");          
+            out.println("<title>Servlet MainPageServlet</title>");  
+            out.println("<link href=\"CSS/MainPage.css\" rel=\"stylesheet\" type=\"text/css\"/>");
+            out.println("<script src=\"JS/MainPage.js\" type=\"text/javascript\"></script>");
             out.println("</head>");
             out.println("<body>");
             out.println(gen);
@@ -64,24 +62,7 @@ public class GesprekDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        Gebruiker g = (Gebruiker) request.getSession().getAttribute("gebruiker");
-        int sid = g.getSchool().getInstellingsnr();
-        
-        int mid = Integer.parseInt(request.getParameter("param"));
-        
-        String koptekst = getKoptekst(mid, sid);
-        String gesprekken = getGesprekken(mid, sid);
-        String gesprekkendetails = getGesprekkenDetail(mid, sid);
-        
-        request.setAttribute("koptekst", koptekst);
-        request.setAttribute("gesprekken", gesprekken);
-        request.setAttribute("gesprekkendetails", gesprekkendetails);
-        
-        response.setContentType("application/octet-stream");
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/JSP/GesprekDetail.jsp");
-        dispatcher.forward(request, response); 
-        
+        doPost(request, response);
     }
 
     /**
@@ -95,8 +76,43 @@ public class GesprekDetailServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String generate = "";
-        processRequest(request, response, generate);
+        
+        String generated;
+        
+        generated =  "<div id=\"buttons\">"
+                    + "<a href=\"Opties\"><button type=\"button\">Opties</button></a>"
+                    + "<a href=\"/Evaluatie-war/Login\"><button type=\"button\">Log Out</button></a>"
+                //later aanpassen met rechten
+                    + "<a href=\"admin\"><button type=\"button\">Admin</button></a>"
+                    + "</div>";
+        
+        generated += 
+        "<div class=\"left\">\n" +
+"            <div id=\"werknemer\" onclick=\"Menu(\'werknemer\')\">\n" +
+"                    <p>Werknemers</p>\n" +
+"            </div>\n" +
+"            <div id=\"notificatie\" onclick=\"Menu(\'notificatie\')\">\n" +
+"                    <p>Notificaties</p>\n" +
+"            </div>\n" +
+             "<a href=\"GesprekAanmaken\">"+
+"            <div>\n" +
+"                    <p>+ Nieuw Gesprek</p>\n" +
+"            </div></a>\n" +
+             "<a href=\"MeldingAanmaken\">"+
+"            <div>\n" +
+"                    <p>+ Nieuwe Notificatie</p>\n" +
+"            </div></a>" +
+"        </div>";
+        
+        generated +=
+        "<div class=\"right\" style=\"overflow-y:scroll; height:400px;\">\n" +
+            Generate() +
+"        </div>";
+        
+        request.setAttribute("gen", generated);
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/JSP/HoofdPagina.jsp");
+        dispatcher.forward(request, response); 
+        
     }
 
     /**
@@ -108,21 +124,9 @@ public class GesprekDetailServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-    private String getKoptekst(int mid, int sid) {
-        GesprekDetailService service = new GesprekDetailService(mid, sid);
-        return service.getKoptekst();
-    }
-
-    private String getGesprekken(int mid, int sid) {
-        GesprekDetailService service = new GesprekDetailService(mid, sid);
-        return service.getGesprekken();
-    }
-
-    private String getGesprekkenDetail(int mid, int sid) {
-        GesprekDetailService service = new GesprekDetailService(mid, sid);
-        return service.getGesprekkenDetail();
-    }
-
     
+    private String Generate(){
+        MainPageService service = new MainPageService();
+        return service.GetPage();
+    }
 }

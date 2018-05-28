@@ -3,14 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Service;
+package Services;
 
-import DAO.*;
+import DAO.ReadDAO;
+import DAO.WriteDAO;
 import Model.Adres;
-import Model.Functie;
-import Model.Medewerker;
-import Model.Melding;
+import Model.*;
+import Servlets.PersToev;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,16 +23,48 @@ import java.util.logging.Logger;
  *
  * @author aaron gevers
  */
-public class NieuwNotificatieService {
-    
+public class NieuwGesprekService {
+
     private List medewerkers;
+    private List evaluatoren;
     private ReadDAO rdao;
     private WriteDAO wdao;
     
-    public NieuwNotificatieService(){
+    public NieuwGesprekService(){
         rdao = new ReadDAO();
         wdao = new WriteDAO();
         GenerateMedewerkers();
+    }
+    
+    public void addGesprek(String medewerker, String functie, String type, String datum, String uploadPath, Gebruiker gebr, String status) {
+        
+        int mid = Integer.parseInt(medewerker);
+        
+        Medewerker m = getMedewerker(mid);
+        
+        genEvaluatoren(gebr.getSchool().getInstellingsnr());
+        Medewerker evaluator1 = (Medewerker) evaluatoren.get(0);
+        Medewerker evaluator2 = (Medewerker) evaluatoren.get(1);
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        try {
+            date = sdf.parse(datum);
+        } catch (ParseException ex) {
+            Logger.getLogger(PersToev.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        Gesprek g = new Gesprek(m,gebr.getSchool(), date, status, type, evaluator1, evaluator2, uploadPath);
+        
+        int gid = rdao.getGesprekID();
+        int sfid = rdao.getSchoolFunctie(m.getVoornaam(), m.getFamilienaam(), functie);
+        
+        try {
+            wdao.addGesprek(g,sfid, gid);
+        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(NieuwGesprekService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
     
     public String generateSelectMedewerkers() {
@@ -140,29 +174,83 @@ public class NieuwNotificatieService {
             }
         }
     }
-
-    public void addMelding(int mid, String fnaam, String type, String extra, Date d) {
-        
-        int meid = rdao.getMeldingID();
-        
-        
-        Medewerker m = GenerateMedewerker(mid);
-        Functie f = new Functie(fnaam);
-        
-        Melding melding = new Melding(d, extra, m, f, type, meid);
-        
-        int sfid = rdao.getSchoolFunctie(m.getVoornaam(), m.getFamilienaam(), f.getFunctie());
-        
-        try {
-            wdao.addMelding(melding, sfid);
-        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(NieuwNotificatieService.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    }
     
-    private Medewerker GenerateMedewerker(int mid){
-        List werknemer = new ArrayList();
+    private void genEvaluatoren(int sid) {
+        evaluatoren = new ArrayList();
+        List list = rdao.getEvaluatoren(sid);
+
+        for (int i = 0; i < list.size(); i++) {
+
+            String persoon = (String) list.get(i);
+            int hulp;
+
+            hulp = persoon.indexOf("|");
+            int nr = Integer.parseInt(persoon.substring(0, hulp));
+            persoon = persoon.substring(hulp + 1);
+
+            hulp = persoon.indexOf("|");
+            String voornaam = persoon.substring(0, hulp);
+            persoon = persoon.substring(hulp + 1);
+
+            hulp = persoon.indexOf("|");
+            String familienaam = persoon.substring(0, hulp);
+            persoon = persoon.substring(hulp + 1);
+
+            hulp = persoon.indexOf("|");
+            String g = persoon.substring(0, hulp);
+            int jaar = Integer.parseInt(g.substring(0, 3));
+            int maand = Integer.parseInt(g.substring(5, 6));
+            int dag = Integer.parseInt(g.substring(8, 9));
+            Date geboorte = new Date(jaar, maand, dag);
+            persoon = persoon.substring(hulp + 1);
+
+            hulp = persoon.indexOf("|");
+            String email = persoon.substring(0, hulp);
+            persoon = persoon.substring(hulp + 1);
+
+            hulp = persoon.indexOf("|");
+            String straat = persoon.substring(0, hulp);
+            persoon = persoon.substring(hulp + 1);
+
+            hulp = persoon.indexOf("|");
+            int postcode = Integer.parseInt(persoon.substring(0, hulp));
+            persoon = persoon.substring(hulp + 1);
+
+            hulp = persoon.indexOf("|");
+            String stad = persoon.substring(0, hulp);
+            persoon = persoon.substring(hulp + 1);
+
+            hulp = persoon.indexOf("|");
+            String functie = persoon.substring(0, hulp);
+            persoon = persoon.substring(hulp + 1);
+
+            int actief = Integer.parseInt(persoon);
+
+            if (actief == 1) {
+
+                Functie f = new Functie(functie);
+                Adres a = new Adres(straat, stad, postcode);
+                Medewerker medewerker = new Medewerker(nr, voornaam, familienaam, geboorte, email, a, f);
+
+                //kijken of de medewerker al bestaat. al hij al bestaat word de functie toegevoegd aan zijn functielijst.
+                int nummer = 0;
+                for (int j = 0; j < evaluatoren.size(); j++) {
+                    Medewerker m = (Medewerker) evaluatoren.get(j);
+                    Boolean b = !m.IsAanwezig(medewerker, f);
+                    if (b) {
+                        nummer++;
+                    }
+                }
+
+                if (nummer == evaluatoren.size()) {
+                    evaluatoren.add(medewerker);
+                }
+            }
+        }
+    }
+
+    private Medewerker getMedewerker(int mid){
+        List mw = new ArrayList();
         List list = rdao.getMedewerker(mid);
 
         for (int i = 0; i < list.size(); i++) {
@@ -220,22 +308,21 @@ public class NieuwNotificatieService {
 
                 //kijken of de medewerker al bestaat. al hij al bestaat word de functie toegevoegd aan zijn functielijst.
                 int nummer = 0;
-                for (int j = 0; j < werknemer.size(); j++) {
-                    Medewerker m = (Medewerker) werknemer.get(j);
+                for (int j = 0; j < mw.size(); j++) {
+                    Medewerker m = (Medewerker) mw.get(j);
                     Boolean b = !m.IsAanwezig(medewerker, f);
                     if (b) {
                         nummer++;
                     }
                 }
 
-                if (nummer == werknemer.size()) {
-                    werknemer.add(medewerker);
+                if (nummer == mw.size()) {
+                    mw.add(medewerker);
                 }
             }
         }
         
-        return (Medewerker) werknemer.get(0);
+        return (Medewerker) mw.get(0);
     }
-    
     
 }

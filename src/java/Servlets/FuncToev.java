@@ -3,24 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlet;
+package Servlets;
 
-import Service.NieuwNotificatieService;
+import Model.Gebruiker;
+import Model.School;
+import Services.AdminWriteService;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author aaron gevers
  */
-public class NieuwMeldingServlet extends HttpServlet {
+public class FuncToev extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,7 +32,7 @@ public class NieuwMeldingServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response, String gen)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
@@ -39,11 +40,10 @@ public class NieuwMeldingServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet NieuwMeldingServlet</title>");    
-            out.println("<link href=\"CSS/NieuwMelding.css\" rel=\"stylesheet\" type=\"text/css\"/>");        
+            out.println("<title>Servlet FuncToev</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println(gen);
+            out.println("<h1>Servlet FuncToev at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,14 +61,7 @@ public class NieuwMeldingServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        String medewerkers = generateMedewerkers();
-        String functies = generateFuncties();
-        
-        request.setAttribute("medewerkers", medewerkers);
-        request.setAttribute("functies", functies);
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/JSP/NieuweMelding.jsp");
-        dispatcher.forward(request, response); 
+        processRequest(request, response);
     }
 
     /**
@@ -83,10 +76,22 @@ public class NieuwMeldingServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String generate = "";
+        HttpSession session = request.getSession();
+        Gebruiker gebruiker = (Gebruiker) session.getAttribute("gebruiker");
+        School school = gebruiker.getSchool();
+        int sid = school.getInstellingsnr();
         
-        processRequest(request, response, generate);
+        String medewerker = request.getParameter("medewerker");
+        String functienaam = request.getParameter("functie");
+        
+        AdminWriteService service = new AdminWriteService();
+        service.addFunctie(medewerker, functienaam, sid);
+        
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/admin");
+        dispatcher.forward(request, response);
     }
+        
+    
 
     /**
      * Returns a short description of the servlet.
@@ -97,16 +102,5 @@ public class NieuwMeldingServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
-    private String generateFuncties(){
-        NieuwNotificatieService service = new NieuwNotificatieService();
-        return service.generateFuncties();
-    }
-    
-    private String generateMedewerkers(){
-        NieuwNotificatieService service = new NieuwNotificatieService();
-        return service.generateSelectMedewerkers();
-    }
-    
 
 }

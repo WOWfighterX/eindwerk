@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlet;
+package Servlets;
 
-import Service.AdminWriteService;
+import Model.Adres;
+import Model.School;
+import Services.AdminWriteService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -18,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author aaron gevers
  */
-public class Rechten extends HttpServlet {
+public class SchoolToev extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +39,10 @@ public class Rechten extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Rechten</title>");            
+            out.println("<title>Servlet SchoolToev</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Rechten at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet SchoolToev at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -73,14 +75,21 @@ public class Rechten extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String medewerker = request.getParameter("medewerker");
-        String recht = request.getParameter("recht");
+        int nr = Integer.parseInt(request.getParameter("instellingsnr"));
+        String snaam = request.getParameter("schoolnaam");
+        String straat = request.getParameter("straat");
+        int postcode = Integer.parseInt(request.getParameter("postcode"));
+        String stad = request.getParameter("stad");
+        
+        Adres a = new Adres(straat, stad, nr);
+        School s = new School(nr, snaam, a);
         
         AdminWriteService service = new AdminWriteService();
-        service.veranderRecht(medewerker, recht);
+        service.addSchool(s);
         
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/admin");
         dispatcher.forward(request, response);
+        
     }
 
     /**

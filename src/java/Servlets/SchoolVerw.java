@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlet;
+package Servlets;
 
-import Model.Gebruiker;
-import Service.OptiesService;
+import Services.AdminWriteService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -19,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author aaron gevers
  */
-public class OptiesServlet extends HttpServlet {
+public class SchoolVerw extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,7 +29,7 @@ public class OptiesServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response, String gen)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
@@ -38,12 +37,10 @@ public class OptiesServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet OptiesServlet</title>");    
-            out.println("<link href=\"CSS/Opties.css\" rel=\"stylesheet\" type=\"text/css\"/>");    
-            out.println("<link href=\"CSS/achtergrond.css\" rel=\"stylesheet\" type=\"text/css\"/>");       
+            out.println("<title>Servlet SchoolVerw</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println(gen);
+            out.println("<h1>Servlet SchoolVerw at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,23 +58,7 @@ public class OptiesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        Gebruiker gebruiker = (Gebruiker) request.getSession().getAttribute("gebruiker");
-        
-        String generate = "<a href=\"Hoofdpagina\" id=\"hoofdpaginaknop\"><button type=\"button\">Hoofdpagina</button></a>"
-                + "<form method=\"post\" action=\"Opties\">"
-                + "<span>Stamnummer: "+gebruiker.getStamboeknr()+"</span><br><br>"
-                + "<span>Naam: "+gebruiker.getGebruikersnaam()+"</span><br>"
-                + "<span>Huidig Wachtwoord: </span>"
-                + "<input type=\"password\" name=\"huidig\"><br>"
-                + "<span>Nieuw Wachtwoord: </span>"
-                + "<input type=\"password\" name=\"nieuw\"><br>"
-                + "<span>Controle Wachtwoord: </span>"
-                + "<input type=\"password\" name=\"controle\"><br>"
-                + "<input type=\"submit\" value=\"Wachtwoord Veranderen\">"
-                + "</form>";
-        
-        processRequest(request, response, generate);
+        processRequest(request, response);
     }
 
     /**
@@ -92,19 +73,13 @@ public class OptiesServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        Gebruiker gebruiker = (Gebruiker) request.getSession().getAttribute("gebruiker");
-        String huidig = request.getParameter("huidig");
-        String nieuw = request.getParameter("nieuw");
-        String controle = request.getParameter("controle");
+        int sid = Integer.parseInt(request.getParameter("school"));
         
-        if(gebruiker.getWachtwoord().equals(huidig)){
-            if(nieuw.equals(controle)){
-                veranderWachtwoord(nieuw, gebruiker.getStamboeknr());
-            }
-        }
+        AdminWriteService service = new AdminWriteService();
+        service.addMedewerker(sid);
         
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Hoofdpagina");
-        dispatcher.forward(request, response); 
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/admin");
+        dispatcher.forward(request, response);
         
     }
 
@@ -117,11 +92,5 @@ public class OptiesServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-    private void veranderWachtwoord(String nieuw, int nr) {
-        OptiesService service = new OptiesService();
-        service.veranderWachtwoord(nieuw, nr);
-    }
-
 
 }

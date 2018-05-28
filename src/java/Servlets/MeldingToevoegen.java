@@ -3,13 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlet;
+package Servlets;
 
+import DAO.ReadDAO;
+import DAO.WriteDAO;
 import Model.Adres;
-import Model.School;
-import Service.AdminWriteService;
+import Model.Functie;
+import Model.Medewerker;
+import Model.Melding;
+import Services.MainPageService;
+import Services.NieuwNotificatieService;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,9 +30,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author aaron gevers
+ * @author Aaron Gevers
  */
-public class SchoolToev extends HttpServlet {
+public class MeldingToevoegen extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +51,10 @@ public class SchoolToev extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SchoolToev</title>");            
+            out.println("<title>Servlet MeldingToevoegen</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SchoolToev at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet MeldingToevoegen at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -74,22 +86,27 @@ public class SchoolToev extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        int mid = Integer.parseInt(request.getParameter("medewerker"));
+        String fnaam = request.getParameter("functie");
+        String type = request.getParameter("type");
+        String extra = request.getParameter("extra");
+        String datum = request.getParameter("datum");
         
-        int nr = Integer.parseInt(request.getParameter("instellingsnr"));
-        String snaam = request.getParameter("schoolnaam");
-        String straat = request.getParameter("straat");
-        int postcode = Integer.parseInt(request.getParameter("postcode"));
-        String stad = request.getParameter("stad");
-        
-        Adres a = new Adres(straat, stad, nr);
-        School s = new School(nr, snaam, a);
-        
-        AdminWriteService service = new AdminWriteService();
-        service.addSchool(s);
-        
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/admin");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        try {
+            date = sdf.parse(datum);
+        } catch (ParseException ex) {
+            Logger.getLogger(PersToev.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        NieuwNotificatieService service = new NieuwNotificatieService();
+        service.addMelding(mid, fnaam, type, extra, date);
+
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Hoofdpagina");
         dispatcher.forward(request, response);
-        
+
     }
 
     /**

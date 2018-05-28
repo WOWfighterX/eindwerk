@@ -3,22 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlet;
+package Hoofdserlvets;
 
-import Service.AdminWriteService;
+import Model.Gebruiker;
+import Services.LoginService;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author aaron gevers
  */
-public class Account extends HttpServlet {
+public class LoginServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +40,10 @@ public class Account extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Account</title>");            
+            out.println("<title>Servlet LoginServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Account at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,7 +61,13 @@ public class Account extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        String scholen = getScholen();
+        request.setAttribute("scholen", scholen);
+
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/JSP/Login.jsp");
+        dispatcher.forward(request, response);
+
     }
 
     /**
@@ -72,16 +81,27 @@ public class Account extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        String scholen = getScholen();
+        request.setAttribute("scholen", scholen);
         
-        String mnaam = request.getParameter("medewerker");
-        String accstatus = request.getParameter("status");
-        
-        AdminWriteService service = new AdminWriteService();
-        service.veranderAcount(mnaam, accstatus);
-        
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/admin");
-        dispatcher.forward(request, response);
-        
+        int schoolnr = Integer.parseInt(request.getParameter("School"));
+        String Gebruikersnaam = request.getParameter("Gebruikersnaam");
+        String Wachtwoord = request.getParameter("Wachtwoord");
+
+        Gebruiker gebruiker = getGebruiker(schoolnr, Gebruikersnaam, Wachtwoord);
+
+        if (checkLogin(gebruiker)) {
+
+            HttpSession session = request.getSession();
+            session.setAttribute("gebruiker", gebruiker);
+
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Hoofdpagina");
+            dispatcher.forward(request, response);
+        }else{
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/JSP/Login.jsp");
+            dispatcher.forward(request, response);
+        }
     }
 
     /**
@@ -94,4 +114,18 @@ public class Account extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    private String getScholen() {
+        LoginService service = new LoginService();
+        return service.getScholen();
+    }
+
+    private Gebruiker getGebruiker(int nr, String naam, String ww) {
+        LoginService service = new LoginService();
+        return service.getGebruiker(nr, naam, ww);
+    }
+    
+    private boolean checkLogin(Gebruiker gebruiker){
+        LoginService service = new LoginService();
+        return service.checkGebruiker(gebruiker);
+    }
 }

@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlet;
+package Servlets;
 
-import Service.AdminWriteService;
+import Services.AdminWriteService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author aaron gevers
  */
-public class FuncVerw extends HttpServlet {
+public class Rechten extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +37,10 @@ public class FuncVerw extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet FuncVerw</title>");            
+            out.println("<title>Servlet Rechten</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet FuncVerw at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet Rechten at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -73,16 +73,14 @@ public class FuncVerw extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String medewerkerid = request.getParameter("medewerker");
-        String functie = request.getParameter("functie");
-        int mid = Integer.parseInt(medewerkerid);
+        String medewerker = request.getParameter("medewerker");
+        String recht = request.getParameter("recht");
         
         AdminWriteService service = new AdminWriteService();
-        service.removeFunctie(mid, functie);
+        service.veranderRecht(medewerker, recht);
         
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/admin");
         dispatcher.forward(request, response);
-        
     }
 
     /**

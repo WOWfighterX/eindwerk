@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlet;
+package Servlets;
 
 import Model.Gebruiker;
-import Service.NieuwGesprekService;
+import Services.NieuwGesprekService;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;

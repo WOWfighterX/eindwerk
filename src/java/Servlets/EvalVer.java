@@ -3,36 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlet;
+package Servlets;
 
-import DAO.ReadDAO;
-import DAO.WriteDAO;
-import Model.Adres;
-import Model.Functie;
-import Model.Medewerker;
-import Model.Melding;
-import Service.MainPageService;
-import Service.NieuwNotificatieService;
+import Services.AdminWriteService;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Aaron Gevers
+ * @author aaron gevers
  */
-public class MeldingToevoegen extends HttpServlet {
+@WebServlet(name = "EvalVer", urlPatterns = {"/EvalVer"})
+public class EvalVer extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -51,10 +39,10 @@ public class MeldingToevoegen extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet MeldingToevoegen</title>");
+            out.println("<title>Servlet EvalVer</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet MeldingToevoegen at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet EvalVer at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -86,27 +74,17 @@ public class MeldingToevoegen extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        int mid = Integer.parseInt(request.getParameter("medewerker"));
-        String fnaam = request.getParameter("functie");
-        String type = request.getParameter("type");
-        String extra = request.getParameter("extra");
-        String datum = request.getParameter("datum");
         
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        try {
-            date = sdf.parse(datum);
-        } catch (ParseException ex) {
-            Logger.getLogger(PersToev.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        NieuwNotificatieService service = new NieuwNotificatieService();
-        service.addMelding(mid, fnaam, type, extra, date);
-
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Hoofdpagina");
+        String evaluatorid = request.getParameter("evaluator");
+        String medewerker = request.getParameter("medewerker");
+        int eid = Integer.parseInt(evaluatorid);
+        
+        AdminWriteService service = new AdminWriteService();
+        service.veranderEvaluator(eid, medewerker);
+        
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/admin");
         dispatcher.forward(request, response);
-
+        
     }
 
     /**

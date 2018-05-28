@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlet;
+package Hoofdserlvets;
 
-import Service.NieuwGesprekService;
+import Model.*;
+import Services.GesprekDetailService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -20,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author aaron gevers
  */
-public class NieuwGesprekServlet extends HttpServlet {
+public class GesprekDetailServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +41,12 @@ public class NieuwGesprekServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet NieuwGesprekServlet</title>");  
+            out.println("<title>Servlet GesprekDetailServlet</title>");  
+            out.println("<script src=\"JS/GesprekDetail.js\" type=\"text/javascript\"></script>");
+            out.println("<link href=\"CSS/GesprekDetail.css\" rel=\"stylesheet\" type=\"text/css\"/>");          
             out.println("</head>");
             out.println("<body>");
-            out.println("derp");
+            out.println(gen);
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,13 +65,23 @@ public class NieuwGesprekServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String medewerkers = generateMedewerkers();
-        String functies = generateFuncties();
+        Gebruiker g = (Gebruiker) request.getSession().getAttribute("gebruiker");
+        int sid = g.getSchool().getInstellingsnr();
         
-        request.setAttribute("medewerkers", medewerkers);
-        request.setAttribute("functies", functies);
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/JSP/NieuwGesprek.jsp");
+        int mid = Integer.parseInt(request.getParameter("param"));
+        
+        String koptekst = getKoptekst(mid, sid);
+        String gesprekken = getGesprekken(mid, sid);
+        String gesprekkendetails = getGesprekkenDetail(mid, sid);
+        
+        request.setAttribute("koptekst", koptekst);
+        request.setAttribute("gesprekken", gesprekken);
+        request.setAttribute("gesprekkendetails", gesprekkendetails);
+        
+        response.setContentType("application/octet-stream");
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/JSP/GesprekDetail.jsp");
         dispatcher.forward(request, response); 
+        
     }
 
     /**
@@ -81,7 +95,8 @@ public class NieuwGesprekServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response, "");
+        String generate = "";
+        processRequest(request, response, generate);
     }
 
     /**
@@ -94,16 +109,20 @@ public class NieuwGesprekServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private String generateMedewerkers() {
-        NieuwGesprekService service = new NieuwGesprekService();
-        return service.generateSelectMedewerkers();
+    private String getKoptekst(int mid, int sid) {
+        GesprekDetailService service = new GesprekDetailService(mid, sid);
+        return service.getKoptekst();
     }
 
-    private String generateFuncties() {
-        NieuwGesprekService service = new NieuwGesprekService();
-        return service.generateFuncties();
+    private String getGesprekken(int mid, int sid) {
+        GesprekDetailService service = new GesprekDetailService(mid, sid);
+        return service.getGesprekken();
     }
-    
-    
 
+    private String getGesprekkenDetail(int mid, int sid) {
+        GesprekDetailService service = new GesprekDetailService(mid, sid);
+        return service.getGesprekkenDetail();
+    }
+
+    
 }

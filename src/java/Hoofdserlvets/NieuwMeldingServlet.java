@@ -3,12 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlet;
+package Hoofdserlvets;
 
-import Model.Functie;
-import Model.Medewerker;
-import Model.Melding;
-import Service.NotificatieDetailService;
+import Services.NieuwNotificatieService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -23,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author aaron gevers
  */
-public class NotificatieDetailServlet extends HttpServlet {
+public class NieuwMeldingServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,8 +39,8 @@ public class NotificatieDetailServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet NotificatieDetailServlet</title>");      
-            out.println("<link href=\"CSS/NotificatieDetail.css\" rel=\"stylesheet\" type=\"text/css\"/>");        
+            out.println("<title>Servlet NieuwMeldingServlet</title>");    
+            out.println("<link href=\"CSS/NieuwMelding.css\" rel=\"stylesheet\" type=\"text/css\"/>");        
             out.println("</head>");
             out.println("<body>");
             out.println(gen);
@@ -65,20 +62,12 @@ public class NotificatieDetailServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        int MeldingID = Integer.parseInt(request.getParameter("param"));
+        String medewerkers = generateMedewerkers();
+        String functies = generateFuncties();
         
-        Melding melding = getMelding(MeldingID);
-        
-        
-        String generate = "<form method=\"post\" action=\"Hoofdpagina\">"
-                + "<span>Medewerker: "+melding.getMedewerker().getVoornaam()+" "+melding.getMedewerker().getFamilienaam()+"</span><br><br>"
-                + "<span>Functie: "+melding.getFunctie().getFunctie()+"</span><br><br>"
-                + "<span>datum: "+melding.getDatum()+"</span><br>"
-                + "<span>"+melding.getInfo()+"</span><br>"
-                + "</form>";
-        
-        request.setAttribute("gen", generate);
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/JSP/MeldingDetail.jsp");
+        request.setAttribute("medewerkers", medewerkers);
+        request.setAttribute("functies", functies);
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/JSP/NieuweMelding.jsp");
         dispatcher.forward(request, response); 
     }
 
@@ -93,7 +82,9 @@ public class NotificatieDetailServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         String generate = "";
+        
         processRequest(request, response, generate);
     }
 
@@ -106,16 +97,16 @@ public class NotificatieDetailServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-    private Melding getMelding(int MeldingID) {
-        
-        NotificatieDetailService service = new NotificatieDetailService();
-        Melding melding = service.getMelding(MeldingID);
-        return melding;
-        
+    
+    private String generateFuncties(){
+        NieuwNotificatieService service = new NieuwNotificatieService();
+        return service.generateFuncties();
     }
-
+    
+    private String generateMedewerkers(){
+        NieuwNotificatieService service = new NieuwNotificatieService();
+        return service.generateSelectMedewerkers();
+    }
     
 
-    
 }

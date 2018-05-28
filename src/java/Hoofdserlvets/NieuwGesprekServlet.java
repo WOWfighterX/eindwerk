@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlet;
+package Hoofdserlvets;
 
-import Service.MainPageService;
+import Services.NieuwGesprekService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author aaron gevers
  */
-public class MainPageServlet extends HttpServlet {
+public class NieuwGesprekServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,12 +39,10 @@ public class MainPageServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet MainPageServlet</title>");  
-            out.println("<link href=\"CSS/MainPage.css\" rel=\"stylesheet\" type=\"text/css\"/>");
-            out.println("<script src=\"JS/MainPage.js\" type=\"text/javascript\"></script>");
+            out.println("<title>Servlet NieuwGesprekServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println(gen);
+            out.println("derp");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,7 +60,14 @@ public class MainPageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doPost(request, response);
+        
+        String medewerkers = generateMedewerkers();
+        String functies = generateFuncties();
+        
+        request.setAttribute("medewerkers", medewerkers);
+        request.setAttribute("functies", functies);
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/JSP/NieuwGesprek.jsp");
+        dispatcher.forward(request, response); 
     }
 
     /**
@@ -76,43 +81,7 @@ public class MainPageServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        String generated;
-        
-        generated =  "<div id=\"buttons\">"
-                    + "<a href=\"Opties\"><button type=\"button\">Opties</button></a>"
-                    + "<a href=\"/Evaluatie-war/Login\"><button type=\"button\">Log Out</button></a>"
-                //later aanpassen met rechten
-                    + "<a href=\"admin\"><button type=\"button\">Admin</button></a>"
-                    + "</div>";
-        
-        generated += 
-        "<div class=\"left\">\n" +
-"            <div id=\"werknemer\" onclick=\"Menu(\'werknemer\')\">\n" +
-"                    <p>Werknemers</p>\n" +
-"            </div>\n" +
-"            <div id=\"notificatie\" onclick=\"Menu(\'notificatie\')\">\n" +
-"                    <p>Notificaties</p>\n" +
-"            </div>\n" +
-             "<a href=\"GesprekAanmaken\">"+
-"            <div>\n" +
-"                    <p>+ Nieuw Gesprek</p>\n" +
-"            </div></a>\n" +
-             "<a href=\"MeldingAanmaken\">"+
-"            <div>\n" +
-"                    <p>+ Nieuwe Notificatie</p>\n" +
-"            </div></a>" +
-"        </div>";
-        
-        generated +=
-        "<div class=\"right\" style=\"overflow-y:scroll; height:400px;\">\n" +
-            Generate() +
-"        </div>";
-        
-        request.setAttribute("gen", generated);
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/JSP/HoofdPagina.jsp");
-        dispatcher.forward(request, response); 
-        
+        processRequest(request, response, "");
     }
 
     /**
@@ -124,9 +93,17 @@ public class MainPageServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
-    private String Generate(){
-        MainPageService service = new MainPageService();
-        return service.GetPage();
+
+    private String generateMedewerkers() {
+        NieuwGesprekService service = new NieuwGesprekService();
+        return service.generateSelectMedewerkers();
     }
+
+    private String generateFuncties() {
+        NieuwGesprekService service = new NieuwGesprekService();
+        return service.generateFuncties();
+    }
+    
+    
+
 }

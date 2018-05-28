@@ -3,14 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlet;
+package Servlets;
 
-import Service.AdminWriteService;
+import Services.AdminWriteService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,8 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author aaron gevers
  */
-@WebServlet(name = "EvalVer", urlPatterns = {"/EvalVer"})
-public class EvalVer extends HttpServlet {
+public class FuncVerw extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +37,10 @@ public class EvalVer extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet EvalVer</title>");            
+            out.println("<title>Servlet FuncVerw</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet EvalVer at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet FuncVerw at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -75,12 +73,12 @@ public class EvalVer extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String evaluatorid = request.getParameter("evaluator");
-        String medewerker = request.getParameter("medewerker");
-        int eid = Integer.parseInt(evaluatorid);
+        String medewerkerid = request.getParameter("medewerker");
+        String functie = request.getParameter("functie");
+        int mid = Integer.parseInt(medewerkerid);
         
         AdminWriteService service = new AdminWriteService();
-        service.veranderEvaluator(eid, medewerker);
+        service.removeFunctie(mid, functie);
         
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/admin");
         dispatcher.forward(request, response);

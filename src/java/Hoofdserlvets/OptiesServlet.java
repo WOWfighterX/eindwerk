@@ -3,25 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlet;
+package Hoofdserlvets;
 
 import Model.Gebruiker;
-import Service.LoginService;
+import Services.OptiesService;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author aaron gevers
  */
-public class LoginServlet extends HttpServlet {
+public class OptiesServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,7 +30,7 @@ public class LoginServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response, String gen)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
@@ -40,10 +38,12 @@ public class LoginServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");
+            out.println("<title>Servlet OptiesServlet</title>");    
+            out.println("<link href=\"CSS/Opties.css\" rel=\"stylesheet\" type=\"text/css\"/>");    
+            out.println("<link href=\"CSS/achtergrond.css\" rel=\"stylesheet\" type=\"text/css\"/>");       
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
+            out.println(gen);
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,13 +61,23 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        String scholen = getScholen();
-        request.setAttribute("scholen", scholen);
-
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/JSP/Login.jsp");
-        dispatcher.forward(request, response);
-
+        
+        Gebruiker gebruiker = (Gebruiker) request.getSession().getAttribute("gebruiker");
+        
+        String generate = "<a href=\"Hoofdpagina\" id=\"hoofdpaginaknop\"><button type=\"button\">Hoofdpagina</button></a>"
+                + "<form method=\"post\" action=\"Opties\">"
+                + "<span>Stamnummer: "+gebruiker.getStamboeknr()+"</span><br><br>"
+                + "<span>Naam: "+gebruiker.getGebruikersnaam()+"</span><br>"
+                + "<span>Huidig Wachtwoord: </span>"
+                + "<input type=\"password\" name=\"huidig\"><br>"
+                + "<span>Nieuw Wachtwoord: </span>"
+                + "<input type=\"password\" name=\"nieuw\"><br>"
+                + "<span>Controle Wachtwoord: </span>"
+                + "<input type=\"password\" name=\"controle\"><br>"
+                + "<input type=\"submit\" value=\"Wachtwoord Veranderen\">"
+                + "</form>";
+        
+        processRequest(request, response, generate);
     }
 
     /**
@@ -81,27 +91,21 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        String scholen = getScholen();
-        request.setAttribute("scholen", scholen);
         
-        int schoolnr = Integer.parseInt(request.getParameter("School"));
-        String Gebruikersnaam = request.getParameter("Gebruikersnaam");
-        String Wachtwoord = request.getParameter("Wachtwoord");
-
-        Gebruiker gebruiker = getGebruiker(schoolnr, Gebruikersnaam, Wachtwoord);
-
-        if (checkLogin(gebruiker)) {
-
-            HttpSession session = request.getSession();
-            session.setAttribute("gebruiker", gebruiker);
-
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Hoofdpagina");
-            dispatcher.forward(request, response);
-        }else{
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/JSP/Login.jsp");
-            dispatcher.forward(request, response);
+        Gebruiker gebruiker = (Gebruiker) request.getSession().getAttribute("gebruiker");
+        String huidig = request.getParameter("huidig");
+        String nieuw = request.getParameter("nieuw");
+        String controle = request.getParameter("controle");
+        
+        if(gebruiker.getWachtwoord().equals(huidig)){
+            if(nieuw.equals(controle)){
+                veranderWachtwoord(nieuw, gebruiker.getStamboeknr());
+            }
         }
+        
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Hoofdpagina");
+        dispatcher.forward(request, response); 
+        
     }
 
     /**
@@ -114,18 +118,10 @@ public class LoginServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private String getScholen() {
-        LoginService service = new LoginService();
-        return service.getScholen();
+    private void veranderWachtwoord(String nieuw, int nr) {
+        OptiesService service = new OptiesService();
+        service.veranderWachtwoord(nieuw, nr);
     }
 
-    private Gebruiker getGebruiker(int nr, String naam, String ww) {
-        LoginService service = new LoginService();
-        return service.getGebruiker(nr, naam, ww);
-    }
-    
-    private boolean checkLogin(Gebruiker gebruiker){
-        LoginService service = new LoginService();
-        return service.checkGebruiker(gebruiker);
-    }
+
 }

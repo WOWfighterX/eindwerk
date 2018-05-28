@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlet;
+package Hoofdserlvets;
 
 import Model.Functie;
 import Model.Gebruiker;
 import Model.Medewerker;
 import Model.School;
-import Service.AdminToolService;
+import Services.AdminToolService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
