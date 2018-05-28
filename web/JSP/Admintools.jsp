@@ -10,10 +10,14 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <script src="JS/jquery-3.3.1.min.js" type="text/javascript"></script>
         <script src="JS/Admin.js" type="text/javascript"></script>
+        <script src="JS/functieVeranderen.js" type="text/javascript"></script>
         <link href="CSS/Admin.css" rel="stylesheet" type="text/css"/>
+        <link href="CSS/achtergrond.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
+        <a href="Hoofdpagina" id="hoofdpaginaknop"><button id="button" type="button">Hoofdpagina</button></a>
         <div class="left">
             <div id="+pers" onclick="Menu('+pers')">
                 <p>Personeel Toevoegen</p>
@@ -50,6 +54,9 @@
                         <p>Familienaam: </p>
                         <p>Geboortedatum: </p>
                         <p>Functie: </p>
+                        <p>Straat: </p>
+                        <p>Postcode: </p>
+                        <p>Stad:  </p>
                         <p>Email: </p>
                         <p>Wachtwoord: </p>
                         <p>Account: </p>
@@ -60,9 +67,12 @@
                         <input type="text" name="familienaam">
                         <input type="date" name="datum">
                         <input type="text" name="functie">
+                        <input type="text" name="straat">
+                        <input type="text" name="postcode">
+                        <input type="text" name="stad">
                         <input type="text" name="email">
                         <input type="text" name="wachtwoord">
-                        <br>
+                        <br><br>
                         <select name="account">
                             <option value="false">Inactief</option>
                             <option value="true">Actief</option>
@@ -85,7 +95,7 @@
                         %>
                         <input type="text" name="functie">
                     </div>
-                    <button type="submit">Veranderen</button>
+                    <button type="submit">Toevoegen</button>
                 </form>
             </div>
                         
@@ -96,12 +106,14 @@
                         <p>Functie: </p>
                     </div>
                     <div class="divRechts">
+                        <br>
                         <%
                             out.println(request.getAttribute("inputmedewerkers"));
+                            out.println("<br><br>");
                             out.println(request.getAttribute("functies"));
                         %>
                     </div>
-                    <button type="submit">Veranderen</button>
+                    <button type="submit">Verwijderen</button>
                 </form>
             </div>
 
@@ -135,6 +147,7 @@
                         <input id="medewerkerLijst" type="text" name="medewerker" list="medewerkerList">
                         <%
                             out.println(request.getAttribute("medewerkers"));
+                            out.println("<br><br>");
                         %>
                         <select name="recht">
                             <option value="Admin">Admin</option>
@@ -187,15 +200,15 @@
                         <p>Status: </p>
                     </div>
                     <div class="divRechts">
-                        <input id="medewerkerLijst" type="text" name="example" list="medewerkerList">
+                        <input id="medewerkerLijst" type="text" name="medewerker" list="medewerkerList">
                         <%
                             out.println(request.getAttribute("medewerkers"));
+                            out.println("<br><br>");
                         %>
-                        <input id="Status" type="text" list="StatusList">
-                        <datalist id="StatusList">
-                            <option value="Actief">
-                            <option value="Inactief">
-                        </datalist>
+                        <select name="status" id="StatusList">
+                            <option value="Actief">Actief</option>
+                            <option value="Inactief">Inactief</option>
+                        </select>
                     </div>
                     <button type="submit">Aanpassen</button>
                 </form>

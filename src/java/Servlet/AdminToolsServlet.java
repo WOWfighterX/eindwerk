@@ -6,6 +6,7 @@
 package Servlet;
 
 import Model.Functie;
+import Model.Gebruiker;
 import Model.Medewerker;
 import Model.School;
 import Service.AdminToolService;
@@ -66,8 +67,10 @@ public class AdminToolsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        Gebruiker gebruiker = (Gebruiker) request.getSession().getAttribute("gebruiker");
+        
         String medewerkers = generateMedewerkers();
-        String evaluatoren = generateEvaluatoren();
+        String evaluatoren = generateEvaluatoren(gebruiker.getSchool().getInstellingsnr());
         String scholen = generateScholen();
         String functies = generateFuncties();
         String inputmedewerkers = generateSelectMedewerkers();
@@ -123,13 +126,13 @@ public class AdminToolsServlet extends HttpServlet {
     
     private String generateSelectMedewerkers() {
         
-        String hulp = "<select onChange=\"selectFunctie(this)\" id=\"medewerkerSelect\" name=\"medewerker\">";
-        hulp += "<option>Kies een medewerker...</option>";
+        String hulp = "<select id=\"medewerkerSelect\" name=\"medewerker\">";
+        hulp += "<option value=\"\">Kies een medewerker...</option>";
         List medewerkers = getMedewerkers();
         
         for(int i = 0; i<medewerkers.size();i++){
             Medewerker medewerker =  (Medewerker) medewerkers.get(i);
-            hulp += "<option value=\""+ medewerker.getVoornaam()+" "+medewerker.getFamilienaam() +"\">\""+ medewerker.getVoornaam()+" "+medewerker.getFamilienaam() +"\"</optrion>";
+            hulp += "<option value=\""+ medewerker.getStamboeknr() +"\">"+ medewerker.getVoornaam()+" "+medewerker.getFamilienaam() +"</option>";
         }
         hulp += "</select>";
         
@@ -137,9 +140,9 @@ public class AdminToolsServlet extends HttpServlet {
         
     }
     
-    private String generateEvaluatoren() {
+    private String generateEvaluatoren(int sid) {
         
-        List evaluatoren = getEvaluatoren();
+        List evaluatoren = getEvaluatoren(sid);
         String hulp = "<select name=\"evaluator\">";
 
         for (int i = 0; i < evaluatoren.size(); i++) {
@@ -186,29 +189,30 @@ public class AdminToolsServlet extends HttpServlet {
         
     }
     
-    private List getEvaluatoren(){
+    private List getEvaluatoren(int sid){
         
         AdminToolService service = new AdminToolService();
-        return service.getEvaluatoren();
+        return service.getEvaluatoren(sid);
         
     }
 
     private String generateFuncties() {
         
-        String hulp = "";
+        String hulp = "<select id=\"functies\" name=\"functie\">\n"
+                + "<option value=\"\">Kies functie...</option>";
         List medewerkers = getMedewerkers();
         
         for(int i=0;i<medewerkers.size();i++){
             Medewerker m = (Medewerker) medewerkers.get(i);
             List functies = m.getFuncties();
-            hulp += "<select class=\"functies\" id=\""+m.getVoornaam()+" "+m.getFamilienaam()+"\" name=\""+m.getVoornaam()+" "+m.getFamilienaam()+"\">";
+            
             for(int j=0;j<functies.size();j++){
                 Functie f = (Functie) functies.get(j);
-                hulp += "<option value=\""+f.getFunctie()+"\">"+f.getFunctie()+"</option>";
+                hulp += "<option class=\""+m.getStamboeknr()+"\" value=\""+f.getFunctie()+"\">"+f.getFunctie()+"</option>";
             }
-            hulp += "</select>";
         }
         
+        hulp += "</select>";
         return hulp;
     }
 

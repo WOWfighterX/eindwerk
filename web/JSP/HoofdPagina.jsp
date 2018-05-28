@@ -6,6 +6,7 @@
         <title>HoofdPagina</title>
         <script src=JS/MainPage.js type=text/javascript></script>
         <link href=CSS/MainPage.css rel=stylesheet type=text/css>
+        <link href="CSS/achtergrond.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <%

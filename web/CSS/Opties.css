@@ -9,3 +9,11 @@ form{
 input{
     margin-top:20px;
 }
+button{
+    width:200px;
+    height:70px;
+    margin-top:10px;
+    border-radius:25px;
+    background-color:lightblue;
+    margin-left:20%;
+}

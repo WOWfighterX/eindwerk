@@ -8,6 +8,7 @@ package Service;
 import DAO.*;
 import Model.*;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,7 +27,7 @@ public class AdminWriteService {
         wdao = new WriteDAO();
     }
 
-    public void addMedewerker(Medewerker medewerker, String ww, String account, int sid) {
+    public void addMedewerker(Medewerker medewerker, String ww, String account, int sid, Adres a) {
         
         int hulp;
         List sf = rdao.getSchoolFunctie();
@@ -41,16 +42,11 @@ public class AdminWriteService {
         
         int accid = rdao.getAccountID();
         int fid = rdao.getFunctieID();
+        int aid = rdao.getAdresID();
         
         try {
-            wdao.addMedewerker(medewerker, ww, account, sfid, accid, fid, sid);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AdminWriteService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(AdminWriteService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(AdminWriteService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+            wdao.addMedewerker(medewerker, ww, account, sfid, accid, fid, sid, a, aid);
+        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(AdminWriteService.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -80,33 +76,18 @@ public class AdminWriteService {
         
         try {
             wdao.addFunctie(functie, medewerker, sfid, fid, sid);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AdminWriteService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(AdminWriteService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(AdminWriteService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(AdminWriteService.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
     
-    public void removeFunctie(String naam, String fnaam){
+    public void removeFunctie(int mid, String fnaam){
         
-        int hulp = naam.indexOf(" ");
-        String vn = naam.substring(0,hulp);
-        String fn = naam.substring(hulp+1);
         
         try {
-            wdao.removeFunctie(vn, fn, fnaam);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AdminWriteService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(AdminWriteService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(AdminWriteService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+            wdao.removeFunctie(mid, fnaam);
+        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(AdminWriteService.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -121,13 +102,7 @@ public class AdminWriteService {
         
         try {
             wdao.evaluatorVeranderen(eid, mvn, mfn);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AdminWriteService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(AdminWriteService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(AdminWriteService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(AdminWriteService.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -146,13 +121,7 @@ public class AdminWriteService {
         
         try {
             wdao.rechtenVeranderen(mvn, mfn, r);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AdminWriteService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(AdminWriteService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(AdminWriteService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(AdminWriteService.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -160,27 +129,25 @@ public class AdminWriteService {
 
     public void addSchool(School s) {
         
-        int aid = 1;
-        List ad = rdao.getAdressen();
-        for(int i=0;i<ad.size();i++){
-            int hulp = Integer.parseInt((String) ad.get(i));
-            if(aid==hulp){
-                aid++;
-                i=0;
-            }
-        }
+        int aid = rdao.getAdresID();
         
         try {
             wdao.schoolToevoegen(s, aid);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AdminWriteService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(AdminWriteService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(AdminWriteService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(AdminWriteService.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        int mid = rdao.getMedewerkerID();
+        Date d = new Date(200,1,1);
+        
+        Adres a = new Adres("straat", "stad", 0000);
+        Functie f = new Functie("admin");
+        Medewerker medewerker = new Medewerker(mid, "admin", "", d, "admin@admin.com", a, f);
+        
+        String account = "Admin";
+        String ww = "Admin123!";
+        
+        addMedewerker(medewerker, ww, account, aid, a);
         
     }
 
@@ -188,16 +155,32 @@ public class AdminWriteService {
         
         try {
             wdao.schoolVerwijderen(sid);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AdminWriteService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(AdminWriteService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(AdminWriteService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(AdminWriteService.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+    }
+    
+    public void veranderAcount(String mnaam, String status){
+        
+        int hulp = mnaam.indexOf(" ");
+        String mvn = mnaam.substring(0,hulp);
+        String mfn = mnaam.substring(hulp+1);
+        
+        int mid = rdao.getMedewerkerID(mvn, mfn);
+        
+        Medewerker m = new Medewerker(mid, mvn, mfn);
+        
+        String str = " = NULL ";
+        if(status.equals("Actief")){
+            str = " = 1 ";
+        }
+        
+        try {
+            wdao.VeranderAccountStatus(m, str);
+        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(AdminWriteService.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }

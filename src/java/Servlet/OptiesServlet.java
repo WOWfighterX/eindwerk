@@ -5,8 +5,11 @@
  */
 package Servlet;
 
+import Model.Gebruiker;
+import Service.OptiesService;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +39,8 @@ public class OptiesServlet extends HttpServlet {
             out.println("<html>");
             out.println("<head>");
             out.println("<title>Servlet OptiesServlet</title>");    
-            out.println("<link href=\"CSS/Opties.css\" rel=\"stylesheet\" type=\"text/css\"/>");        
+            out.println("<link href=\"CSS/Opties.css\" rel=\"stylesheet\" type=\"text/css\"/>");    
+            out.println("<link href=\"CSS/achtergrond.css\" rel=\"stylesheet\" type=\"text/css\"/>");       
             out.println("</head>");
             out.println("<body>");
             out.println(gen);
@@ -58,15 +62,18 @@ public class OptiesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String generate = "<form method=\"post\" action=\"Hoofdpagina\">"
-                + "<span>Stamnummer: "+getstamnummer()+"</span><br><br>"
-                + "<span>Naam: "+getNaam()+"</span><br>"
+        Gebruiker gebruiker = (Gebruiker) request.getSession().getAttribute("gebruiker");
+        
+        String generate = "<a href=\"Hoofdpagina\" id=\"hoofdpaginaknop\"><button type=\"button\">Hoofdpagina</button></a>"
+                + "<form method=\"post\" action=\"Opties\">"
+                + "<span>Stamnummer: "+gebruiker.getStamboeknr()+"</span><br><br>"
+                + "<span>Naam: "+gebruiker.getGebruikersnaam()+"</span><br>"
                 + "<span>Huidig Wachtwoord: </span>"
-                + "<input type=\"text\" name=\"huidig\"><br>"
+                + "<input type=\"password\" name=\"huidig\"><br>"
                 + "<span>Nieuw Wachtwoord: </span>"
-                + "<input type=\"text\" name=\"nieuw\"><br>"
+                + "<input type=\"password\" name=\"nieuw\"><br>"
                 + "<span>Controle Wachtwoord: </span>"
-                + "<input type=\"text\" name=\"controle\"><br>"
+                + "<input type=\"password\" name=\"controle\"><br>"
                 + "<input type=\"submit\" value=\"Wachtwoord Veranderen\">"
                 + "</form>";
         
@@ -85,9 +92,20 @@ public class OptiesServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String generate = "";
+        Gebruiker gebruiker = (Gebruiker) request.getSession().getAttribute("gebruiker");
+        String huidig = request.getParameter("huidig");
+        String nieuw = request.getParameter("nieuw");
+        String controle = request.getParameter("controle");
         
-        processRequest(request, response, generate);
+        if(gebruiker.getWachtwoord().equals(huidig)){
+            if(nieuw.equals(controle)){
+                veranderWachtwoord(nieuw, gebruiker.getStamboeknr());
+            }
+        }
+        
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Hoofdpagina");
+        dispatcher.forward(request, response); 
+        
     }
 
     /**
@@ -100,12 +118,10 @@ public class OptiesServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private String getstamnummer() {
-        return "125023";
+    private void veranderWachtwoord(String nieuw, int nr) {
+        OptiesService service = new OptiesService();
+        service.veranderWachtwoord(nieuw, nr);
     }
 
-    private String getNaam() {
-        return "evaluator";
-    }
 
 }

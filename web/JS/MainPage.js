@@ -13,7 +13,7 @@ function Menu(string){
         }
         
         document.getElementById("werknemer").style.backgroundColor  = 'aqua';
-        document.getElementById("notificatie").style.backgroundColor  = 'white';
+        document.getElementById("notificatie").style.backgroundColor  = 'lightblue';
     }
     if(string === "notificatie"){
         var elemwerk = document.getElementsByClassName("werknemer");
@@ -29,6 +29,6 @@ function Menu(string){
         }
         
         document.getElementById("notificatie").style.backgroundColor  = 'aqua';
-        document.getElementById("werknemer").style.backgroundColor  = 'white';
+        document.getElementById("werknemer").style.backgroundColor  = 'lightblue';
     }
 }

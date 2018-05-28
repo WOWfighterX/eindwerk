@@ -12,11 +12,13 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="CSS/login.css" rel="stylesheet" type="text/css"/>
+        <link href="CSS/achtergrond.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <div>
-            <img src="Images/barthelLogo.jpg" alt="Logo"/>
+            <img src="Images/leiebrug.png" alt="Logo"/>
             <form method="post" action="Login">
+                <br><br><br>
                 <%
                     Object ob = request.getAttribute("scholen");
                     out.println(ob);
@@ -24,7 +26,7 @@
                 <br>
                 <span>Gebruikersnaam:</span>
                 <input type="text" name="Gebruikersnaam" value="">
-                <br>
+                <br><br>
                 <span>Wachtwoord:</span>
                 <input type="password" name="Wachtwoord" value="">
                 <br><br>

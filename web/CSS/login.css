@@ -12,12 +12,18 @@ form {
     margin-left: 30%;
 }
 span{
+    margin-top:30px;
     float: left;
 }
 input{
+    margin-top:30px;
     float: right;
 }
 #Login{
     margin-left: 40%;
     float: none;
+}
+#school{
+    width: 165px;
+    margin-left:130px
 }

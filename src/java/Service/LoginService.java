@@ -38,16 +38,41 @@ public class LoginService {
         List gebruikers = dao.getGebruiker(gebruiker.getSchool().getInstellingsnr());
         int hulp;
         boolean login = false;
+        
+        gebruiker.setAdmin(false);
+        gebruiker.setEvaluator(false);
 
         for (int i = 0; i < gebruikers.size(); i++) {
             String user = (String) gebruikers.get(i);
+            
             hulp = user.indexOf("|");
             String naam = user.substring(0, hulp);
-            String ww = user.substring(hulp + 1);
+            user = user.substring(hulp + 1);
+            
+            hulp = user.indexOf("|");
+            String ww = user.substring(0, hulp);
+            user = user.substring(hulp + 1);
+            
+            hulp = user.indexOf("|");
+            String admin = user.substring(0, hulp);
+            user = user.substring(hulp + 1);
+            
+            hulp = user.indexOf("|");
+            String evaluator = user.substring(0, hulp);
+            user = user.substring(hulp + 1);
+            
+            int stamboeknr = Integer.parseInt(user);
+            gebruiker.setStamboeknr(stamboeknr);
             
             if(gebruiker.getGebruikersnaam().equals(naam)){
                 if(gebruiker.getWachtwoord().equals(ww)){
                     login = true;
+                    if(!admin.equals("null")){
+                        gebruiker.setAdmin(true);
+                    }
+                    if(!evaluator.equals("null")){
+                        gebruiker.setEvaluator(true);
+                    }
                 }
             }
             
@@ -60,7 +85,7 @@ public class LoginService {
 
         generateScholen();
 
-        String hulp = "<select name=\"School\">";
+        String hulp = "<select id=\"school\" name=\"School\">";
 
         for (int i = 0; i < scholen.size(); i++) {
 

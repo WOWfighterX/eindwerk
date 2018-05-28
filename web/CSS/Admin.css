@@ -1,8 +1,9 @@
 .left{
     float: left;
-    margin-left: 20%;
     width: 20%;
-    margin-top:5%;
+    margin-top:7%;
+    margin-left:-5%;
+    background-color:lightblue;
 }
 .right{
     float: right;
@@ -10,7 +11,8 @@
     width: 20%;
     border:1px solid black;
     height:500px;
-    margin-top:5%;
+    margin-top:7%;
+    background-color:lightblue;
 }
 #perstoev{
     display: block;
@@ -50,4 +52,13 @@ button{
 }
 .functies{
     display: none;
+}
+#button{
+    float:left;
+    width:200px;
+    height:70px;
+    margin-top:10px;
+    border-radius:25px;
+    background-color:lightblue;
+    margin-left:20%;
 }

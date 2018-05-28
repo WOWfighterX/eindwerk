@@ -14,6 +14,9 @@ public class Gebruiker {
     private School school;
     private String gebruikersnaam;
     private String wachtwoord;
+    private boolean admin;
+    private boolean evaluator;
+    private int Stamboeknr;
 
     public Gebruiker(School school, String gebruikersnaam, String wachtwoord) {
         this.school = school;
@@ -31,6 +34,30 @@ public class Gebruiker {
 
     public String getWachtwoord() {
         return wachtwoord;
+    }
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
+    public boolean isEvaluator() {
+        return evaluator;
+    }
+
+    public void setEvaluator(boolean evaluator) {
+        this.evaluator = evaluator;
+    }
+
+    public int getStamboeknr() {
+        return Stamboeknr;
+    }
+
+    public void setStamboeknr(int Stamboeknr) {
+        this.Stamboeknr = Stamboeknr;
     }
     
     

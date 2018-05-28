@@ -73,11 +73,12 @@ public class FuncVerw extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String medewerkernaam = request.getParameter("medewerker");
-        String functie = request.getParameter(medewerkernaam);
+        String medewerkerid = request.getParameter("medewerker");
+        String functie = request.getParameter("functie");
+        int mid = Integer.parseInt(medewerkerid);
         
         AdminWriteService service = new AdminWriteService();
-        service.removeFunctie(medewerkernaam, functie);
+        service.removeFunctie(mid, functie);
         
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/admin");
         dispatcher.forward(request, response);

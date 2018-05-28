@@ -1,22 +1,6 @@
-function selectFunctie(String) {
-    
-    var array = document.getElementsByClassName("functies");
-    var lengthOfArray=array.length;
+function Menu(string) {
+    if (string === "+pers") {
 
-    for(var i=0; i<lengthOfArray;i++){
-        array[i].style.display = 'none'
-    }
-    makeVisible(String);
-      
-  }
-
-function makeVisible(string){
-    document.getElementById(string).style.display = 'block';
-}
-
-function Menu(string){
-    if(string === "+pers"){
-        
         document.getElementById("PersToev").style.display = 'block';
         document.getElementById("EvalVer").style.display = 'none';
         document.getElementById("Rechten").style.display = 'none';
@@ -25,20 +9,20 @@ function Menu(string){
         document.getElementById("Account").style.display = 'none';
         document.getElementById("FuncToev").style.display = 'none';
         document.getElementById("FuncVerw").style.display = 'none';
-        
-        document.getElementById("-func").style.backgroundColor  = 'white';
-        document.getElementById("+func").style.backgroundColor  = 'white';
-        document.getElementById("+pers").style.backgroundColor  = 'aqua';
-        document.getElementById("+eval").style.backgroundColor  = 'white';
-        document.getElementById("+recht").style.backgroundColor  = 'white';
-        document.getElementById("+school").style.backgroundColor  = 'white';
-        document.getElementById("-school").style.backgroundColor  = 'white';
-        document.getElementById("-account").style.backgroundColor  = 'white';
-        
+
+        document.getElementById("-func").style.backgroundColor = 'transparent';
+        document.getElementById("+func").style.backgroundColor = 'transparent';
+        document.getElementById("+pers").style.backgroundColor = 'aqua';
+        document.getElementById("+eval").style.backgroundColor = 'transparent';
+        document.getElementById("+recht").style.backgroundColor = 'transparent';
+        document.getElementById("+school").style.backgroundColor = 'transparent';
+        document.getElementById("-school").style.backgroundColor = 'transparent';
+        document.getElementById("-account").style.backgroundColor = 'transparent';
+
     }
-    
-    if(string === "+eval"){
-        
+
+    if (string === "+eval") {
+
         document.getElementById("PersToev").style.display = 'none';
         document.getElementById("EvalVer").style.display = 'block';
         document.getElementById("Rechten").style.display = 'none';
@@ -47,20 +31,20 @@ function Menu(string){
         document.getElementById("Account").style.display = 'none';
         document.getElementById("FuncToev").style.display = 'none';
         document.getElementById("FuncVerw").style.display = 'none';
-        
-        document.getElementById("-func").style.backgroundColor  = 'white';
-        document.getElementById("+func").style.backgroundColor  = 'white';
-        document.getElementById("+pers").style.backgroundColor  = 'white';
-        document.getElementById("+eval").style.backgroundColor  = 'aqua';
-        document.getElementById("+recht").style.backgroundColor  = 'white';
-        document.getElementById("+school").style.backgroundColor  = 'white';
-        document.getElementById("-school").style.backgroundColor  = 'white';
-        document.getElementById("-account").style.backgroundColor  = 'white';
-        
+
+        document.getElementById("-func").style.backgroundColor = 'transparent';
+        document.getElementById("+func").style.backgroundColor = 'transparent';
+        document.getElementById("+pers").style.backgroundColor = 'transparent';
+        document.getElementById("+eval").style.backgroundColor = 'aqua';
+        document.getElementById("+recht").style.backgroundColor = 'transparent';
+        document.getElementById("+school").style.backgroundColor = 'transparent';
+        document.getElementById("-school").style.backgroundColor = 'transparent';
+        document.getElementById("-account").style.backgroundColor = 'transparent';
+
     }
-    
-    if(string === "+recht"){
-        
+
+    if (string === "+recht") {
+
         document.getElementById("PersToev").style.display = 'none';
         document.getElementById("EvalVer").style.display = 'none';
         document.getElementById("Rechten").style.display = 'block';
@@ -69,20 +53,20 @@ function Menu(string){
         document.getElementById("Account").style.display = 'none';
         document.getElementById("FuncToev").style.display = 'none';
         document.getElementById("FuncVerw").style.display = 'none';
-        
-        document.getElementById("-func").style.backgroundColor  = 'white';
-        document.getElementById("+func").style.backgroundColor  = 'white';
-        document.getElementById("+pers").style.backgroundColor  = 'white';
-        document.getElementById("+eval").style.backgroundColor  = 'white';
-        document.getElementById("+recht").style.backgroundColor  = 'aqua';
-        document.getElementById("+school").style.backgroundColor  = 'white';
-        document.getElementById("-school").style.backgroundColor  = 'white';
-        document.getElementById("-account").style.backgroundColor  = 'white';
-        
+
+        document.getElementById("-func").style.backgroundColor = 'transparent';
+        document.getElementById("+func").style.backgroundColor = 'transparent';
+        document.getElementById("+pers").style.backgroundColor = 'transparent';
+        document.getElementById("+eval").style.backgroundColor = 'transparent';
+        document.getElementById("+recht").style.backgroundColor = 'aqua';
+        document.getElementById("+school").style.backgroundColor = 'transparent';
+        document.getElementById("-school").style.backgroundColor = 'transparent';
+        document.getElementById("-account").style.backgroundColor = 'transparent';
+
     }
-    
-    if(string === "+school"){
-        
+
+    if (string === "+school") {
+
         document.getElementById("PersToev").style.display = 'none';
         document.getElementById("EvalVer").style.display = 'none';
         document.getElementById("Rechten").style.display = 'none';
@@ -91,20 +75,20 @@ function Menu(string){
         document.getElementById("Account").style.display = 'none';
         document.getElementById("FuncToev").style.display = 'none';
         document.getElementById("FuncVerw").style.display = 'none';
-        
-        document.getElementById("-func").style.backgroundColor  = 'white';
-        document.getElementById("+func").style.backgroundColor  = 'white';
-        document.getElementById("+pers").style.backgroundColor  = 'white';
-        document.getElementById("+eval").style.backgroundColor  = 'white';
-        document.getElementById("+recht").style.backgroundColor  = 'white';
-        document.getElementById("+school").style.backgroundColor  = 'aqua';
-        document.getElementById("-school").style.backgroundColor  = 'white';
-        document.getElementById("-account").style.backgroundColor  = 'white';
-        
+
+        document.getElementById("-func").style.backgroundColor = 'transparent';
+        document.getElementById("+func").style.backgroundColor = 'transparent';
+        document.getElementById("+pers").style.backgroundColor = 'transparent';
+        document.getElementById("+eval").style.backgroundColor = 'transparent';
+        document.getElementById("+recht").style.backgroundColor = 'transparent';
+        document.getElementById("+school").style.backgroundColor = 'aqua';
+        document.getElementById("-school").style.backgroundColor = 'transparent';
+        document.getElementById("-account").style.backgroundColor = 'transparent';
+
     }
-    
-    if(string === "-school"){
-        
+
+    if (string === "-school") {
+
         document.getElementById("PersToev").style.display = 'none';
         document.getElementById("EvalVer").style.display = 'none';
         document.getElementById("Rechten").style.display = 'none';
@@ -113,20 +97,20 @@ function Menu(string){
         document.getElementById("Account").style.display = 'none';
         document.getElementById("FuncToev").style.display = 'none';
         document.getElementById("FuncVerw").style.display = 'none';
-        
-        document.getElementById("-func").style.backgroundColor  = 'white';
-        document.getElementById("+func").style.backgroundColor  = 'white';
-        document.getElementById("+pers").style.backgroundColor  = 'white';
-        document.getElementById("+eval").style.backgroundColor  = 'white';
-        document.getElementById("+recht").style.backgroundColor  = 'white';
-        document.getElementById("+school").style.backgroundColor  = 'white';
-        document.getElementById("-school").style.backgroundColor  = 'aqua';
-        document.getElementById("-account").style.backgroundColor  = 'white';
-        
+
+        document.getElementById("-func").style.backgroundColor = 'transparent';
+        document.getElementById("+func").style.backgroundColor = 'transparent';
+        document.getElementById("+pers").style.backgroundColor = 'transparent';
+        document.getElementById("+eval").style.backgroundColor = 'transparent';
+        document.getElementById("+recht").style.backgroundColor = 'transparent';
+        document.getElementById("+school").style.backgroundColor = 'transparent';
+        document.getElementById("-school").style.backgroundColor = 'aqua';
+        document.getElementById("-account").style.backgroundColor = 'transparent';
+
     }
-    
-    if(string === "-account"){
-        
+
+    if (string === "-account") {
+
         document.getElementById("PersToev").style.display = 'none';
         document.getElementById("EvalVer").style.display = 'none';
         document.getElementById("Rechten").style.display = 'none';
@@ -135,20 +119,20 @@ function Menu(string){
         document.getElementById("Account").style.display = 'block';
         document.getElementById("FuncToev").style.display = 'none';
         document.getElementById("FuncVerw").style.display = 'none';
-        
-        document.getElementById("-func").style.backgroundColor  = 'white';
-        document.getElementById("+func").style.backgroundColor  = 'white';
-        document.getElementById("+pers").style.backgroundColor  = 'white';
-        document.getElementById("+eval").style.backgroundColor  = 'white';
-        document.getElementById("+recht").style.backgroundColor  = 'white';
-        document.getElementById("+school").style.backgroundColor  = 'white';
-        document.getElementById("-school").style.backgroundColor  = 'white';
-        document.getElementById("-account").style.backgroundColor  = 'aqua';
-        
+
+        document.getElementById("-func").style.backgroundColor = 'transparent';
+        document.getElementById("+func").style.backgroundColor = 'transparent';
+        document.getElementById("+pers").style.backgroundColor = 'transparent';
+        document.getElementById("+eval").style.backgroundColor = 'transparent';
+        document.getElementById("+recht").style.backgroundColor = 'transparent';
+        document.getElementById("+school").style.backgroundColor = 'transparent';
+        document.getElementById("-school").style.backgroundColor = 'transparent';
+        document.getElementById("-account").style.backgroundColor = 'aqua';
+
     }
-    
-    if(string === "+func"){
-        
+
+    if (string === "+func") {
+
         document.getElementById("PersToev").style.display = 'none';
         document.getElementById("EvalVer").style.display = 'none';
         document.getElementById("Rechten").style.display = 'none';
@@ -157,20 +141,20 @@ function Menu(string){
         document.getElementById("Account").style.display = 'none';
         document.getElementById("FuncToev").style.display = 'block';
         document.getElementById("FuncVerw").style.display = 'none';
-        
-        document.getElementById("-func").style.backgroundColor  = 'white';
-        document.getElementById("+func").style.backgroundColor  = 'aqua';
-        document.getElementById("+pers").style.backgroundColor  = 'white';
-        document.getElementById("+eval").style.backgroundColor  = 'white';
-        document.getElementById("+recht").style.backgroundColor  = 'white';
-        document.getElementById("+school").style.backgroundColor  = 'white';
-        document.getElementById("-school").style.backgroundColor  = 'white';
-        document.getElementById("-account").style.backgroundColor  = 'white';
-        
+
+        document.getElementById("-func").style.backgroundColor = 'transparent';
+        document.getElementById("+func").style.backgroundColor = 'aqua';
+        document.getElementById("+pers").style.backgroundColor = 'transparent';
+        document.getElementById("+eval").style.backgroundColor = 'transparent';
+        document.getElementById("+recht").style.backgroundColor = 'transparent';
+        document.getElementById("+school").style.backgroundColor = 'transparent';
+        document.getElementById("-school").style.backgroundColor = 'transparent';
+        document.getElementById("-account").style.backgroundColor = 'transparent';
+
     }
-    
-    if(string === "-func"){
-        
+
+    if (string === "-func") {
+
         document.getElementById("PersToev").style.display = 'none';
         document.getElementById("EvalVer").style.display = 'none';
         document.getElementById("Rechten").style.display = 'none';
@@ -179,15 +163,15 @@ function Menu(string){
         document.getElementById("Account").style.display = 'none';
         document.getElementById("FuncToev").style.display = 'none';
         document.getElementById("FuncVerw").style.display = 'block';
-        
-        document.getElementById("-func").style.backgroundColor  = 'aqua';
-        document.getElementById("+func").style.backgroundColor  = 'white';
-        document.getElementById("+pers").style.backgroundColor  = 'white';
-        document.getElementById("+eval").style.backgroundColor  = 'white';
-        document.getElementById("+recht").style.backgroundColor  = 'white';
-        document.getElementById("+school").style.backgroundColor  = 'white';
-        document.getElementById("-school").style.backgroundColor  = 'white';
-        document.getElementById("-account").style.backgroundColor  = 'white';
-        
+
+        document.getElementById("-func").style.backgroundColor = 'aqua';
+        document.getElementById("+func").style.backgroundColor = 'transparent';
+        document.getElementById("+pers").style.backgroundColor = 'transparent';
+        document.getElementById("+eval").style.backgroundColor = 'transparent';
+        document.getElementById("+recht").style.backgroundColor = 'transparent';
+        document.getElementById("+school").style.backgroundColor = 'transparent';
+        document.getElementById("-school").style.backgroundColor = 'transparent';
+        document.getElementById("-account").style.backgroundColor = 'transparent';
+
     }
 }

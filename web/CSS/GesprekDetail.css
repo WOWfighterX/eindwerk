@@ -4,6 +4,7 @@
     height: 400px;
     border: 1px solid black;
     margin-right:9%;
+    background-color:lightblue;
 }
 .links{
     float: left;
@@ -11,11 +12,41 @@
     border: 1px solid black;
     height: 400px;
     margin-left: 15%;
+    background-color:lightblue;
 }
 .gesprek{
     border: 1px solid black;
 }
 p{
     text-align:center;
-    font-size: 24px;
+    font-size: 32px;
+}
+
+.gesprek{
+    background-color: white;
+}
+.details{
+    display: none;
+}
+
+.links .gesprek:first-child{
+    background-color: aqua;
+}
+
+.rechts .details:first-child{
+    display: block;
+}
+.details span{
+    font-size:20px;
+}
+.details a{
+    font-size:20px;
+}
+button{
+    width:200px;
+    height:70px;
+    margin-top:10px;
+    border-radius:25px;
+    background-color:lightblue;
+    margin-left:20%;
 }

@@ -62,7 +62,7 @@ public class MainPageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response, "");
+        doPost(request, response);
     }
 
     /**
@@ -105,7 +105,7 @@ public class MainPageServlet extends HttpServlet {
 "        </div>";
         
         generated +=
-        "<div class=\"right\">\n" +
+        "<div class=\"right\" style=\"overflow-y:scroll; height:400px;\">\n" +
             Generate() +
 "        </div>";
         

@@ -19,11 +19,12 @@ public class Gesprek {
     private Date datum;
     private String status;
     private String type;
-    private Evaluator evaluator1;
-    private Evaluator evaluator2;
+    private Medewerker evaluator1;
+    private Medewerker evaluator2;
     private String filepath;
+    private int gesprekID;
     
-    public Gesprek(Medewerker m, School s, Date d, String st, String t, Evaluator ev1, Evaluator ev2){
+    public Gesprek(Medewerker m, School s, Date d, String st, String t, Medewerker ev1, Medewerker ev2){
         medewerker = m;
         school = s;
         datum = d;
@@ -33,7 +34,7 @@ public class Gesprek {
         evaluator2 = ev2;
     }
 
-    public Gesprek(Medewerker medewerker, Date datum, String status, String type, Evaluator evaluator1, Evaluator evaluator2, String filepath) {
+    public Gesprek(Medewerker medewerker,School s, Date datum, String status, String type, Medewerker evaluator1, Medewerker evaluator2, String filepath) {
         this.medewerker = medewerker;
         this.datum = datum;
         this.status = status;
@@ -41,6 +42,7 @@ public class Gesprek {
         this.evaluator1 = evaluator1;
         this.evaluator2 = evaluator2;
         this.filepath = filepath;
+        this.school = s;
     }
 
     public String getFilepath() {
@@ -67,12 +69,19 @@ public class Gesprek {
         return type;
     }
 
-    public Evaluator getEvaluator1() {
+    public Medewerker getEvaluator1() {
         return evaluator1;
     }
 
-    public Evaluator getEvaluator2() {
+    public Medewerker getEvaluator2() {
         return evaluator2;
     }
     
+    public void setGesprekID(int gesprekID) {
+        this.gesprekID = gesprekID;
+    }
+
+    public int getGesprekID() {
+        return gesprekID;
+    }
 }

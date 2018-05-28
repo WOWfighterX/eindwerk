@@ -100,12 +100,12 @@ public class NieuwMeldingServlet extends HttpServlet {
     
     private String generateFuncties(){
         NieuwNotificatieService service = new NieuwNotificatieService();
-        return service.genFuncties();
+        return service.generateFuncties();
     }
     
     private String generateMedewerkers(){
         NieuwNotificatieService service = new NieuwNotificatieService();
-        return service.genMedewerkers();
+        return service.generateSelectMedewerkers();
     }
     
 

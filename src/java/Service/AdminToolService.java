@@ -37,8 +37,8 @@ public class AdminToolService {
         return medewerkers;
     }
 
-    public List getEvaluatoren() {
-        genEvaluatoren();
+    public List getEvaluatoren(int sid) {
+        genEvaluatoren(sid);
         return evaluatoren;
     }
 
@@ -95,10 +95,9 @@ public class AdminToolService {
             String functie = persoon.substring(0, hulp);
             persoon = persoon.substring(hulp + 1);
 
-            int actief = Integer.parseInt(persoon);
+            if (!persoon.equals("null")) {
 
-            if (actief == 1) {
-
+                int actief = Integer.parseInt(persoon);
                 Functie f = new Functie(functie);
                 Adres a = new Adres(straat, stad, postcode);
                 Medewerker medewerker = new Medewerker(nr, voornaam, familienaam, geboorte, email, a, f);
@@ -120,8 +119,8 @@ public class AdminToolService {
         }
     }
 
-    private void genEvaluatoren() {
-        List list = dao.getEvaluatoren();
+    private void genEvaluatoren(int sid) {
+        List list = dao.getEvaluatoren(sid);
 
         for (int i = 0; i < list.size(); i++) {
 
@@ -168,7 +167,10 @@ public class AdminToolService {
             String functie = persoon.substring(0, hulp);
             persoon = persoon.substring(hulp + 1);
 
-            int actief = Integer.parseInt(persoon);
+            int actief = 0;
+            if (!persoon.equals("null")) {
+                actief = Integer.parseInt(persoon);
+            }
 
             if (actief == 1) {
 

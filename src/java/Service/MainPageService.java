@@ -228,9 +228,9 @@ public class MainPageService {
             String functie = persoon.substring(0, hulp);
             persoon = persoon.substring(hulp + 1);
 
-            int actief = Integer.parseInt(persoon);
-
-            if (actief == 1) {
+            if (!persoon.equals("null")) {
+                
+                int actief = Integer.parseInt(persoon);
 
                 Functie f = new Functie(functie);
                 Adres a = new Adres(straat, stad, postcode);

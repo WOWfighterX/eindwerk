@@ -94,6 +94,11 @@ public class PersToev extends HttpServlet {
         String email = request.getParameter("email");
         String ww = request.getParameter("wachtwoord");
         String account = request.getParameter("account");
+        String stad = request.getParameter("stad");
+        int postcode = Integer.parseInt(request.getParameter("postcode"));
+        String straat = request.getParameter("straat");
+        
+        Adres a = new Adres(straat,stad,postcode);
         
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
@@ -109,7 +114,7 @@ public class PersToev extends HttpServlet {
         Medewerker medewerker = new Medewerker(nr, vn, fn, date, email, f);
         
         AdminWriteService service = new AdminWriteService();
-        service.addMedewerker(medewerker, ww,account, sid);
+        service.addMedewerker(medewerker, ww,account, sid, a);
         
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/admin");
         dispatcher.forward(request, response);

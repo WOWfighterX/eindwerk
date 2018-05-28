@@ -3,10 +3,33 @@ form{
     width: 40%;
     align-items: center;
     display: inline-block;
-    text-align: center;
     margin-top: 10%;
 }
 
-form input {
-    margin-top: 30px;
+#divLinks{
+    float:left;
+    width:42%;
+    margin-left:15%;
+    height:300px;
+}
+#divRechts{
+    float:right;
+    width:20%;
+    margin-right:20%;
+    height:300px;
+}
+#divLinks span{
+    margin-top:30px;
+}
+button{
+    width:200px;
+    height:70px;
+    margin-top:10px;
+    border-radius:25px;
+    background-color:lightblue;
+    margin-left:20%;
+}
+form #submit{
+    align-items: center;
+    margin-left:40%;
 }

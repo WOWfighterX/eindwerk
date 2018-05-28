@@ -5,6 +5,7 @@
  */
 package Servlet;
 
+import Service.NieuwGesprekService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -92,71 +93,17 @@ public class NieuwGesprekServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
-    private String generateMedewerkers(){
-        String hulp = "<datalist id=\"medewerker\">";
-        List data = getStrings();
-        
-        String vorige = "";
-        int k = 1;
-        
-        for(int i =0;i<(data.size()/2);i++){
-            String medewerker = (String) data.get(i*2);
-            
-            if(!medewerker.equals(vorige)){
-                hulp += "<option onclick=\"selectMedewerker()\" id=\"medewerker"+k+"\" value=\""+ medewerker +"\">\n";
-                vorige = medewerker;
-                k++;
-            }
-            
-        }
-        hulp += "</datalist>";
-        
-        return hulp;
-    }
-    
-    private String generateFuncties(){
-        String hulp = "<datalist id=\"functie\">";
-        List data = getStrings();
-        
-        String vorige = "";
-        int k = 0;
-        
-        for(int i =0;i<(data.size()/2);i++){
-            String medewerker = (String) data.get(i*2);
-            
-            if(!medewerker.equals(vorige)){
-                k++;
-                vorige = medewerker;
-                hulp += "<option id=\"functie"+k+"\" value=\""+ data.get((i*2)+1) +"\">\n";
-            }else{
-                hulp += "<option id=\"functie"+k+"\" value=\""+ data.get((i*2)+1) +"\">\n";
-            }
-        }
-        hulp += "</datalist>";
-        
-        return hulp;
-    }
-    
-    private List getStrings(){
-        List strings = new ArrayList();
-        
-        //dummy data
-        
-        strings.add("Jan Janssens");
-        strings.add("Leerkracht 4A");
-        
-        strings.add("Marie marieke");
-        strings.add("Leerkracht 2B");
-        
-        strings.add("Marie marieke");
-        strings.add("Leerkracht 5C");
-        
-        strings.add("Piet Pieters");
-        strings.add("Leerkracht 3A");
-        
-        return strings;
+
+    private String generateMedewerkers() {
+        NieuwGesprekService service = new NieuwGesprekService();
+        return service.generateSelectMedewerkers();
     }
 
+    private String generateFuncties() {
+        NieuwGesprekService service = new NieuwGesprekService();
+        return service.generateFuncties();
+    }
+    
+    
 
 }

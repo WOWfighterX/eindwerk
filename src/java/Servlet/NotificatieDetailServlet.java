@@ -74,8 +74,7 @@ public class NotificatieDetailServlet extends HttpServlet {
                 + "<span>Medewerker: "+melding.getMedewerker().getVoornaam()+" "+melding.getMedewerker().getFamilienaam()+"</span><br><br>"
                 + "<span>Functie: "+melding.getFunctie().getFunctie()+"</span><br><br>"
                 + "<span>datum: "+melding.getDatum()+"</span><br>"
-                + "<textarea rows=\"4\" cols=\"50\">"+melding.getInfo()+"</textarea><br>"
-                + "<input type=\"submit\" value=\"Veranderen\">"
+                + "<span>"+melding.getInfo()+"</span><br>"
                 + "</form>";
         
         request.setAttribute("gen", generate);

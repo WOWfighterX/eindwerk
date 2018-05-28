@@ -14,8 +14,10 @@
             out.println("<title>Servlet NotificatieDetailServlet</title>");      
             out.println("<link href=\"CSS/NotificatieDetail.css\" rel=\"stylesheet\" type=\"text/css\"/>");
         %>
+        <link href="CSS/achtergrond.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
+        <a href="Hoofdpagina" id="hoofdpaginaknop"><button type="button">Hoofdpagina</button></a>
         <%
             Object ob = request.getAttribute("gen");
             out.println(ob);
