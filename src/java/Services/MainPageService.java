@@ -116,14 +116,6 @@ public class MainPageService {
             persoon = persoon.substring(hulp + 1);
 
             hulp = persoon.indexOf("|");
-            String g = persoon.substring(0, hulp);
-            int jaar = Integer.parseInt(g.substring(0, 3));
-            int maand = Integer.parseInt(g.substring(5, 6));
-            int dag = Integer.parseInt(g.substring(8, 9));
-            Date geboorte = new Date(jaar, maand, dag);
-            persoon = persoon.substring(hulp + 1);
-
-            hulp = persoon.indexOf("|");
             String email = persoon.substring(0, hulp);
             persoon = persoon.substring(hulp + 1);
 
@@ -144,10 +136,10 @@ public class MainPageService {
             persoon = persoon.substring(hulp + 1);
 
             hulp = persoon.indexOf("|");
-            String d = persoon.substring(0, hulp);
-            jaar = Integer.parseInt(g.substring(0, 3));
-            maand = Integer.parseInt(g.substring(5, 6));
-            dag = Integer.parseInt(g.substring(8, 9));
+            String g = persoon.substring(0, hulp);
+            int jaar = Integer.parseInt(g.substring(0, 3));
+            int maand = Integer.parseInt(g.substring(5, 6));
+            int dag = Integer.parseInt(g.substring(8, 9));
             Date datum = new Date(jaar, maand, dag);
             persoon = persoon.substring(hulp + 1);
 
@@ -163,7 +155,7 @@ public class MainPageService {
 
             Functie f = new Functie(functie);
             Adres a = new Adres(straat, stad, postcode);
-            Medewerker medewerker = new Medewerker(nr, voornaam, familienaam, geboorte, email, a, f);
+            Medewerker medewerker = new Medewerker(nr, voornaam, familienaam, email, a, f);
             Melding melding = new Melding(datum, extra, medewerker, f, t,id);
 
             meldingen.add(melding);
@@ -201,14 +193,6 @@ public class MainPageService {
             persoon = persoon.substring(hulp + 1);
 
             hulp = persoon.indexOf("|");
-            String g = persoon.substring(0, hulp);
-            int jaar = Integer.parseInt(g.substring(0, 3));
-            int maand = Integer.parseInt(g.substring(5, 6));
-            int dag = Integer.parseInt(g.substring(8, 9));
-            Date geboorte = new Date(jaar, maand, dag);
-            persoon = persoon.substring(hulp + 1);
-
-            hulp = persoon.indexOf("|");
             String email = persoon.substring(0, hulp);
             persoon = persoon.substring(hulp + 1);
 
@@ -234,7 +218,7 @@ public class MainPageService {
 
                 Functie f = new Functie(functie);
                 Adres a = new Adres(straat, stad, postcode);
-                Medewerker medewerker = new Medewerker(nr, voornaam, familienaam, geboorte, email, a, f);
+                Medewerker medewerker = new Medewerker(nr, voornaam, familienaam, email, a, f);
 
                 //kijken of de medewerker al bestaat. al hij al bestaat word de functie toegevoegd aan zijn functielijst.
                 int nummer = 0;

@@ -72,6 +72,10 @@
         <servlet-name>GesprekDetail</servlet-name>
         <servlet-class>Servlet.GesprekDetail</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PDFview</servlet-name>
+        <servlet-class>Servlets.PDFview</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AdminToolsServlet</servlet-name>
         <url-pattern>/admin</url-pattern>
@@ -143,6 +147,10 @@
     <servlet-mapping>
         <servlet-name>GesprekDetail</servlet-name>
         <url-pattern>/GesprekDetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PDFview</servlet-name>
+        <url-pattern>/PDFview</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

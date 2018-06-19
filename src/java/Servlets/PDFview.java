@@ -1,22 +1,50 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Servlets;
 
-import Model.*;
-import Services.AdminWriteService;
+import com.gnostice.stardocssdk.*;
+import java.awt.Desktop;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.URI;
+import java.net.URISyntaxException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author aaron gevers
  */
-public class PersToev extends HttpServlet {
+public class PDFview extends HttpServlet {
 
+    /*
+    private static final long serialVersionUID = 1L;
+    private StarDocs starDocs = null;
+    
+    public PDFview() throws URISyntaxException, StarDocsException{
+        super ();
+        
+        ConnectionInfo conn = new ConnectionInfo();
+        conn.setApiServerUrl(new URI("https://api.gnostice.com/stardocs/v1"));
+        conn.setApiKey("8cea4123e24f46eda64a41892a711ec2");
+        conn.setApiSecret("36b7fd6a0b774c40ac66caf281e7018d");
+        
+        starDocs = new StarDocs(conn);
+        
+        starDocs.auth.loginApp();
+    }
+     */
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -34,10 +62,10 @@ public class PersToev extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet PersToev</title>");            
+            out.println("<title>Servlet PDFview</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet PersToev at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet PDFview at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -55,7 +83,23 @@ public class PersToev extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        String param = request.getParameter("param");
+        
+        int hulp = param.indexOf("|");
+        String path = param.substring(0, hulp);
+        String mid = param.substring(hulp+1);
+        
+        File file = new File(path);
+        if (file.toString().endsWith(".pdf")) {
+            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + file);
+        } else {
+            Desktop desktop = Desktop.getDesktop();
+            desktop.open(file);
+        }
+
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Gesprekken?param="+mid);
+        dispatcher.forward(request, response);
     }
 
     /**
@@ -69,35 +113,7 @@ public class PersToev extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        HttpSession session = request.getSession();
-        Gebruiker gebruiker = (Gebruiker) session.getAttribute("gebruiker");
-        School school = gebruiker.getSchool();
-        int sid = school.getInstellingsnr();
-        
-        String stamnr = request.getParameter("stamboeknr");
-        String vn = request.getParameter("voornaam");
-        String fn = request.getParameter("familienaam");
-        String functienaam = request.getParameter("functie");
-        String email = request.getParameter("email");
-        String ww = request.getParameter("wachtwoord");
-        String account = request.getParameter("account");
-        String stad = request.getParameter("stad");
-        int postcode = Integer.parseInt(request.getParameter("postcode"));
-        String straat = request.getParameter("straat");
-        
-        Adres a = new Adres(straat,stad,postcode);
-        
-        Functie f = new Functie(functienaam);
-        
-        int nr = Integer.parseInt(stamnr);
-        Medewerker medewerker = new Medewerker(nr, vn, fn, email, f);
-        
-        AdminWriteService service = new AdminWriteService();
-        service.addMedewerker(medewerker, ww,account, sid, a);
-        
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/admin");
-        dispatcher.forward(request, response);
+        processRequest(request, response);
     }
 
     /**

@@ -103,14 +103,6 @@ public class GesprekDetailService {
             persoon = persoon.substring(hulp + 1);
 
             hulp = persoon.indexOf("|");
-            String g = persoon.substring(0, hulp);
-            int jaar = Integer.parseInt(g.substring(0, 3));
-            int maand = Integer.parseInt(g.substring(5, 6));
-            int dag = Integer.parseInt(g.substring(8, 9));
-            Date geboorte = new Date(jaar, maand, dag);
-            persoon = persoon.substring(hulp + 1);
-
-            hulp = persoon.indexOf("|");
             String email = persoon.substring(0, hulp);
             persoon = persoon.substring(hulp + 1);
 
@@ -136,7 +128,7 @@ public class GesprekDetailService {
 
                 Functie f = new Functie(functie);
                 Adres a = new Adres(straat, stad, postcode);
-                Medewerker mede = new Medewerker(nr, voornaam, familienaam, geboorte, email, a, f);
+                Medewerker mede = new Medewerker(nr, voornaam, familienaam, email, a, f);
 
                 //kijken of de medewerker al bestaat. al hij al bestaat word de functie toegevoegd aan zijn functielijst.
                 int nummer = 0;
@@ -257,18 +249,15 @@ public class GesprekDetailService {
 
             String path = filepath + File.separator + files.get(i);
             
-            String html = ".html";
+            String pdf = ".pdf";
             //check welke html files zijn
-            if(path.toLowerCase().contains(html.toLowerCase())){
+            if(path.toLowerCase().contains(pdf.toLowerCase())){
                 //check op de dubbel
-                if(!path.toLowerCase().contains(html.toLowerCase()+html.toLowerCase())){
+                if(!path.toLowerCase().contains(pdf.toLowerCase()+pdf.toLowerCase())){
                     
-                    
-                    
-                    String htmlfile = path.replaceAll(" ", "%20");
                     String naam = (String) files.get(i);
-                    naam = naam.replace(".html", "");
-                    hulp +="<a target=\"_blank\" href=\""+htmlfile+"\">"+naam+"</a></br>";
+                    naam = naam.replace(".pdf", "");
+                    hulp +="<a href=\"/Evaluatie-war/PDFview?param="+path+"|"+medewerker.getStamboeknr()+"\">"+naam+"</a></br>";
                 }
             }
             

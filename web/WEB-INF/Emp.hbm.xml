@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="Account" table="ACCOUNT">
+        <id name="AccountID" column="AccountID" type="integer"></id>
+        <property name="Accountnaam" column="Accountnaam" type="string"></property>
+        <property name="Wachtwoord" column="Wachtwoord" type="string"></property>
+        <property name="actief" column="actief" type="integer"></property>
+    </class>
+
+    <class name="Adres" table="ADRES">
+        <id name="AdresID" column="AdresID" type="integer"></id>
+        <property name="Straat" column="Straat" type="string"></property>
+        <property name="Postcode" column="Postcode" type="integer"></property>
+        <property name="Stad" column="Stad" type="string"></property>
+    </class>
+
+    <class name="Account" table="ACCOUNT">
+        <id name="AccountID" column="AccountID" type="integer"></id>
+        <property name="Accountnaam" column="Accountnaam" type="string"></property>
+        <property name="Wachtwoord" column="Wachtwoord" type="string"></property>
+        <property name="actief" column="actief" type="integer"></property>
+    </class>
+
+    <class name="Functie" table="FUNCTIE">
+        <id name="FunctieID" column="FunctieID" type="integer"></id>
+        <property name="Functienaam" column="Functienaam" type="string"></property>
+    </class>
+
+    <class name="Gesprek" table="GESPREK">
+        <id name="GesprekID" column="GesprekID" type="integer"></id>
+        <property name="SchoolfunctieID" column="SchoolfunctieID" type="integer"></property>
+        <property name="Datum" column="Datum" type="date"></property>
+        <property name="Status" column="Status" type="string"></property>
+        <property name="GesprekType" column="GesprekType" type="string"></property>
+        <property name="Evaluator1ID" column="Evaluator1ID" type="integer"></property>
+        <property name="Evaluator2ID" column="Evaluator2ID" type="integer"></property>
+        <property name="Filepath" column="Filepath" type="string"></property>
+    </class>
+
+    <class name="Medewerker" table="MEDEWERKER">
+        <id name="Stamboeknr" column="Stamboeknr" type="integer"></id>
+        <property name="Voornaam" column="Voornaam" type="string"></property>
+        <property name="Familienaam" column="Familienaam" type="string"></property>
+        <property name="email" column="email" type="string"></property>
+        <property name="AccountID" column="AccountID" type="integer"></property>
+        <property name="AdresID" column="AdresID" type="integer"></property>
+        <property name="admin" column="admin" type="integer"></property>
+    </class>
+
+    <class name="Melding" table="MELDING">
+        <id name="MeldingID" column="MeldingID" type="integer"></id>
+        <property name="SchoolfunctieID" column="SchoolfunctieID" type="string"></property>
+        <property name="Datum" column="Datum" type="date"></property>
+        <property name="type" column="type" type="string"></property>
+        <property name="extra" column="extra" type="string"></property>
+    </class>
+
+    <class name="School" table="SCHOOL">
+        <id name="Instellingsnr" column="Instellingsnr" type="integer"></id>
+        <property name="Schoolnaam" column="Schoolnaam" type="string"></property>
+        <property name="AdresID" column="AdresID" type="integer"></property>
+        <property name="actief" column="actief" type="integer"></property>
+    </class>
+    
+    <class name="Schoolfunctie" table="SCHOOLFUNCTIE">
+        <id name="SchoolfunctieID" column="SchoolfunctieID" type="integer"></id>
+        <property name="FunctieID" column="FunctieID" type="integer"></property>
+        <property name="SchoolID" column="SchoolID" type="integer"></property>
+        <property name="MedewerkerID" column="MedewerkerID" type="integer"></property>
+        <property name="evaluator" column="evaluator" type="integer"></property>
+        <property name="actief" column="actief" type="integer"></property>
+    </class>
+    
+</hibernate-mapping>

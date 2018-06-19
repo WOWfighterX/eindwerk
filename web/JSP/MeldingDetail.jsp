@@ -1,9 +1,3 @@
-<%-- 
-    Document   : MeldingDetail
-    Created on : May 13, 2018, 3:58:36 PM
-    Author     : aaron gevers
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

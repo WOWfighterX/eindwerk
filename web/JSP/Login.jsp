@@ -1,9 +1,3 @@
-<%-- 
-    Document   : Login
-    Created on : May 12, 2018, 11:39:32 AM
-    Author     : aaron gevers
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -25,12 +19,14 @@
                 %>
                 <br>
                 <span>Gebruikersnaam:</span>
-                <input type="text" name="Gebruikersnaam" value="">
+                <input type="text" name="Gebruikersnaam" value="" required>
                 <br><br>
                 <span>Wachtwoord:</span>
-                <input type="password" name="Wachtwoord" value="">
+                <input type="password" name="Wachtwoord" value="" required>
                 <br><br>
                 <input type="submit" value="Log in" id="Login">
+                <br><br>
+                ${errormessage}
             </form>
         </div>
     </body>

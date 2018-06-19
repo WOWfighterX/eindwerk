@@ -128,11 +128,10 @@ public class AdminWriteService {
         }
         
         int mid = rdao.getMedewerkerID();
-        Date d = new Date(200,1,1);
         
         Adres a = new Adres("straat", "stad", 0000);
         Functie f = new Functie("admin");
-        Medewerker medewerker = new Medewerker(mid, "admin", "", d, "admin@admin.com", a, f);
+        Medewerker medewerker = new Medewerker(mid, "admin", "", "admin@admin.com", a, f);
         
         String account = "Admin";
         String ww = "Admin123!";

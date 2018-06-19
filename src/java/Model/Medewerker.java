@@ -18,26 +18,23 @@ public class Medewerker extends Persoon{
     private int stamboeknr;
     private String voornaam;
     private String familienaam;
-    private Date geboorte;
     private String email;
     private Adres adres;
     private List functies = new ArrayList<Functie>();
     
-    public Medewerker(int nr, String vn, String fn, Date d, String e, Adres a, Functie f){
+    public Medewerker(int nr, String vn, String fn, String e, Adres a, Functie f){
         stamboeknr = nr;
         voornaam = vn;
         familienaam = fn;
-        geboorte = d;
         email = e;
         adres = a;
         functies.add(f);
     }
     
-    public Medewerker(int nr, String vn, String fn, Date d, String e, Functie f){
+    public Medewerker(int nr, String vn, String fn, String e, Functie f){
         stamboeknr = nr;
         voornaam = vn;
         familienaam = fn;
-        geboorte = d;
         email = e;
         functies.add(f);
     }
@@ -52,10 +49,8 @@ public class Medewerker extends Persoon{
         
         if(m.getVoornaam().equals(voornaam)){
             if(m.getFamilienaam().equals(familienaam)){
-                if(m.getGeboorte().equals(geboorte)){
                     AddFunctie(f);
                     return true;
-                }
             }
             
         }
@@ -64,15 +59,6 @@ public class Medewerker extends Persoon{
         
     }
     
-    public String getStringDate(){
-        
-        int jaar = geboorte.getYear();
-        int maand = geboorte.getMonth();
-        int dag = geboorte.getDay();
-        String hulp = "" + jaar + maand + dag;
-        return hulp;
-        
-    }
     
     public void AddFunctie(Functie f){
         functies.add(f);
@@ -88,10 +74,6 @@ public class Medewerker extends Persoon{
 
     public String getFamilienaam() {
         return familienaam;
-    }
-
-    public Date getGeboorte() {
-        return geboorte;
     }
 
     public String getEmail() {

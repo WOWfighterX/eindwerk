@@ -7,6 +7,7 @@ package Hoofdserlvets;
 
 import Model.Gebruiker;
 import Services.LoginService;
+import Services.PasswordService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -85,23 +86,54 @@ public class LoginServlet extends HttpServlet {
         String scholen = getScholen();
         request.setAttribute("scholen", scholen);
         
-        int schoolnr = Integer.parseInt(request.getParameter("School"));
-        String Gebruikersnaam = request.getParameter("Gebruikersnaam");
-        String Wachtwoord = request.getParameter("Wachtwoord");
+        HttpSession session = request.getSession();
+        int loginAttempts;
+        String url = "";
 
-        Gebruiker gebruiker = getGebruiker(schoolnr, Gebruikersnaam, Wachtwoord);
-
-        if (checkLogin(gebruiker)) {
-
-            HttpSession session = request.getSession();
-            session.setAttribute("gebruiker", gebruiker);
-
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Hoofdpagina");
-            dispatcher.forward(request, response);
-        }else{
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/JSP/Login.jsp");
-            dispatcher.forward(request, response);
+        if (session.getAttribute("loginAttempts") == null) {
+            loginAttempts = 0;
+        } else {
+            loginAttempts = (int) session.getAttribute("loginAttempts");
         }
+
+        //teveel pogingen
+        if (loginAttempts > 2) {
+            
+            String errorMessage = "Te veel inlog pogingen. probeer later opnieuw.";
+            request.setAttribute("errormessage", errorMessage);
+            url = "/JSP/Login.jsp";
+
+        } else {
+
+            int schoolnr = Integer.parseInt(request.getParameter("School"));
+            String Gebruikersnaam = request.getParameter("Gebruikersnaam");
+            String Wachtwoord = request.getParameter("Wachtwoord");
+
+            PasswordService pws = new PasswordService();
+            String encryptedPass = pws.encrypt(Wachtwoord);
+
+            Gebruiker gebruiker = getGebruiker(schoolnr, Gebruikersnaam, encryptedPass);
+
+            if (checkLogin(gebruiker)) {
+
+                session.invalidate();
+                session = request.getSession(true);
+                session.setAttribute("gebruiker", gebruiker);
+                url = "/Hoofdpagina";
+
+            } else {
+                
+                loginAttempts++;
+                String errorMessage = "gebruikersnaam en/of wachtwoord verkeerd.\n"
+                        + "nog " + (3 - loginAttempts) + " pogingen.";
+                request.setAttribute("errormessage", errorMessage);
+                session.setAttribute("loginAttempts", loginAttempts);
+                url = "/JSP/Login.jsp";
+            }
+        }
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+        dispatcher.forward(request, response);
+
     }
 
     /**
@@ -123,8 +155,8 @@ public class LoginServlet extends HttpServlet {
         LoginService service = new LoginService();
         return service.getGebruiker(nr, naam, ww);
     }
-    
-    private boolean checkLogin(Gebruiker gebruiker){
+
+    private boolean checkLogin(Gebruiker gebruiker) {
         LoginService service = new LoginService();
         return service.checkGebruiker(gebruiker);
     }

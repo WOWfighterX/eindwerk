@@ -45,14 +45,6 @@ public class NotificatieDetailService {
         melding = melding.substring(hulp + 1);
 
         hulp = melding.indexOf("|");
-        String g = melding.substring(0, hulp);
-        int jaar = Integer.parseInt(g.substring(0, 3));
-        int maand = Integer.parseInt(g.substring(5, 6));
-        int dag = Integer.parseInt(g.substring(8, 9));
-        Date geboorte = new Date(jaar, maand, dag);
-        melding = melding.substring(hulp + 1);
-
-        hulp = melding.indexOf("|");
         String email = melding.substring(0, hulp);
         melding = melding.substring(hulp + 1);
 
@@ -73,10 +65,10 @@ public class NotificatieDetailService {
         melding = melding.substring(hulp + 1);
 
         hulp = melding.indexOf("|");
-        String d = melding.substring(0, hulp);
-        jaar = Integer.parseInt(g.substring(0, 3));
-        maand = Integer.parseInt(g.substring(5, 6));
-        dag = Integer.parseInt(g.substring(8, 9));
+        String g = melding.substring(0, hulp);
+        int jaar = Integer.parseInt(g.substring(0, 3));
+        int maand = Integer.parseInt(g.substring(5, 6));
+        int dag = Integer.parseInt(g.substring(8, 9));
         Date datum = new Date(jaar, maand, dag);
         melding = melding.substring(hulp + 1);
 
@@ -92,7 +84,7 @@ public class NotificatieDetailService {
 
         Functie f = new Functie(functie);
         Adres a = new Adres(straat, stad, postcode);
-        Medewerker medewerker = new Medewerker(nr, voornaam, familienaam, geboorte, email, a, f);
+        Medewerker medewerker = new Medewerker(nr, voornaam, familienaam, email, a, f);
         Melding m = new Melding(datum, extra, medewerker, f, t, id);
         
         return m;

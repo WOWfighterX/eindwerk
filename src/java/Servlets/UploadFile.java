@@ -23,7 +23,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.Convert;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -158,7 +157,7 @@ public class UploadFile extends HttpServlet {
             }
 
             //file locatie
-            uploadPath = "d:\\Users\\aaron gevers\\Documents\\NetBeansProjects\\Evaluatie\\Evaluatie-war\\Files"+File.separator+ medewerker;
+            uploadPath = request.getServletContext().getRealPath("")+File.separator+"Files"+File.separator+ medewerker;
 
             //dir maken als het niet bestaat
             File uploadDir = new File(uploadPath);
@@ -186,9 +185,6 @@ public class UploadFile extends HttpServlet {
 
                     item.write(storeFile);
 
-                    makeHTML(uploadPath);
-
-                    //Convert(uploadPath);
                 }
             }
 
@@ -217,84 +213,6 @@ public class UploadFile extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void Convert(String path) {
-
-        final File folder = new File(path);
-        List files = listFilesForFolder(folder);
-
-        for (int i = 0; i < files.size(); i++) {
-
-            String docname = (String) files.get(i);
-            String docx = path + File.separator + docname;
-
-            docname = docname.replaceAll(".docx", ".pdf");
-            ConvertToPDF(docx, path + File.separator + docname);
-
-        }
-    }
-
-    private List listFilesForFolder(final File folder) {
-
-        List list = new ArrayList();
-
-        for (final File fileEntry : folder.listFiles()) {
-            if (fileEntry.isDirectory()) {
-                listFilesForFolder(fileEntry);
-            } else {
-                list.add(fileEntry.getName());
-            }
-        }
-
-        return list;
-    }
-
-    private void ConvertToPDF(String docPath, String pdfPath) {
-        try {
-            InputStream doc = new FileInputStream(new File(docPath));
-            XWPFDocument document = new XWPFDocument(doc);
-            PdfOptions options = PdfOptions.create();
-            OutputStream out = new FileOutputStream(new File(pdfPath));
-            PdfConverter.getInstance().convert(document, out, options);
-            System.out.println("Done");
-        } catch (FileNotFoundException ex) {
-            System.out.println(ex.getMessage());
-        } catch (IOException ex) {
-
-            System.out.println(ex.getMessage());
-        }
-    }
-
-    private void makeHTML(String uploadPath) {
-
-        final File folder = new File(uploadPath);
-        List files = listFilesForFolder(folder);
-
-        for (int i = 0; i < files.size(); i++) {
-
-            BufferedWriter writer = null;
-            try {
-                
-                String docname = (String) files.get(i);
-                String docx = uploadPath + File.separator + docname;
-                String path = docx.replaceAll(" ", "%20");
-                
-                String html = "<html>\n"
-                        + "<body style=\"background-color: rgb(38,38,38); height: 100%; width: 100%; overflow: hidden; margin: 0\">\n"
-                        + "        <embed width=\"100%\" height=\"100%\" name=\"plugin\" id=\"plugin\" src=\"file:///"+path+"\" type=\"application/pdf\" internalinstanceid=\"5\">\n"
-                        + "</body>\n"
-                        + "</html>";
-                
-                String filename = docname.replace(".pdf", "");
-                String htmlfile = uploadPath + File.separator + filename +".html";
-                
-                writer = new BufferedWriter(new FileWriter(htmlfile));
-                writer.write(html);
-                writer.close();
-                
-            } catch (IOException ex) {
-                Logger.getLogger(UploadFile.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        }
-    }
+   
+    
 }

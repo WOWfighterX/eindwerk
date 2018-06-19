@@ -44,7 +44,7 @@ public class ReadDAO {
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost/gesprekken_db", "admin", "admin123");
 
         Statement st = con.createStatement();
-        String sql = ("select m.stamboeknr, m.voornaam, m.familienaam, m.geboorte, m.email, a.straat, a.postcode, a.stad, f.functienaam, sf.SchoolfunctieID, sf.actief "
+        String sql = ("select m.stamboeknr, m.voornaam, m.familienaam, m.email, a.straat, a.postcode, a.stad, f.functienaam, sf.SchoolfunctieID, sf.actief "
                 + "from medewerker m, functie f, schoolfunctie sf, adres a "
                 + "where m.stamboeknr = sf.MedewerkerID "
                 + "and f.FunctieID = sf.FunctieID "
@@ -57,7 +57,6 @@ public class ReadDAO {
             String str = rs.getString("Stamboeknr");
             str += "|" + rs.getString("Voornaam");
             str += "|" + rs.getString("Familienaam");
-            str += "|" + rs.getString("Geboorte");
             str += "|" + rs.getString("Email");
             str += "|" + rs.getString("Straat");
             str += "|" + rs.getString("Postcode");
@@ -289,7 +288,7 @@ public class ReadDAO {
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost/gesprekken_db", "admin", "admin123");
 
         Statement st = con.createStatement();
-        String sql = ("select m.stamboeknr, m.voornaam, m.familienaam, m.geboorte, m.email, a.straat, a.postcode, a.stad, f.functienaam, sf.actief "
+        String sql = ("select m.stamboeknr, m.voornaam, m.familienaam, m.email, a.straat, a.postcode, a.stad, f.functienaam, sf.actief "
                 + "from medewerker m, functie f, schoolfunctie sf, adres a "
                 + "where m.stamboeknr = sf.MedewerkerID "
                 + "and f.FunctieID = sf.FunctieID "
@@ -302,7 +301,6 @@ public class ReadDAO {
             String str = rs.getString("Stamboeknr");
             str += "|" + rs.getString("Voornaam");
             str += "|" + rs.getString("Familienaam");
-            str += "|" + rs.getString("Geboorte");
             str += "|" + rs.getString("Email");
             str += "|" + rs.getString("Straat");
             str += "|" + rs.getString("Postcode");
@@ -322,7 +320,7 @@ public class ReadDAO {
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost/gesprekken_db", "admin", "admin123");
 
         Statement st = con.createStatement();
-        String sql = ("select m.stamboeknr, m.voornaam, m.familienaam, m.geboorte, m.email, a.straat, a.postcode, a.stad, f.functienaam, sf.actief "
+        String sql = ("select m.stamboeknr, m.voornaam, m.familienaam, m.email, a.straat, a.postcode, a.stad, f.functienaam, sf.actief "
                 + "from medewerker m, functie f, schoolfunctie sf, adres a "
                 + "where m.stamboeknr = sf.MedewerkerID "
                 + "and f.FunctieID = sf.FunctieID "
@@ -336,7 +334,6 @@ public class ReadDAO {
             String str = rs.getString("Stamboeknr");
             str += "|" + rs.getString("Voornaam");
             str += "|" + rs.getString("Familienaam");
-            str += "|" + rs.getString("Geboorte");
             str += "|" + rs.getString("Email");
             str += "|" + rs.getString("Straat");
             str += "|" + rs.getString("Postcode");
@@ -356,7 +353,7 @@ public class ReadDAO {
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost/gesprekken_db", "admin", "admin123");
 
         Statement st = con.createStatement();
-        String sql = ("select m.stamboeknr, m.voornaam, m.familienaam, m.geboorte, m.email, a.straat, a.postcode, a.stad, f.functienaam, me.datum, me.type, me.extra, me.meldingID "
+        String sql = ("select m.stamboeknr, m.voornaam, m.familienaam, m.email, a.straat, a.postcode, a.stad, f.functienaam, me.datum, me.type, me.extra, me.meldingID "
                 + "from medewerker m, functie f, schoolfunctie sf, adres a, melding me "
                 + "where m.stamboeknr = sf.MedewerkerID "
                 + "and f.FunctieID = sf.FunctieID "
@@ -369,7 +366,6 @@ public class ReadDAO {
             String str = rs.getString("Stamboeknr");
             str += "|" + rs.getString("Voornaam");
             str += "|" + rs.getString("Familienaam");
-            str += "|" + rs.getString("Geboorte");
             str += "|" + rs.getString("Email");
             str += "|" + rs.getString("Straat");
             str += "|" + rs.getString("Postcode");

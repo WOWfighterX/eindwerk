@@ -1,9 +1,3 @@
-<%-- 
-    Document   : Admintools.jsp
-    Created on : May 9, 2018, 11:12:14 AM
-    Author     : aaron gevers
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -52,7 +46,6 @@
                         <p>Stamboeknr: </p>
                         <p>Voornaam: </p>
                         <p>Familienaam: </p>
-                        <p>Geboortedatum: </p>
                         <p>Functie: </p>
                         <p>Straat: </p>
                         <p>Postcode: </p>
@@ -65,7 +58,6 @@
                         <input type="text" name="stamboeknr">
                         <input type="text" name="voornaam">
                         <input type="text" name="familienaam">
-                        <input type="date" name="datum">
                         <input type="text" name="functie">
                         <input type="text" name="straat">
                         <input type="text" name="postcode">

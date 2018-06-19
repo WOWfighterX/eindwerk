@@ -51,15 +51,15 @@ public class WriteDAO {
         }
         
         sql = ("INSERT INTO Account(AccountID, Accountnaam, wachtwoord, actief) "
-                + "VALUES("+accid+",'"+m.getVoornaam()+" "+m.getFamilienaam()+"','"+ww+"',"+a+");");
+                + "VALUES("+accid+",'"+m.getVoornaam()+"."+m.getFamilienaam()+"','"+ww+"',"+a+");");
         st.executeUpdate(sql);
         
         sql = ("INSERT INTO Adres(AdresID, stad, straat, postcode) "
                 + "VALUES("+aid+",'"+adres.getStad()+"','"+adres.getStraat()+"',"+adres.getPostcode()+");");
         st.executeUpdate(sql);
         
-        sql = ("INSERT INTO Medewerker(Stamboeknr, voornaam, familienaam, Geboorte, email, AccountID, AdresID) "
-                + "VALUES("+m.getStamboeknr()+",'"+m.getVoornaam()+"','"+m.getFamilienaam()+"','"+convertDate(m.getGeboorte())+"','"+m.getEmail()+"',"+accid+","+aid+");");
+        sql = ("INSERT INTO Medewerker(Stamboeknr, voornaam, familienaam, email, AccountID, AdresID) "
+                + "VALUES("+m.getStamboeknr()+",'"+m.getVoornaam()+"','"+m.getFamilienaam()+"','"+m.getEmail()+"',"+accid+","+aid+");");
         st.executeUpdate(sql);
         
         sql = ("INSERT INTO Schoolfunctie(SchoolfunctieID, FunctieID, SchoolID, MedewerkerID) "
@@ -180,8 +180,6 @@ public class WriteDAO {
         con.close();
         
     }
-    
-    
     
     public void addGesprek(Gesprek g, int sfid, int gid)throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException{
         

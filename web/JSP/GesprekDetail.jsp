@@ -1,9 +1,3 @@
-<%-- 
-    Document   : GesprekDetail
-    Created on : May 13, 2018, 3:59:41 PM
-    Author     : aaron gevers
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
